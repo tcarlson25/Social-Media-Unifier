@@ -1,0 +1,10 @@
+%h1 Feed
+= link_to('Settings', settings_index_path, :id => 'settings')
+%br
+= link_to('Metrics', settings_metrics_path, :id => 'metrics')
+%br
+= link_to('Accounts', settings_accounts_path, :id => 'accounts')
+%br
+= link_to('Custom Friends', settings_custom_friends_path, :id => 'custom_friends')
+%br
+= link_to('Sign Out', logout_path, method: :delete, :id => 'sign_out')

@@ -36,6 +36,19 @@ rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
+OmniAuth.config.test_mode = true
+OmniAuth.config.add_mock(:twitter, {
+  :uid => '12345',
+  :info => {
+    :name => 'Test Name',
+    :image => 'Test Image',
+  },
+  :credentials => {
+    :token => 'Token',
+    :secret => 'Secret'
+  }
+})
+
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #

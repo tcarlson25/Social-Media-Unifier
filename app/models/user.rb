@@ -10,4 +10,14 @@ class User < ApplicationRecord
     )
     user
   end
+  
+  def self.client(user)
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TWITTER_KEY']
+      config.consumer_secret     = ENV['TWITTER_SECRET']
+      config.access_token        = user.token
+      config.access_token_secret = user.secret
+    end
+    return client
+  end
 end
