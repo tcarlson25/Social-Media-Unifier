@@ -1,6 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, type: :controller do
+describe PostsController, type: :controller do
+  
+  before do 
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+    @user = create(:user)
+  end
 
   describe "GET #index" do
     it "returns http success" do

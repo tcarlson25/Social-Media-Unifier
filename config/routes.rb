@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'settings/custom_friends'
   get 'settings/accounts'
   
+  get 'posts/messages'
+  
   get 'login/index'
   
   resources :posts

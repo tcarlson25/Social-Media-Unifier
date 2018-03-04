@@ -5,6 +5,7 @@
 # files.
 
 require 'cucumber/rails'
+World(FactoryBot::Syntax::Methods)
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -36,18 +37,27 @@ rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
-OmniAuth.config.test_mode = true
-OmniAuth.config.add_mock(:twitter, {
-  :uid => '12345',
-  :info => {
-    :name => 'Test Name',
-    :image => 'Test Image',
-  },
-  :credentials => {
-    :token => 'Token',
-    :secret => 'Secret'
-  }
-})
+Before("@omniauth_test") do
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
+        :provider => 'twitter',
+        :uid => '12345',
+        :info => {
+            :name => 'Test Name',
+            :image => 'Test Image',
+        },
+        :credentials => {
+            :token => 'Token',
+            :secret => 'Secret'
+        }
+    })
+    
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+end
+
+After("@omniauth_test") do 
+    OmniAuth.config.test_mode = false
+end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
@@ -68,4 +78,3 @@ OmniAuth.config.add_mock(:twitter, {
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-
