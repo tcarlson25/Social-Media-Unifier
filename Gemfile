@@ -28,6 +28,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'twitter'
 gem 'omniauth-twitter'
+gem 'dotenv-rails'
 gem 'haml'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -47,7 +48,6 @@ group :development, :test do
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.7'
-  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'simplecov', :require => false
   gem 'sqlite3'
