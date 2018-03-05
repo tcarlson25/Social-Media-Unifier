@@ -1,3 +1,5 @@
 %h1 Login
+- if flash[:notice]
+    #notice.message= flash[:notice]
 %th= link_to "Sign in", "/auth/twitter"
 

@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
   def destroy
     if current_user
       session.delete(:user_id)
-      flash[:success] = "Successfully logged out"
+      flash[:notice] = "Successfully logged out"
     end
-    redirect_to root_path
+    redirect_to login_index_path
   end
  
   protected

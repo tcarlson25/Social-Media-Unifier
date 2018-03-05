@@ -10,3 +10,7 @@ end
 Then("The user should be populated") do
     expect(@user).to be_an_instance_of(User)
 end
+
+Then("They should see an error saying {string}") do | error |
+    expect(page).to have_content(error)
+end

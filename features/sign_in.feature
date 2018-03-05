@@ -13,3 +13,4 @@ Scenario:
   Given The user is not signed in
   When The user visits the "home" page
   Then They should be redirected to the "Sign In" page
+    And They should see an error saying "Log in with Twitter to use this application"
