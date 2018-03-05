@@ -1,7 +1,7 @@
 Given("The user is on the {string} page") do | view |
-  visit(posts_path) if view.eql?('home')
+  visit(root_path) if view.eql?('home')
   visit(settings_index_path) if view.eql?('Account Settings')
-  visit(root_path) if view.eql?('Sign In')
+  visit(login_index_path) if view.eql?('Sign In')
 end
 
 Given("The user is signed in") do

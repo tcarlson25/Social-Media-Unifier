@@ -1,6 +1,10 @@
 class PostsController < ApplicationController
   def index
     @user = current_user
-    @client = current_client
+    if @user == nil
+      redirect_to login_index_path
+    else
+      @client = current_client
+    end
   end
 end

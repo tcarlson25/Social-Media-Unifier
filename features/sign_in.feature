@@ -8,3 +8,8 @@ Scenario: Click Sign in to Twitter
   Given The user is on the "Sign In" page
   When The user clicks Sign in to Twitter 
   Then The user should be populated
+  
+Scenario: 
+  Given The user is not signed in
+  When The user visits the "home" page
+  Then They should be redirected to the "Sign In" page

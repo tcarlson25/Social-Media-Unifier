@@ -1,4 +1,8 @@
 %h1 Feed
+%p
+  %span#current_user= "#{@user.name}"
+  is logged in
+
 = link_to('Settings', settings_index_path, :id => 'settings')
 %br
 = link_to('Metrics', settings_metrics_path, :id => 'metrics')
