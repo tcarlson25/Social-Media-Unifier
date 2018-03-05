@@ -9,3 +9,8 @@ Scenario: User accesses direct messages page
   Given The user is on the "home" page
   When They click on "Messages"
   Then They should be redirected to the "Direct Messages" page
+  
+Scenario: 
+  Given The user is not signed in
+  When The user visits the "Messages" page
+  Then They should be redirected to the "Sign In" page

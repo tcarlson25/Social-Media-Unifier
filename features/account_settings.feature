@@ -9,3 +9,8 @@ Scenario: User accesses account settings from home page
   Given The user is on the "home" page
   When They click on "Settings"
   Then They should be redirected to the "Account Settings" page
+  
+Scenario: 
+  Given The user is not signed in
+  When The user visits the "Account Settings" page
+  Then They should be redirected to the "Sign In" page

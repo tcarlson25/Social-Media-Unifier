@@ -9,3 +9,8 @@ Scenario: User accesses accounts page
   Given The user is on the "home" page
   When They click on "Accounts"
   Then They should be redirected to the "Accounts" page
+  
+Scenario: 
+  Given The user is not signed in
+  When The user visits the "Accounts" page
+  Then They should be redirected to the "Sign In" page

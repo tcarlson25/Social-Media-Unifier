@@ -2,11 +2,24 @@ Given("The user is on the {string} page") do | view |
   visit(root_path) if view.eql?('home')
   visit(settings_index_path) if view.eql?('Account Settings')
   visit(login_index_path) if view.eql?('Sign In')
+  visit(settings_accounts_path) if view.eql?('Accounts')
+  visit(settings_custom_friends_path) if view.eql?('Custom Friends')
+  visit(settings_metrics_path) if view.eql?('Metrics')
+  visit(posts_messages_path) if view.eql?('Messages')
 end
 
 Given("The user is signed in") do
   @user = create(:user)
   visit "/auth/:twitter/callback"
+end
+
+When("The user visits the {string} page") do |view|
+    visit(root_path) if view.eql?('home')
+    visit(posts_messages_path) if view.eql?('Messages')
+    visit(settings_index_path) if view.eql?('Account Settings')
+    visit(settings_metrics_path) if view.eql?('Metrics')
+    visit(settings_custom_friends_path) if view.eql?('Custom Friends')
+    visit(settings_accounts_path) if view.eql?('Accounts')
 end
 
 When("They click on {string}") do | clicked |
