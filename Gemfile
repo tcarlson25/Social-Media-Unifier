@@ -28,7 +28,6 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'twitter'
 gem 'omniauth-twitter'
-gem 'dotenv-rails'
 gem 'haml'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -51,6 +50,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'simplecov', :require => false
   gem 'sqlite3'
+  gem 'dotenv-rails'
 end
 
 group :test do
