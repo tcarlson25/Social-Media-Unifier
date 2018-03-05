@@ -28,6 +28,7 @@ gem 'twitter'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'haml'
+gem 'attr_encrypted'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
