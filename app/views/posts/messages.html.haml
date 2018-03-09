@@ -1,2 +1,35 @@
-= link_to 'Back to Feed', posts_path
 %h1 Direct Messages
+%p
+  %span#current_user= "#{@user.name}"
+  is logged in
+
+.dropdown
+  %span Settings
+  %ul.dropdown-content
+    %li
+      = link_to('Settings', settings_index_path, :id => 'settings')
+    %li
+      = link_to('Metrics', settings_metrics_path, :id => 'metrics')
+    %li
+      = link_to('Accounts', settings_accounts_path, :id => 'accounts')
+    %li
+      = link_to('Custom Friends', settings_custom_friends_path, :id => 'custom_friends')
+    %li
+      = link_to('Sign Out', logout_path, method: :delete, :id => 'sign_out')
+      
+
+
+
+%br
+.menu_wrapper
+  %ul
+    %li 
+      = link_to('Feed', posts_path, :id => 'feed')
+    %li
+      = link_to('Messages', posts_messages_path, :id => 'messages', :class => 'active')
+    %li
+      = link_to('Post', posts_path, :id => 'post')
+    %li
+      = link_to('Archives', posts_archives_path, :id => 'archives')
+    %li
+      = link_to('Notifications', posts_notifications_path, :id => 'notifications')

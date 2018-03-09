@@ -1,4 +1,4 @@
-%h1 Feed
+%h1 Interactions
 %p
   %span#current_user= "#{@user.name}"
   is logged in
@@ -24,7 +24,7 @@
 .menu_wrapper
   %ul
     %li 
-      = link_to('Feed', posts_path, :id => 'feed', :class => 'active')
+      = link_to('Feed', posts_path, :id => 'feed')
     %li
       = link_to('Messages', posts_messages_path, :id => 'messages')
     %li
@@ -32,14 +32,4 @@
     %li
       = link_to('Archives', posts_archives_path, :id => 'archives')
     %li
-      = link_to('Notifications', posts_notifications_path, :id => 'notifications')
-
-.page_content
-  - @twitter_posts.each do |post|
-    .twitter_post
-      %p= post.full_text
-      %p= post.retweet_count
-      %p= post.favorite_count
-    %br
-
-
+      = link_to('Notifications', posts_notifications_path, :id => 'notifications',  :class => 'active')

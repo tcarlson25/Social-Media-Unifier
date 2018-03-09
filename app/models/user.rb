@@ -2,6 +2,7 @@ class User < ApplicationRecord
   validates_presence_of :name, :uid, :provider, :token, :secret, :profile_image
   attr_encrypted :token, key: ENV['TWITTER_USER_DEF_TOKEN']
   attr_encrypted :secret, key: ENV['TWITTER_USER_DEF_SECRET']
+  has_many :posts
   def self.find_or_create_from_auth_hash(auth_hash)
     user = where(provider: auth_hash.provider, uid: auth_hash.uid).first_or_create
     user.update(

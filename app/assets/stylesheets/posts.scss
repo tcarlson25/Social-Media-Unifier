@@ -36,29 +36,27 @@ h1 {
     visibility: visible;
     opacity: 1;
     z-index: 1;
-    transform: translateY(0%);
+    transform: translateY(-10%);
     transition-delay: 0s, 0s, 0.3s;
 }
 
 .menu_wrapper{
     text-align: center;
     margin: 0 auto;
-    width: 100%;
+    width: 40%;
 }
 
 ul{
     list-style-type: none;
-    padding: 0;
+    padding-left: 0;
     overflow: hidden;
-    margin: 0 auto;
-    width: 40%;
 }
 
 .menu_wrapper li{
     float: left;
 }
 
-li a{
+.menu_wrapper li a{
     display: block;
     padding: 8px;
     background-color: #111;
@@ -68,11 +66,27 @@ li a{
     text-decoration: none;
 }
 
-li a:hover {
+.menu_wrapper li a:hover {
     background-color: grey;
 }
 
-.active{
+.menu_wrapper .active{
     background-color: green;
+}
+
+.page_content{
+    margin: 0 auto;
+    width: 60%;
+    background-color: lightgrey;
+}
+
+.twitter_post{
+    background-color: #C0DEED;
+    padding: 25px;
+    width: 75%;
+    margin: 0 auto;
+    border: 2px solid blue;
+    border-radius: 25px;
+    padding-bottom: 25px;
 }
 

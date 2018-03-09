@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'settings/accounts'
   
   get 'posts/messages'
+  get 'posts/archives'
+  get 'posts/notifications'
   
   get 'login/index'
   

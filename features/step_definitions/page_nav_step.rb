@@ -6,6 +6,8 @@ Given("The user is on the {string} page") do | view |
   visit(settings_custom_friends_path) if view.eql?('Custom Friends')
   visit(settings_metrics_path) if view.eql?('Metrics')
   visit(posts_messages_path) if view.eql?('Messages')
+  visit(posts_archives_path) if view.eql?('Archives')
+  visit(posts_notifications_path) if view.eql?('Notifications')
 end
 
 Given("The user is signed in") do
@@ -20,6 +22,8 @@ When("The user visits the {string} page") do |view|
     visit(settings_metrics_path) if view.eql?('Metrics')
     visit(settings_custom_friends_path) if view.eql?('Custom Friends')
     visit(settings_accounts_path) if view.eql?('Accounts')
+    visit(posts_archives_path) if view.eql?('Archives')
+    visit(posts_notifications_path) if view.eql?('Notifications')
 end
 
 When("They click on {string}") do | clicked |
@@ -29,6 +33,8 @@ When("They click on {string}") do | clicked |
   click_link 'custom_friends' if clicked.eql?('Custom Friends')
   click_link 'accounts' if clicked.eql?('Accounts')
   click_link 'messages' if clicked.eql?('Messages')
+  click_link 'archives' if clicked.eql?('Archives')
+  click_link 'notifications' if clicked.eql?('Notifications')
 end
 
 Then("They should be redirected to the {string} page") do | view |
@@ -39,4 +45,6 @@ Then("They should be redirected to the {string} page") do | view |
   expect(page).to have_content('Feed') if view.eql?('Feed')
   expect(page).to have_content('Social Media Accounts') if view.eql?('Accounts')
   expect(page).to have_content('Direct Messages') if view.eql?('Direct Messages')
+  expect(page).to have_content('Archived Posts') if view.eql?('Archives')
+  expect(page).to have_content('Interactions') if view.eql?('Notifications')
 end
