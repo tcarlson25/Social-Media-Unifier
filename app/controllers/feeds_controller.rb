@@ -48,7 +48,6 @@ class FeedsController < ApplicationController
     # tweets.each do |tweet|
     #   @feed.twitter_posts.create(
     #     id: tweet.id,
-    #     feed_id: @feed.id,
     #     user: tweet.user.name,
     #     content: tweet.full_text,
     #     imgurl: tweet.user.profile_image_url,

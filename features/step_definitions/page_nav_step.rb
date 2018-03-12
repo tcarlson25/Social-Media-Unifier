@@ -5,9 +5,9 @@ Given("The user is on the {string} page") do | view |
   visit(settings_accounts_path) if view.eql?('Accounts')
   visit(settings_custom_friends_path) if view.eql?('Custom Friends')
   visit(settings_metrics_path) if view.eql?('Metrics')
-  visit(posts_messages_path) if view.eql?('Messages')
-  visit(posts_archives_path) if view.eql?('Archives')
-  visit(posts_notifications_path) if view.eql?('Notifications')
+  visit(feeds_messages_path) if view.eql?('Messages')
+  visit(feeds_archives_path) if view.eql?('Archives')
+  visit(feeds_notifications_path) if view.eql?('Notifications')
 end
 
 Given("The user is signed in") do
@@ -17,13 +17,13 @@ end
 
 When("The user visits the {string} page") do |view|
     visit(root_path) if view.eql?('home')
-    visit(posts_messages_path) if view.eql?('Messages')
+    visit(feeds_messages_path) if view.eql?('Messages')
     visit(settings_index_path) if view.eql?('Account Settings')
     visit(settings_metrics_path) if view.eql?('Metrics')
     visit(settings_custom_friends_path) if view.eql?('Custom Friends')
     visit(settings_accounts_path) if view.eql?('Accounts')
-    visit(posts_archives_path) if view.eql?('Archives')
-    visit(posts_notifications_path) if view.eql?('Notifications')
+    visit(feeds_archives_path) if view.eql?('Archives')
+    visit(feeds_notifications_path) if view.eql?('Notifications')
 end
 
 When("They click on {string}") do | clicked |
