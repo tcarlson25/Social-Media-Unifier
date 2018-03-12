@@ -10,15 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180224013358) do
+ActiveRecord::Schema.define(version: 20180309165646) do
 
-  create_table "posts", force: :cascade do |t|
-    t.string "provider"
+  create_table "feeds", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "username"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
+  create_table "twitter_posts", id: :string, force: :cascade do |t|
+    t.integer "feed_id"
     t.string "user"
     t.text "content"
     t.string "imgurl"
+    t.string "favorite_count"
+    t.string "retweet_count"
+    t.string "post_made_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_twitter_posts_on_feed_id"
+    t.index ["id"], name: "sqlite_autoindex_twitter_posts_1", unique: true
   end
 
   create_table "users", force: :cascade do |t|

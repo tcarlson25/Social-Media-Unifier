@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'posts#index'
+  root 'feeds#index'
   delete '/logout', to: 'sessions#destroy'
   
   get '/auth/:provider/callback', to: 'sessions#create'
@@ -10,13 +10,12 @@ Rails.application.routes.draw do
   get 'settings/custom_friends'
   get 'settings/accounts'
   
-  get 'posts/messages'
-  get 'posts/archives'
-  get 'posts/notifications'
+  get 'feeds/index'
+  get 'feeds/messages'
+  get 'feeds/archives'
+  get 'feeds/notifications'
   
   get 'login/index'
-  
-  resources :posts
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

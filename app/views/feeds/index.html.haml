@@ -24,20 +24,20 @@
 .menu_wrapper
   %ul
     %li 
-      = link_to('Feed', posts_path, :id => 'feed', :class => 'active')
+      = link_to('Feed', feeds_index_path, :id => 'feed', :class => 'active')
     %li
-      = link_to('Messages', posts_messages_path, :id => 'messages')
+      = link_to('Messages', feeds_messages_path, :id => 'messages')
     %li
-      = link_to('Post', posts_path, :id => 'post')
+      = link_to('Post', feeds_index_path, :id => 'post')
     %li
-      = link_to('Archives', posts_archives_path, :id => 'archives')
+      = link_to('Archives', feeds_archives_path, :id => 'archives')
     %li
-      = link_to('Notifications', posts_notifications_path, :id => 'notifications')
+      = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
 .page_content
   - @twitter_posts.each do |post|
     .twitter_post
-      %p= post.full_text
+      %p= post.content
       %p= post.retweet_count
       %p= post.favorite_count
     %br
