@@ -41,6 +41,17 @@ class FeedsController < ApplicationController
     end
   end
   
+  def post
+    @user = current_user
+    if @user == nil
+      helpers.set_sign_in_required
+      redirect_to login_index_path
+    else
+      @client = current_client
+      #post_tweet('Posting from SMU...')
+    end
+  end
+  
   def get_tweets
     ## USE BELOW TO POPULATE DB if not already there
     # ----------------------------
@@ -60,5 +71,9 @@ class FeedsController < ApplicationController
     tweets = @feed.twitter_posts
     return tweets
   end
+  
+  def post_tweet(status)
+    @client.update(status)
+  end 
   
 end

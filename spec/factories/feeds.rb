@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :feed do
-    user "User"
+    username "User"
   end
 end
