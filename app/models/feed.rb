@@ -1,4 +1,5 @@
 class Feed < ApplicationRecord
+    validates_presence_of :username, :user_id
     has_many :twitter_posts
     belongs_to :user
     

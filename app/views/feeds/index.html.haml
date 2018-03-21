@@ -38,8 +38,8 @@
   - @twitter_posts.each do |post|
     .twitter_post
       %p= post.content
-      %p= post.retweet_count
-      %p= post.favorite_count
+      %p= "Retweet Count: #{post.retweet_count}"
+      %p= "Favorite Count: #{post.favorite_count}"
     %br
 
 

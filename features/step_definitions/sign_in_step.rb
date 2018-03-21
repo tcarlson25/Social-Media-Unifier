@@ -4,6 +4,12 @@ end
 
 When("The user clicks Sign in to Twitter") do
     @user = create(:user)
+    twitter_posts = [TwitterPost.new({
+      :content => 'Content',
+      :favorite_count => '1',
+      :retweet_count => '2'
+    })]
+    allow(@feed).to receive(:twitter_posts).and_return(twitter_posts)
     visit '/auth/:twitter/callback'
 end
 
@@ -13,4 +19,15 @@ end
 
 Then("They should see an error saying {string}") do | error |
     expect(page).to have_content(error)
+end
+
+Given("The user is signed in") do
+  @user = create(:user)
+  twitter_posts = [TwitterPost.new({
+      :content => 'Content',
+      :favorite_count => '1',
+      :retweet_count => '2'
+  })]
+  allow(@feed).to receive(:twitter_posts).and_return(twitter_posts)
+  visit "/auth/:twitter/callback"
 end

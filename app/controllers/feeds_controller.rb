@@ -1,4 +1,9 @@
 class FeedsController < ApplicationController
+  
+  def set_client(client)
+    @client = client
+  end
+  
   def index
     @user = current_user
     if @user == nil
@@ -48,8 +53,20 @@ class FeedsController < ApplicationController
       redirect_to login_index_path
     else
       @client = current_client
-      #post_tweet('Posting from SMU...')
+      @providers = ['Twitter', 'Facebook']
+      if params[:providers]
+        checked_providers = params[:providers].keys
+        if(checked_providers.include?('Twitter'))
+          response = post_tweet(params[:post_content])
+          flash[:notice] = "Successfully posted!" unless response.nil?()
+        end
+      end
     end
+  end
+  
+  def get_tweets_with_api
+    @tweets = @client.home_timeline
+    return @tweets
   end
   
   def get_tweets

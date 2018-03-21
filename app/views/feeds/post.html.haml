@@ -34,4 +34,15 @@
     %li
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
+= form_tag(feeds_post_path, :method => :get, :id => 'post_form') do
+  - @providers.each do |provider|
+    = provider
+    = check_box_tag("providers[#{provider}]", 1)
+  %br
+  = label :text, :title, 'Text'
+  = text_area_tag :post_content
 
+  = submit_tag 'Post Status'
+  
+- if flash[:notice]
+  #notice.message= flash[:notice]

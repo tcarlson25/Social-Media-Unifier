@@ -6,6 +6,7 @@
 
 require 'cucumber/rails'
 World(FactoryBot::Syntax::Methods)
+require 'cucumber/rspec/doubles'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -43,7 +44,7 @@ Before("@omniauth_test") do
         :provider => 'twitter',
         :uid => '12345',
         :info => {
-            :name => 'Test Name',
+            :nickname => 'Test Name',
             :image => 'Test Image',
         },
         :credentials => {
@@ -58,6 +59,7 @@ end
 After("@omniauth_test") do 
     OmniAuth.config.test_mode = false
 end
+
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
