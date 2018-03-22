@@ -43,7 +43,7 @@ h1 {
 }
 
 .dropdown-content {
-    position: relative;
+    position: absolute;
     background-color: #f9f9f9;
     min-width: 100px;
     text-align: center;
@@ -63,7 +63,7 @@ h1 {
     visibility: visible;
     opacity: 1;
     z-index: 1;
-    transform: translateY(-10%);
+    transform: translateY(0%);
     transition-delay: 0s, 0s, 0.3s;
 }
 
