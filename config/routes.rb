@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'feeds/archives'
   get 'feeds/notifications'
   get 'feeds/post'
+  post 'feeds/post'
   
   get 'login/index'
   

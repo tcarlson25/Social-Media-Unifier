@@ -1,8 +1,6 @@
 class FeedsController < ApplicationController
   
-  def set_client(client)
-    @client = client
-  end
+  attr_accessor :client, :feed, :twitter_posts, :user, :providers
   
   def index
     @user = current_user
@@ -12,7 +10,7 @@ class FeedsController < ApplicationController
     else
       @client = current_client
       @feed = @user.feed
-      @twitter_posts = get_tweets
+      @twitter_posts = get_tweets_from_db
     end
   end
   
@@ -56,27 +54,42 @@ class FeedsController < ApplicationController
       @providers = ['Twitter', 'Facebook']
       if params[:providers]
         checked_providers = params[:providers].keys
-        if(checked_providers.include?('Twitter'))
-          response = post_tweet(params[:post_content])
-          flash[:notice] = "Successfully posted!" unless response.nil?()
+        if checked_providers.include?('Twitter')
+          unless params[:images].nil?
+            if params[:images].size() == 1
+              image = params[:images][0]
+              helpers.process_image(image)
+            else
+              images = params[:images]
+              helpers.process_images(images)
+            end
+          else
+            text = params[:post_content]
+            helpers.process_text(text)
+          end
+        end
+        
+        if checked_providers.include?('Facebook')
+          
         end
       end
     end
   end
   
-  def get_tweets_with_api
+  def get_tweets
     @tweets = @client.home_timeline
     return @tweets
   end
   
-  def get_tweets
-    ## USE BELOW TO POPULATE DB if not already there
+  def get_tweets_from_db
+    # USE BELOW TO POPULATE DB if not already there
     # ----------------------------
     # tweets = @client.home_timeline
     # tweets.each do |tweet|
     #   @feed.twitter_posts.create(
     #     id: tweet.id,
-    #     user: tweet.user.name,
+    #     name: tweet.user.name,
+    #     user_name: tweet.user.screen_name,
     #     content: tweet.full_text,
     #     imgurl: tweet.user.profile_image_url,
     #     favorite_count: tweet.favorite_count,
@@ -89,8 +102,16 @@ class FeedsController < ApplicationController
     return tweets
   end
   
-  def post_tweet(status)
-    @client.update(status)
-  end 
+  # def post_tweet(status)
+  #   @client.update(status)
+  # end 
+  
+  # def post_image(text, image_path)
+  #   @client.update_with_media(text, File.new(image_path))
+  # end
+  
+  # def post_images(text, media)
+  #   @client.update_with_media(text, media)
+  # end
   
 end

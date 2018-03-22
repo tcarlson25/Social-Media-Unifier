@@ -1,7 +1,7 @@
-%h1 Interactions
-%p
-  %span#current_user= "#{@user.name}"
-  is logged in
+
+.logged_in_user
+  Logged in as @#{@user.name}
+
 
 .dropdown
   %span Settings
@@ -18,9 +18,9 @@
       = link_to('Sign Out', logout_path, method: :delete, :id => 'sign_out')
       
 
+.title_style
+  %h1 Interactions
 
-
-%br
 .menu_wrapper
   %ul
     %li 
@@ -33,3 +33,5 @@
       = link_to('Archives', feeds_archives_path, :id => 'archives')
     %li
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications', :class => 'active')
+
+.page_content

@@ -22,7 +22,8 @@ ActiveRecord::Schema.define(version: 20180309165646) do
 
   create_table "twitter_posts", id: :string, force: :cascade do |t|
     t.integer "feed_id"
-    t.string "user"
+    t.string "name"
+    t.string "user_name"
     t.text "content"
     t.string "imgurl"
     t.string "favorite_count"

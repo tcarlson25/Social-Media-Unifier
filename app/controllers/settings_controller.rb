@@ -1,5 +1,7 @@
 class SettingsController < ApplicationController
   
+  attr_accessor :client, :user
+  
   def index
     @user = current_user
     if @user == nil

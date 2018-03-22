@@ -1,7 +1,6 @@
-%h1 Make a Post
-%p
-  %span#current_user= "#{@user.name}"
-  is logged in
+
+.logged_in_user
+  Logged in as @#{@user.name}
 
 .dropdown
   %span Settings
@@ -17,10 +16,9 @@
     %li
       = link_to('Sign Out', logout_path, method: :delete, :id => 'sign_out')
       
+.title_style
+  %h1 Make a Post
 
-
-
-%br
 .menu_wrapper
   %ul
     %li 
@@ -34,15 +32,20 @@
     %li
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
-= form_tag(feeds_post_path, :method => :get, :id => 'post_form') do
-  - @providers.each do |provider|
-    = provider
-    = check_box_tag("providers[#{provider}]", 1)
-  %br
-  = label :text, :title, 'Text'
-  = text_area_tag :post_content
-
-  = submit_tag 'Post Status'
-  
-- if flash[:notice]
-  #notice.message= flash[:notice]
+%br
+.posting_wrapper
+  = form_tag(feeds_post_path, :multipart => true, :id => 'post_form') do
+    - @providers.each do |provider|
+      = provider
+      = check_box_tag("providers[#{provider}]", 1)
+    %br
+    = label_tag :text, 'Text'
+    = text_area_tag :post_content
+    %br
+    = label_tag :images, 'Upload Images'
+    = file_field_tag :images, :name => 'images[]', :multiple => true, accept: 'image/png,image/jpeg'
+    %br
+    = submit_tag 'Post Status'
+    
+  - if flash[:notice]
+    #notice.message= flash[:notice]
