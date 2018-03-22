@@ -39,10 +39,8 @@ ActiveRecord::Schema.define(version: 20180309165646) do
     t.string "name"
     t.string "uid"
     t.string "provider"
-    t.string "encrypted_token"
-    t.string "encrypted_token_iv"
-    t.string "encrypted_secret"
-    t.string "encrypted_secret_iv"
+    t.string "token"
+    t.string "secret"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "profile_image"
