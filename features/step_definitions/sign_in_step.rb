@@ -2,16 +2,19 @@ Given("The user is not signed in") do
    @user = nil 
 end
 
-When("The user clicks Sign in to Twitter") do
-    @user = create(:user)
-    twitter_posts = [TwitterPost.new({
-      :content => 'Content',
-      :favorite_count => '1',
-      :retweet_count => '2'
-    })]
+When("The user clicks Sign in to {string}") do |provider|
+    @user = create(:user, provider: provider.downcase )
+    if provider == 'Twitter'
+        twitter_posts = [TwitterPost.new({
+            :content => 'Content',
+            :favorite_count => '1',
+            :retweet_count => '2'
+        })]
     allow(@feed).to receive(:twitter_posts).and_return(twitter_posts)
+    end
     visit 'sign_in'
-    click_link "Sign in with Twitter"
+    click_link "Sign in with Facebook" if provider.eql?('Facebook')
+    click_link "Sign in with Twitter" if provider.eql?('Twitter')
 end
 
 Then("The user should be populated") do

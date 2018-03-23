@@ -6,24 +6,26 @@ class FeedsController < ApplicationController
   
   def index
     @user = current_user
+    #if !@user.twitter_client.nil?
     @client = @user.twitter_client
     @feed = Feed.find_or_create_from_user(@user)
     @twitter_posts = get_tweets
+    #end
   end
   
   def messages
     @user = current_user
-    @client = current_client
+    #@client = current_client
   end
   
   def archives
     @user = current_user
-    @client = current_client
+    #@client = current_client
   end
   
   def notifications
     @user = current_user
-    @client = current_client
+    #@client = current_client
   end
   
   def post
@@ -52,25 +54,25 @@ class FeedsController < ApplicationController
   def get_tweets
     ## USE BELOW TO POPULATE DB if not already there
     # ----------------------------
-    # tweets = @client.home_timeline
-    # tweets.each do |tweet|
-    #   @feed.twitter_posts.create(
-    #     id: tweet.id,
-    #     user: tweet.user.name,
-    #     content: tweet.full_text,
-    #     imgurl: tweet.user.profile_image_url,
-    #     favorite_count: tweet.favorite_count,
-    #     retweet_count: tweet.retweet_count,
-    #     post_made_at: tweet.created_at
-    #   )
-    # end
+    tweets = @client.home_timeline
+     tweets.each do |tweet|
+       @feed.twitter_posts.create(
+         id: tweet.id,
+         user: tweet.user.name,
+         content: tweet.full_text,
+         imgurl: tweet.user.profile_image_url,
+         favorite_count: tweet.favorite_count,
+         retweet_count: tweet.retweet_count,
+         post_made_at: tweet.created_at
+       )
+     end
     # ----------------------------
     tweets = @feed.twitter_posts
     return tweets
   end
   
-  #def post_tweet(status)
-  #  @client.update(status)
-  #end 
+  def post_tweet(status)
+    @client.update(status)
+  end 
   
 end

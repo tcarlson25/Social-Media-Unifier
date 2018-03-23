@@ -35,11 +35,11 @@
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
 .page_content
-  - @twitter_posts.each do |post|
-    .twitter_post
-      %p= post.content
-      %p= "Retweet Count: #{post.retweet_count}"
-      %p= "Favorite Count: #{post.favorite_count}"
-    %br
+  -# @twitter_posts.each do |post|
+  -#  .twitter_post
+  -#    %p= post.content
+  -#    %p= "Retweet Count: #{post.retweet_count}"
+  -#    %p= "Favorite Count: #{post.favorite_count}"
+  -#  %br
 
 

@@ -29,4 +29,9 @@ class User < ApplicationRecord
     end
   end
   
+  def facebook
+    identities.where(:provider => "facebook").first
+  end
+  
+  
 end
