@@ -92,18 +92,57 @@ describe FeedsController, type: :controller do
    end
    
    
-   # describe "POST #post" do
-   #    context "user is not nil" do
-   #       it "initializes feed variables" do
-   #          testFeed = FeedsController.new()
-   #          allow(ApplicationController).to receive(:current_user).and_return(@user)
-   #          allow(ApplicationController).to receive(:current_client).and_return(@client)
-   #          post :post, :params => {:providers => {}}
-   #          expect(@user).to eq(@user)
-   #          expect(@client).to eq(@client)
-   #       end
-   #    end
-   # end
+   describe "POST #post" do
+      before do
+         allow_any_instance_of(FeedsController).to receive(:current_user).and_return(@user)
+         allow_any_instance_of(FeedsController).to receive(:current_client).and_return(@client)
+      end
+      
+      context "user is not nil" do
+         context "No provider is checked"
+            it "doesn't post anything" do
+               expect_any_instance_of(FeedsController).not_to receive(:process_image)
+               post :post, :params => {:providers => {}}
+            end
+            
+         context "Twitter is checked" do
+            it "posts text if no images are given" do 
+               allow_any_instance_of(FeedsController).to receive(:process_text).and_return('Successful')
+               expect_any_instance_of(FeedsController).to receive(:process_text)
+               params = { 
+                  :providers => { 'Twitter' => 1 },
+                  :post_content => 'test',
+                  :images => []
+               }
+               post :post, :params => params
+            end
+            
+            it "posts an image if only 1 image is given" do
+               allow_any_instance_of(FeedsController).to receive(:process_image).and_return('Successful')
+               expect_any_instance_of(FeedsController).to receive(:process_image)
+               image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
+               params = { 
+                  :providers => { 'Twitter' => 1 },
+                  :post_content => 'test',
+                  :images => [image]
+               }
+               post :post, :params => params
+            end
+            
+            it "posts images if multiple images are given" do
+               allow_any_instance_of(FeedsController).to receive(:process_images).and_return('Successful')
+               expect_any_instance_of(FeedsController).to receive(:process_images)
+               image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
+               params = { 
+                  :providers => { 'Twitter' => 1 },
+                  :post_content => 'test',
+                  :images => [image, image]
+               }
+               post :post, :params => params
+            end
+         end
+      end
+   end
 
    
 

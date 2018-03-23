@@ -5,7 +5,7 @@ class SettingsController < ApplicationController
   def index
     @user = current_user
     if @user == nil
-      helpers.set_sign_in_required
+      flash[:notice] = set_sign_in_required
       redirect_to login_index_path
     else
       @client = current_client
@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
   def metrics
     @user = current_user
     if @user == nil
-      helpers.set_sign_in_required
+      flash[:notice] = set_sign_in_required
       redirect_to login_index_path
     else
       @client = current_client
@@ -25,7 +25,7 @@ class SettingsController < ApplicationController
   def custom_friends
     @user = current_user
     if @user == nil
-      helpers.set_sign_in_required
+      flash[:notice] = set_sign_in_required
       redirect_to login_index_path
     else
       @client = current_client
@@ -35,7 +35,7 @@ class SettingsController < ApplicationController
   def accounts
     @user = current_user
     if @user == nil
-      helpers.set_sign_in_required
+      flash[:notice] = set_sign_in_required
       redirect_to login_index_path
     else
       @client = current_client

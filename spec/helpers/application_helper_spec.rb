@@ -11,11 +11,4 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ApplicationHelper, type: :helper do
-  
-  describe "set_sign_in_required" do
-    it "sets the correct flash notice" do
-      expect(set_sign_in_required()).to eq('Log in with Twitter to use this application')
-    end
-  end
-
 end
