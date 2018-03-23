@@ -1,7 +1,7 @@
 Given("The user is on the {string} page") do | view |
   visit(root_path) if view.eql?('home')
   visit(settings_index_path) if view.eql?('Account Settings')
-  visit(login_index_path) if view.eql?('Sign In')
+  visit('users/sign_in') if view.eql?('Sign In')
   visit(settings_accounts_path) if view.eql?('Accounts')
   visit(settings_custom_friends_path) if view.eql?('Custom Friends')
   visit(settings_metrics_path) if view.eql?('Metrics')
@@ -35,7 +35,7 @@ end
 Then("They should be redirected to the {string} page") do | view |
   expect(page).to have_content('Account Settings') if view.eql?('Account Settings')
   expect(page).to have_content('Account Metrics') if view.eql?('Account Metrics')
-  expect(page).to have_content('Login') if view.eql?('Sign In')
+  expect(page).to have_content('Log in') if view.eql?('Sign In')
   expect(page).to have_content('Custom Friends Page') if view.eql?('Custom Friends')
   expect(page).to have_content('Feed') if view.eql?('Feed')
   expect(page).to have_content('Social Media Accounts') if view.eql?('Accounts')

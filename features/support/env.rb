@@ -44,6 +44,7 @@ Before("@omniauth_test") do
         :provider => 'twitter',
         :uid => '12345',
         :info => {
+            :email => 'Test Email',
             :nickname => 'Test Name',
             :image => 'Test Image',
         },
@@ -53,6 +54,7 @@ Before("@omniauth_test") do
         }
     })
     
+    Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
 end
 

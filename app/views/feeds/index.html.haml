@@ -15,7 +15,7 @@
     %li
       = link_to('Custom Friends', settings_custom_friends_path, :id => 'custom_friends')
     %li
-      = link_to('Sign Out', logout_path, method: :delete, :id => 'sign_out')
+      = link_to('Sign Out', destroy_user_session_path, method: :delete, :id => 'sign_out')
       
 
 

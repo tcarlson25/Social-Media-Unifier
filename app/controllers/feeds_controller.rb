@@ -6,62 +6,42 @@ class FeedsController < ApplicationController
   
   def index
     @user = current_user
-    if @user == nil
-      helpers.set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-      @feed = @user.feed
-      @twitter_posts = get_tweets
-    end
+    @client = @user.twitter_client
+    @feed = Feed.find_or_create_from_user(@user)
+    @twitter_posts = get_tweets
   end
   
   def messages
     @user = current_user
-    if @user == nil
-      helpers.set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end  
+    @client = current_client
   end
   
   def archives
     @user = current_user
-    if @user == nil
-      helpers.set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end  
+    @client = current_client
   end
   
   def notifications
     @user = current_user
-    if @user == nil
-      helpers.set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end
+    @client = current_client
   end
   
   def post
-    @user = current_user
-    if @user == nil
-      helpers.set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-      @providers = ['Twitter', 'Facebook']
-      if params[:providers]
-        checked_providers = params[:providers].keys
-        if(checked_providers.include?('Twitter'))
-          response = post_tweet(params[:post_content])
-          flash[:notice] = "Successfully posted!" unless response.nil?()
-        end
-      end
-    end
+    #@user = current_user
+    #if @user == nil
+    #  helpers.set_sign_in_required
+    #  redirect_to login_index_path
+    #else
+    #  @client = current_client
+    #  @providers = ['Twitter', 'Facebook']
+    #  if params[:providers]
+    #    checked_providers = params[:providers].keys
+    #    if(checked_providers.include?('Twitter'))
+    #      response = post_tweet(params[:post_content])
+    #      flash[:notice] = "Successfully posted!" unless response.nil?()
+    #    end
+    #  end
+    #end
   end
   
   def get_tweets_with_api
@@ -89,8 +69,8 @@ class FeedsController < ApplicationController
     return tweets
   end
   
-  def post_tweet(status)
-    @client.update(status)
-  end 
+  #def post_tweet(status)
+  #  @client.update(status)
+  #end 
   
 end

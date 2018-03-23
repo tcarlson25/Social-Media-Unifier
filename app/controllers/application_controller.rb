@@ -1,10 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :current_client, :current_user
+  before_action :authenticate_user!
+  helper_method :current_client
   
-  def current_user
-    @user ||= User.find(session[:user_id]) if session[:user_id]
-  end
+  #def current_user
+  #  @user ||= User.find(session[:user_id]) if session[:user_id]
+  #end
   
   def current_client
     @current_client = Twitter::REST::Client.new do |config|
