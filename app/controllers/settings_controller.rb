@@ -1,45 +1,25 @@
 class SettingsController < ApplicationController
   
-  attr_accessor :client, :user
+  attr_accessor :twitter_client, :user
   
   def index
-    @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-    end 
+     @user = current_user
+     @twitter_client = @user.twitter_client
   end
   
   def metrics
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-    end
+    @twitter_client = @user.twitter_client
   end
   
   def custom_friends
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-    end
+    @twitter_client = @user.twitter_client
   end
   
   def accounts
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-    end
+    @twitter_client = @user.twitter_client
   end
   
 end

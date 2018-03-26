@@ -1,9 +1,15 @@
 Rails.application.routes.draw do
 
-  root 'feeds#index'
-  delete '/logout', to: 'sessions#destroy'
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
-  get '/auth/:provider/callback', to: 'sessions#create'
+  #as :user do
+  #  get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session
+  #  get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  #end
+  
+  root to: 'feeds#index'
+  
+  #get '/auth/:provider/callback', to: 'sessions#create'
   
   get 'settings/index'
   get 'settings/metrics'

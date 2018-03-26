@@ -1,39 +1,27 @@
 require 'rails_helper'
+require './spec/support/helpers.rb'
 
 describe ApplicationController, type: :controller do
-    before do
-      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
-      @user = create(:user)
-      # session[:user_id] = @user.id
-      @client = Twitter::REST::Client.new do |config|
-         config.consumer_key        = ENV['TWITTER_KEY']
-         config.consumer_secret     = ENV['TWITTER_SECRET']
-         config.access_token        = @user.token
-         config.access_token_secret = @user.secret
-      end
-      @app_controller = ApplicationController.new()
-   end
-   
-   #describe "Finding #current_user" do
-    #   it "Should find the current used based on session" do
-     #      allow(User).to receive(:find).and_return(@user)
-      #     @app_controller = ApplicationController.new()
-       #    response = @app_controller.current_user
-        #   expect(response).to eq(@user)
-       #end
-   #end
-   
-  describe "making #current_client" do
-    it "makes the current client" do
-      allow(Twitter::REST::Client).to receive(:new).and_return(@client)
-      response = @app_controller.current_client
-      expect(response).to eq(@client)
-      expect(response.consumer_key).to eq(ENV['TWITTER_KEY'])
-      expect(response.consumer_secret).to eq(ENV['TWITTER_SECRET'])
-      expect(response.access_token).to eq(@user.token)
-      expect(response.access_token_secret).to eq(@user.secret)
+  
+  def sign_in(user)
+    if user.nil?
+      allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {:scope => :user})
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(nil)
+    else
+      allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     end
   end
+  
+  before do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+    @test_user = create(:user)
+    @test_feed = @test_user.feed
+    @test_twitter_client = @test_user.twitter_client
+    @app_controller = ApplicationController.new()
+    @app_controller.twitter_client = @test_twitter_client
+  end
+   
    
   describe "set_sign_in_required" do
     it "sets the correct flash notice" do
@@ -52,17 +40,26 @@ describe ApplicationController, type: :controller do
     end
   end
   
+  describe "get_tweets" do
+      it "gets tweets successfully" do
+        returnBody = "[:body => 'test']"
+        allow(@app_controller.twitter_client).to receive(:home_timeline).and_return(returnBody)
+        expect(@app_controller.twitter_client).to receive(:home_timeline)
+        response = @app_controller.get_tweets()
+        expect(response).to eq returnBody
+      end
+  end
+  
   describe "process_text" do
-    it "correclty identifies an empty tweet" do
-      expect(@app_controller.process_text('')).to eq('You cannot post an empty tweet')
-      expect(@app_controller.process_text(' ')).to eq('You cannot post an empty tweet')
+    it "correclty identifies an empty post" do
+      expect(@app_controller.process_text('')).to eq('You cannot make an empty post')
+      expect(@app_controller.process_text(' ')).to eq('You cannot make an empty post')
     end
     
     it "posts successfully when text is not empty" do 
       returnStatus = 'Successful'
-      @app_controller.client = @client
-      allow(@app_controller.client).to receive(:update).and_return(returnStatus)
-      expect(@app_controller.client).to receive(:update)
+      allow(@app_controller.twitter_client).to receive(:update).and_return(returnStatus)
+      expect(@app_controller.twitter_client).to receive(:update)
       expect(@app_controller.process_text('test post')).to eq('Successfully posted!')
     end
   end
@@ -72,11 +69,10 @@ describe ApplicationController, type: :controller do
       expect(FileUtils).to receive(:rm)
       
       returnStatus = 'Successful'
-      @app_controller.client = @client
       image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
       allow(image).to receive(:original_filename).and_return('test_image.png')
       allow(FileUtils).to receive(:rm).and_return(true)
-      allow(@app_controller.client).to receive(:update_with_media).and_return(returnStatus)
+      allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
       expect(@app_controller.process_image('', image)).to eq('Successfully posted!')
     end
   end
@@ -95,9 +91,8 @@ describe ApplicationController, type: :controller do
       expect(FileUtils).to receive(:rm)
       
       returnStatus = 'Successful'
-      @app_controller.client = @client
       allow(FileUtils).to receive(:rm).and_return(true)
-      allow(@app_controller.client).to receive(:update_with_media).and_return(returnStatus)
+      allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
       expect(@app_controller.process_images('', @images)).to eq('Successfully posted!')
     end
     

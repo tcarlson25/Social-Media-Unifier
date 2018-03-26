@@ -44,6 +44,7 @@ Before("@omniauth_test") do
         :provider => 'twitter',
         :uid => '12345',
         :info => {
+            :email => 'Test Email',
             :nickname => 'Test Name',
             :image => 'Test Image',
         },
@@ -53,7 +54,30 @@ Before("@omniauth_test") do
         }
     })
     
+    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+        :provider => 'facebook',
+        :uid => '12345',
+        :info => {
+            :email => 'Test Email',
+            :nickname => 'Test Name',
+            :image => 'Test Image',
+        },
+        :credentials => {
+            :token => 'Token',
+            :secret => 'Secret'
+        }
+    })
+    
+    Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
+    
+end
+
+Before("@omniauth_twitter_test") do
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+end
+
+Before("@omniauth_facebook_test") do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
 end
 
 After("@omniauth_test") do 

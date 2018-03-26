@@ -3,6 +3,7 @@ Feature: Display login page after logging out
   So that I can log out of my account and have the option to log back in
   I want to be redirected to the log in screen after logging out of my account
   
+@omniauth_test
 Scenario: User chooses to sign out
   Given The user is signed in
   Given The user is on the "home" page

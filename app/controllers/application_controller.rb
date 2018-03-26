@@ -1,21 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :current_client, :current_user
-  
-  attr_accessor :client
-  
-  def current_user
-    @user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  
-  def current_client
-    @client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['TWITTER_KEY']
-      config.consumer_secret     = ENV['TWITTER_SECRET']
-      config.access_token        = @user.token
-      config.access_token_secret = @user.secret
-    end
-  end
+  before_action :authenticate_user!
+  attr_accessor :twitter_client, :facebook_client
   
   def set_sign_in_required
     'Log in with Twitter to use this application'
@@ -30,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
   
   def get_tweets
-    @client.home_timeline
+    @twitter_client.home_timeline
   end
   
   def get_tweets_from_db
@@ -58,7 +44,7 @@ class ApplicationController < ActionController::Base
       f.write(image.read)
     end
     image_path = File.join(Rails.root, 'app', 'assets', 'images', image.original_filename)
-    response = @client.update_with_media(text, File.new(image_path))
+    response = @twitter_client.update_with_media(text, File.new(image_path))
     FileUtils.rm(image_path) unless response.nil?
     validate_twitter_response(response)
   end
@@ -76,7 +62,7 @@ class ApplicationController < ActionController::Base
         'Do not upload more than 4 images at once'
     else
       media = image_paths.map { |filename| File.new(filename) }
-      response = @client.update_with_media(text, media)
+      response = @twitter_client.update_with_media(text, media)
       image_paths.each { |path| FileUtils.rm(path) } unless response.nil?
       validate_twitter_response(response)
     end
@@ -84,9 +70,9 @@ class ApplicationController < ActionController::Base
   
   def process_text(text)
     if text.strip.empty?
-      'You cannot post an empty tweet'
+      'You cannot make an empty post'
     else
-      response = @client.update(text)
+      response = @twitter_client.update(text)
       validate_twitter_response(response)
     end
   end

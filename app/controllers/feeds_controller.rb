@@ -1,77 +1,57 @@
 class FeedsController < ApplicationController
   
-  attr_accessor :client, :feed, :twitter_posts, :user, :providers
+  attr_accessor :twitter_client, :feed, :twitter_posts, :user, :providers
+  
   
   def index
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-      @feed = @user.feed
+    @feed = Feed.find_or_create_from_user(@user)
+    if @user.twitter != nil
+      @twitter_client = @user.twitter_client
       @twitter_posts = get_tweets_from_db
     end
   end
   
   def messages
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end  
+    @twitter_client = @user.twitter_client
   end
   
   def archives
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end  
+    @twitter_client = @user.twitter_client
   end
   
   def notifications
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-        @client = current_client
-    end
+    @twitter_client = @user.twitter_client
   end
+  
   
   def post
     @user = current_user
-    if @user == nil
-      flash[:notice] = set_sign_in_required
-      redirect_to login_index_path
-    else
-      @client = current_client
-      @providers = ['Twitter', 'Facebook']
-      if params[:providers]
-        checked_providers = params[:providers].keys
-        if checked_providers.include?('Twitter')
-          unless params[:images].nil?
-            if params[:images].size() == 1
-              response = process_image(params[:post_content], params[:images][0])
-              flash[:notice] = response
-            else
-              response = process_images(params[:post_content], params[:images])
-              flash[:notice] = response
-            end
+    # @client = current_client
+    @providers = ['Twitter', 'Facebook']
+    if params[:providers]
+      checked_providers = params[:providers].keys
+      if checked_providers.include?('Twitter')
+        @twitter_client = @user.twitter_client
+        unless params[:images].nil?
+          if params[:images].size() == 1
+            response = process_image(params[:post_content], params[:images][0])
+            flash[:notice] = response
           else
-            response = process_text(params[:post_content])
+            response = process_images(params[:post_content], params[:images])
             flash[:notice] = response
           end
+        else
+          response = process_text(params[:post_content])
+          flash[:notice] = response
         end
+      end
         
-        if checked_providers.include?('Facebook')
+      if checked_providers.include?('Facebook')
           
-        end
       end
     end
   end
