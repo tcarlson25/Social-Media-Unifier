@@ -14,17 +14,23 @@ class FeedsController < ApplicationController
   
   def messages
     @user = current_user
-    @twitter_client = @user.twitter_client
+    if @user.twitter != nil
+      @twitter_client = @user.twitter_client
+    end
   end
   
   def archives
     @user = current_user
-    @twitter_client = @user.twitter_client
+    if @user.twitter != nil
+      @twitter_client = @user.twitter_client
+    end
   end
   
   def notifications
     @user = current_user
-    @twitter_client = @user.twitter_client
+    if @user.twitter != nil
+      @twitter_client = @user.twitter_client
+    end
   end
   
   

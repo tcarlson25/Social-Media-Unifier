@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def get_tweets_from_db
     # USE BELOW TO POPULATE DB if not already there
     # ----------------------------
-    # tweets = @client.home_timeline
+    # tweets = @twitter_client.home_timeline
     # tweets.each do |tweet|
     #   @feed.twitter_posts.create(
     #     id: tweet.id,
