@@ -1,10 +1,15 @@
-%h1 Feed
-%p
-  %span#current_user= "#{@user.name}"
-  is logged in
 
+.logged_in_user
+  - if @user.twitter != nil
+    Logged in with Twitter as @#{@user.twitter.name}
+  %br
+  - if @user.facebook != nil
+    Logged in with Facebook as #{@user.facebook.name}
+  %br
+  %br
+  
 .dropdown
-  %span Settings
+  Settings
   %ul.dropdown-content
     %li
       = link_to('Settings', settings_index_path, :id => 'settings')
@@ -17,10 +22,9 @@
     %li
       = link_to('Sign Out', destroy_user_session_path, method: :delete, :id => 'sign_out')
       
+.title_style
+  %h1 Social Media Unifier
 
-
-
-%br
 .menu_wrapper
   %ul
     %li 
@@ -35,11 +39,14 @@
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
 .page_content
-  -# @twitter_posts.each do |post|
-  -#  .twitter_post
-  -#    %p= post.content
-  -#    %p= "Retweet Count: #{post.retweet_count}"
-  -#    %p= "Favorite Count: #{post.favorite_count}"
-  -#  %br
+  - if @user.twitter != nil
+    - @twitter_posts.each do |post|
+      .twitter_post
+        %img{ src: post.imgurl }
+        = " @#{post.user_name}"
+        %br
+        .cont= post.content
+        .cont= "Retweets: #{post.retweet_count} Favorites: #{post.favorite_count}"
+      %br
 
 

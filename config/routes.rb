@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   #end
   
   root to: 'feeds#index'
-  delete '/logout', to: 'sessions#destroy'
   
   #get '/auth/:provider/callback', to: 'sessions#create'
   
@@ -22,6 +21,7 @@ Rails.application.routes.draw do
   get 'feeds/archives'
   get 'feeds/notifications'
   get 'feeds/post'
+  post 'feeds/post'
   
   get 'login/index'
   

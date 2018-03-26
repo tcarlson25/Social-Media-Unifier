@@ -1,9 +1,15 @@
 FactoryBot.define do
   factory :user do
-    provider "Twitter"
-    uid "uid"
-    email "email"
-    password "password"
-    name "Name"
+    
+    transient do 
+      create_identity true
+    end
+    
+    after(:create) do |user, evaluator|
+      create(:feed, user: user)
+      if evaluator.create_identity
+        create(:identity, user: user)
+      end
+    end
   end
 end

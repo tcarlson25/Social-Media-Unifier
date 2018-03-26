@@ -35,7 +35,8 @@ ActiveRecord::Schema.define(version: 20180322185617) do
 
   create_table "twitter_posts", id: :string, force: :cascade do |t|
     t.integer "feed_id"
-    t.string "user"
+    t.string "name"
+    t.string "user_name"
     t.text "content"
     t.string "imgurl"
     t.string "favorite_count"
@@ -60,11 +61,6 @@ ActiveRecord::Schema.define(version: 20180322185617) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "provider"
-    t.string "uid"
-    t.string "name"
-    t.string "token"
-    t.string "secret"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -15,3 +15,12 @@ Scenario:
   When The user visits the "Accounts" page
   Then They should be redirected to the "Sign In" page
   And They should see an error saying "Log in"
+  
+  @omniauth_test @omniauth_facebook_test @omniauth_twitter_test
+Scenario:
+  Given The user is signed in to "Facebook"
+  And The user visits the "Accounts" page
+  #And The user is not signed in to "Twitter"
+  When The user clicks Sign in to "Twitter"
+  Then They should be redirected to the "home" page
+  And The user should have access to "Twitter"

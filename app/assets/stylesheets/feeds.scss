@@ -2,28 +2,55 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body{
+    //To add page color
+    //background-color: black;
+}
+
+.title_style{
+    text-align: center;
+}
+
 h1 {
+  display: inline;
   text-align: center;
-  color: red;
+  color: blue;
+  //background-color: gray;
+  position: relative;
+  
+  //For testing only
+  //border: 2px solid yellow;
+  //border-radius: 5px;
+}
+
+.logged_in_user{
+    color: blue;
+    width: 200px;
+    
+    //For testing only
+    //border: 2px solid yellow;
+    //border-radius: 5px;
 }
 
 .dropdown {
-    float: right;
-    padding-right: 100px;
-    position: relative;
+    padding-right: 50px;
+    position: absolute;
     display: inline-block;
     color: blue;
+    //For testing only
+    //border: 2px solid yellow;
+    //border-radius: 5px;
 }
 
 .dropdown-content {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 100px;
-    padding: 6px 6px;
     text-align: center;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    margin: 10 auto;
     top: 100%;
-    width: 100%;
+    width: 120%;
     opacity: 0;
     visibility: hidden;
     z-index: -1;
@@ -36,20 +63,23 @@ h1 {
     visibility: visible;
     opacity: 1;
     z-index: 1;
-    transform: translateY(-10%);
+    transform: translateY(-2%);
     transition-delay: 0s, 0s, 0.3s;
 }
 
 .menu_wrapper{
     text-align: center;
-    margin: 0 auto;
-    width: 40%;
+    //margin: 0 auto;
+    width: 100%;//40
+    //background-color: green;
 }
 
 ul{
     list-style-type: none;
     padding-left: 0;
     overflow: hidden;
+    margin: 2px auto;
+    display: inline-block;
 }
 
 .menu_wrapper li{
@@ -57,13 +87,14 @@ ul{
 }
 
 .menu_wrapper li a{
-    display: block;
-    padding: 8px;
-    background-color: #111;
-    color: white;
+    display: inline-block;
+    //padding: 8px;
+    background-color: lightgrey;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    width: 100px;
 }
 
 .menu_wrapper li a:hover {
@@ -71,13 +102,24 @@ ul{
 }
 
 .menu_wrapper .active{
-    background-color: green;
+    background-color: darkgrey;
 }
 
 .page_content{
-    margin: 0 auto;
-    width: 60%;
+    width: 50%;
     background-color: lightgrey;
+    border: 2px solid grey;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow-y: scroll;
+    height: 800px;
+}
+
+//Invisible scrollbar
+.page_content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
 .twitter_post{
@@ -86,6 +128,7 @@ ul{
     width: 75%;
     margin: 0 auto;
     border: 2px solid aqua;
+    border-style: outset;
     border-radius: 25px;
     padding-bottom: 25px;
 }
@@ -106,3 +149,16 @@ ul{
     resize: none;
 }
 
+img{
+    border: 2px solid aqua;
+    border-radius: 50%;
+    border-style: outset;
+}
+
+.cont{
+    margin-left: 50px;
+}
+
+.posting_wrapper{
+    text-align: center;
+}

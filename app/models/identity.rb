@@ -5,7 +5,7 @@ class Identity < ApplicationRecord
       where(provider: auth.provider, uid: auth.uid).first_or_create do |identity|
           identity.provider = auth.provider
           identity.uid = auth.uid
-          identity.name = auth.info.nickname
+          identity.name = auth.info.name
           identity.email = auth.info.email
           identity.token = auth.credentials.token
           identity.secret = auth.credentials.secret

@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :identity do
-    user nil
-    provider "MyString"
-    uid "MyString"
-    token "MyString"
-    secret "MyString"
-    name "MyString"
-    email "MyString"
+    association :user, factory: :user, create_identity: false
+    provider "twitter"
+    uid "UID"
+    token "Test Token"
+    secret "Test Secret"
+    name "Test Twitter Name"
+    email "Test Email"
   end
 end

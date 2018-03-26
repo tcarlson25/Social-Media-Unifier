@@ -11,8 +11,6 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
       user.name = auth.info.name
-      user.token = auth.credentials.token
-      user.secret = auth.credentials.secret
     end
   end
   
@@ -21,7 +19,7 @@ class User < ApplicationRecord
   end
   
   def twitter_client
-     @current_client = Twitter::REST::Client.new do |config|
+     @current_twitter_client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_KEY']
       config.consumer_secret     = ENV['TWITTER_SECRET']
       config.access_token        = twitter.token
