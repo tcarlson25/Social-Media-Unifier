@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Feed, type: :model do
   #pending "add some examples to (or delete) #{__FILE__}"
   subject{described_class.new(username: "None", user_id: "-1")}
-    
+  #subject{create(:user)}
   
   describe "find_or_create_from_user" do
       it "successfully creates feed from a user" do

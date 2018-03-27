@@ -51,7 +51,7 @@ describe ApplicationController, type: :controller do
   end
   
   describe "process_text" do
-    it "correclty identifies an empty post" do
+    it "correctly identifies an empty post" do
       expect(@app_controller.process_text('')).to eq('You cannot make an empty post')
       expect(@app_controller.process_text(' ')).to eq('You cannot make an empty post')
     end
