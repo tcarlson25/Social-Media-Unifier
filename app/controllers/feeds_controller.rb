@@ -8,7 +8,8 @@ class FeedsController < ApplicationController
     @feed = Feed.find_or_create_from_user(@user)
     if @user.twitter != nil
       @twitter_client = @user.twitter_client
-      @twitter_posts = get_tweets_from_db
+      # @twitter_posts = get_tweets_from_db
+      @twitter_posts = get_tweets
     end
   end
   
