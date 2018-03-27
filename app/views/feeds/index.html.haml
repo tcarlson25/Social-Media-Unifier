@@ -38,15 +38,25 @@
     %li
       = link_to('Notifications', feeds_notifications_path, :id => 'notifications')
 
+-# this page content is for getting tweets with the API
 .page_content
   - if @user.twitter != nil
     - @twitter_posts.each do |post|
       .twitter_post
-        %img{ src: post.imgurl }
-        = " @#{post.user_name}"
+        %img{ src: post.user.profile_image_url }
+        = " @#{post.user.screen_name}"
         %br
-        .cont= post.content
+        .cont= post.full_text
         .cont= "Retweets: #{post.retweet_count} Favorites: #{post.favorite_count}"
       %br
 
-
+-# this page content is for getting tweets with the database
+-#  - if @user.twitter != nil
+-#    - @twitter_posts.each do |post|
+-#      .twitter_post
+-#        %img{ src: post.user.imgurl }
+-#        = " @#{post.user_name}"
+-#        %br
+-#        .cont= post.content
+-#        .cont= "Retweets: #{post.retweet_count} Favorites: #{post.favorite_count}"
+-#      %br
