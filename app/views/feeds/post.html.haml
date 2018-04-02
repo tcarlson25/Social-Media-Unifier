@@ -46,7 +46,8 @@
       = check_box_tag("providers[#{provider}]", 1)
     %br
     = label_tag :text, 'Text'
-    = text_area_tag :post_content
+    .emoji-picker-container
+      = text_area_tag :post_content, nil, data: { emojiable: true }
     %br
     = label_tag :images, 'Upload Images'
     = file_field_tag :images, :name => 'images[]', :multiple => true, accept: 'image/png,image/jpeg'
@@ -55,3 +56,6 @@
     
   - if flash[:notice]
     #notice.message= flash[:notice]
+    
+#img_container
+

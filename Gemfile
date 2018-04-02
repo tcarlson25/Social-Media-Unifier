@@ -34,6 +34,8 @@ gem 'attr_encrypted', '~> 3.1.0'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'jquery-rails'
+gem 'rails_emoji_picker'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

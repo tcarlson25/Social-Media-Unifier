@@ -12,3 +12,11 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
+
+Rails.application.config.assets.precompile += %w( feed.js )
+Rails.application.config.assets.precompile += %w( emoji.css )
+Rails.application.config.assets.precompile += %w( config.js )
+Rails.application.config.assets.precompile += %w( util.js )
+Rails.application.config.assets.precompile += %w( jquery.emojiarea.js )
+Rails.application.config.assets.precompile += %w( emoji-picker.js )
+Rails.application.config.assets.precompile += %w( rails_emoji_picker.js ) 

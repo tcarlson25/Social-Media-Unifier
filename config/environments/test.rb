@@ -36,6 +36,21 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  
+  OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
+      :provider => 'twitter',
+      :uid => '12345',
+      :info => {
+        :email => 'Test Email',
+        :nickname => 'Test Name',
+        :image => 'Test Image',
+      },
+      :credentials => {
+        :token => 'Token',
+        :secret => 'Secret'
+      }
+    })
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

@@ -1,7 +1,7 @@
 class FeedsController < ApplicationController
   
   attr_accessor :twitter_client, :feed, :twitter_posts, :user, :providers
-  
+  layout 'feed'
   
   def index
     @user = current_user
@@ -9,7 +9,7 @@ class FeedsController < ApplicationController
     if @user.twitter != nil
       @twitter_client = @user.twitter_client
       @twitter_posts_db = get_tweets_from_db
-      @twitter_posts = get_tweets
+      @twitter_posts = get_tweets #comment this line to stop api from running
     end
   end
   

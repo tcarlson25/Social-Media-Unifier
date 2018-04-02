@@ -1,7 +1,7 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
+ 
 body{
     //To add page color
     //background-color: black;
@@ -149,7 +149,7 @@ ul{
     resize: none;
 }
 
-img{
+.profile_img{
     border: 2px solid aqua;
     border-radius: 50%;
     border-style: outset;
@@ -161,4 +161,9 @@ img{
 
 .posting_wrapper{
     text-align: center;
+}
+
+.uploaded_img{
+    width: 100px;
+    height: 100px;
 }

@@ -34,7 +34,7 @@ describe FeedsController, type: :controller do
             
             allow(Feed).to receive(:find_or_create_from_user).and_return(@test_feed)
             allow_any_instance_of(FeedsController).to receive(:get_tweets_from_db).and_return(return_posts)
-            
+            allow_any_instance_of(FeedsController).to receive(:get_tweets).and_return(return_posts)
             @feed_controller.index
             expect(@feed_controller.twitter_client).to eq(@test_twitter_client)
             expect(@feed_controller.feed).to eq(@test_feed)

@@ -42,18 +42,19 @@
 .page_content
   - if @user.twitter != nil
     -# get tweets with the API
-    - @twitter_posts.each do |post|
-      .twitter_post
-        %img{ src: post.user.profile_image_url }
-        = " @#{post.user.screen_name}"
+    - unless @twitter_posts.nil?
+      - @twitter_posts.each do |post|
+        .twitter_post
+          %img.profile_img{ src: post.user.profile_image_url }
+          = " @#{post.user.screen_name}"
+          %br
+          .cont= post.full_text
+          .cont= "Retweets: #{post.retweet_count} Favorites: #{post.favorite_count}"
         %br
-        .cont= post.full_text
-        .cont= "Retweets: #{post.retweet_count} Favorites: #{post.favorite_count}"
-      %br
     -# get tweets with the DB (TEMPORARY)
     - @twitter_posts_db.each do |post|
       .twitter_post
-        %img{ src: post.imgurl }
+        %img.profile_img{ src: post.imgurl }
         = " @#{post.user_name}"
         %br
         .cont= post.content
