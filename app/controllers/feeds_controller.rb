@@ -17,7 +17,6 @@ class FeedsController < ApplicationController
         @posts['twitter_' + counter.to_s] =  post
         counter += 1
       end
-      set_twitter_count(counter)
     end
     
     unless @user.facebook.nil?
@@ -32,7 +31,6 @@ class FeedsController < ApplicationController
         @posts['mastodon_' + counter.to_s] =  post
         counter += 1
       end
-      set_mastodon_count(counter)
     end
     @posts = @posts.sort_by {|key, value| DateTime.parse(value.created_at.to_s)}.to_h
   end
