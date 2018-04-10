@@ -1,5 +1,36 @@
-= link_to 'Back to Feed', feeds_index_path
-%h1 Social Media Accounts
 
-%p= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path
-%p= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path
+.signed_in_providers
+  - unless @logged_in_identities.empty?
+    %h3 Signed in with
+    - @logged_in_identities.each do |identity|
+      .card_provider
+        .demo-card-square.mdl-card.mdl-shadow--2dp
+          = button_to settings_logout_path(:provider => identity.provider), class: 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect provider_edit hidden', id: "#{identity.provider}_remove" do
+            %i.material-icons remove
+          .mdl-card__title.mdl-card--expand{style: "background: url(#{identity.profile_img});"}
+          .mdl-card__supporting-text{class: "#{identity.provider}_profile"}= identity.provider.capitalize
+%br
+%br
+
+.signed_out_providers
+  - unless @available_providers.empty?
+    %h3 Available Providers
+    - @available_providers.each do |provider|
+      - sign_in_path = user_facebook_omniauth_authorize_path if provider.eql?('Facebook')
+      - sign_in_path = user_twitter_omniauth_authorize_path if provider.eql?('Twitter')
+      - sign_in_path = user_mastodon_omniauth_authorize_path if provider.eql?('Mastodon')
+      .card_provider
+        .demo-card-square.mdl-card.mdl-shadow--2dp
+          = button_to sign_in_path, class: 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect provider_edit hidden', id: "#{provider.downcase}_add" do
+            %i.material-icons add
+          - if provider.eql?('Twitter')
+            .mdl-card__title.mdl-card--expand.twitter_available
+          - elsif provider.eql?('Facebook')
+            .mdl-card__title.mdl-card--expand.facebook_available
+          - elsif provider.eql?('Mastodon')
+            .mdl-card__title.mdl-card--expand.mastodon_available
+          .mdl-card__supporting-text{class:"#{provider.downcase}_profile"}= provider
+        
+= button_tag :id => 'edit_providers', class: 'mdl-button mdl-js-button mdl-button--fab', :onclick => 'showEdit()' do
+  %i.material-icons edit
+  

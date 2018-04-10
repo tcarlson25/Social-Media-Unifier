@@ -69,7 +69,6 @@ Before("@omniauth_test") do
     })
     
     Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
-    
 end
 
 Before("@omniauth_twitter_test") do

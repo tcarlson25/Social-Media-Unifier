@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'settings/metrics'
   get 'settings/custom_friends'
   get 'settings/accounts'
+  post 'settings/logout'
   
   get 'feeds/index'
   get 'feeds/messages'
@@ -22,6 +23,11 @@ Rails.application.routes.draw do
   get 'feeds/notifications'
   get 'feeds/post'
   post 'feeds/post'
+  
+  post 'application/favorite'
+  post 'application/unfavorite'
+  post 'application/repost'
+  post 'application/unrepost'
   
   get 'login/index'
   

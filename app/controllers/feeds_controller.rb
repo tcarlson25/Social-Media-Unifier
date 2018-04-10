@@ -1,16 +1,40 @@
 class FeedsController < ApplicationController
   
-  attr_accessor :twitter_client, :feed, :twitter_posts, :user, :providers
-  layout 'feed'
+  attr_accessor :twitter_client, :facebook_client, :mastodon_client, :feed, :twitter_posts, :user, :providers, :posts
+  layout 'feeds'
   
   def index
     @user = current_user
     @feed = Feed.find_or_create_from_user(@user)
-    if @user.twitter != nil
+    @posts = Hash.new("-1")
+    
+    unless @user.twitter.nil?
+      counter = 1
       @twitter_client = @user.twitter_client
       @twitter_posts_db = get_tweets_from_db
-      @twitter_posts = get_tweets #comment this line to stop api from running
+      @twitter_posts = get_posts('Twitter')
+      @twitter_posts.each do |post|
+        @posts['twitter_' + counter.to_s] =  post
+        counter += 1
+      end
+      set_twitter_count(counter)
     end
+    
+    unless @user.facebook.nil?
+      @facebook_client = @user.facebook_client
+    end
+    
+    unless @user.mastodon.nil?
+      counter = 1
+      @mastodon_client = @user.mastodon_client
+      @mastodon_posts = get_posts('Mastodon')
+      @mastodon_posts.each do |post|
+        @posts['mastodon_' + counter.to_s] =  post
+        counter += 1
+      end
+      set_mastodon_count(counter)
+    end
+    @posts = @posts.sort_by {|key, value| DateTime.parse(value.created_at.to_s)}.to_h
   end
   
   def messages
@@ -37,30 +61,41 @@ class FeedsController < ApplicationController
   
   def post
     @user = current_user
-    # @client = current_client
-    @providers = ['Twitter', 'Facebook']
+    @providers = []
+    @providers << 'Twitter' unless @user.twitter.nil?
+    @providers << 'Facebook' unless @user.facebook.nil?
+    @providers << 'Mastodon' unless @user.mastodon.nil?
     if params[:providers]
       checked_providers = params[:providers].keys
-      if checked_providers.include?('Twitter')
-        @twitter_client = @user.twitter_client
-        unless params[:images].nil?
-          if params[:images].size() == 1
-            response = process_image(params[:post_content], params[:images][0])
-            flash[:notice] = response
-          else
-            response = process_images(params[:post_content], params[:images])
-            flash[:notice] = response
-          end
+      @twitter_client = @user.twitter_client if @providers.include?('Twitter')
+      @facebook_client = @user.facebook_client if @providers.include?('Facebook')
+      @mastodon_client = @user.mastodon_client if @providers.include?('Mastodon')
+      single = false
+      multi = false
+      unless params[:images].nil?
+        if params[:images].size() == 1
+          single = true
+          responses = process_image(params[:post_content], params[:images][0])
+          flash[:notify] = responses[:errors].join(',')
         else
-          response = process_text(params[:post_content])
-          flash[:notice] = response
+          multi = true
+          responses = process_images(params[:post_content], params[:images])
+          flash[:notify] = responses[:errors].join(',')
         end
+      else
+        responses = process_text(params[:post_content])
+        flash[:notify] = responses[:errors].join(',')
       end
-        
-      if checked_providers.include?('Facebook')
-          
+      if single == true
+        #user identity image count += 1
+        # @user.twitter.posts += 1
       end
+      if multi == true
+        #user identity image count += params.size
+      end
+      #user identity post count =+ 1
     end
   end
+  
   
 end

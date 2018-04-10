@@ -1,3 +1,102 @@
 // Place all the styles related to the settings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card_provider{
+    position: relative;
+    padding: 1em;
+    display: inline-block;
+}
+
+.demo-card-square.mdl-card {
+    width: 280px;
+    height: 300px;
+}
+
+.mdl-button.mdl-js-button.mdl-button--fab{
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: white;
+}
+    
+.mdl-card__title.mdl-card--expand {
+    background-repeat: no-repeat !important; 
+    background-size: 100% 100% !important;
+}
+
+.mdl-card__supporting-text{
+    text-align: left;
+}
+
+.twitter_profile{
+    color: #00aced;
+    font-size: 16pt;
+}
+
+.facebook_profile{
+    color: #3b5998;
+    font-size: 16pt;
+}
+
+.mastodon_profile{
+    color: #2B90D9;
+    font-size: 16pt;
+}
+
+.twitter_available{
+    background-image: url('twitter_logo.png');
+}
+
+.facebook_available{
+    background-image: url('facebook_logo.png');
+}
+
+.mastodon_available{
+    background-image: url('mastodon_logo.png');
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+#edit_providers{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.signed_in_providers{
+    /*background-color: grey;*/
+    margin: 0 auto;
+    text-align: center;
+}
+
+.signed_out_providers{
+    /*background-color: grey;*/
+    margin: 0 auto;
+    text-align: center;
+}
+
+.login_block.mdl-card{
+    /*background: grey;*/
+    border-radius: 12px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.login_block > .mdl-card_title{
+    font-size: 200%;
+    color: accent;
+    margin: 0 auto;
+}
+
+.mdl-layout { 
+    background-image: url('backg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.mdl-mini-footer__link-list.a{
+    
+}

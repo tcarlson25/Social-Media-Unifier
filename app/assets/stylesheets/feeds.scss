@@ -1,4 +1,4 @@
-// Place all the styles related to the posts controller here.
+// Place all the styles related to the feeds controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
  
@@ -113,7 +113,7 @@ ul{
     margin: 0 auto;
     padding: 20px;
     overflow-y: scroll;
-    height: 800px;
+    height: 600px;
 }
 
 //Invisible scrollbar
@@ -123,22 +123,31 @@ ul{
 }
 
 .twitter_post{
-    background-color: #C0DEED;
+    background-color: white;
     padding: 25px;
     width: 75%;
     margin: 0 auto;
-    border: 2px solid aqua;
-    border-style: outset;
+    border: 4px solid #00aced;
     border-radius: 25px;
     padding-bottom: 25px;
 }
 
 .facebook_post{
-    background-color: #899BC1;
+    background-color: white;
     padding: 25px;
     width: 75%;
     margin: 0 auto;
-    border: 2px solid blue;
+    border: 4px solid #3B5998;
+    border-radius: 25px;
+    padding-bottom: 25px;
+}
+
+.mastodon_post{
+    background-color: white;
+    padding: 25px;
+    width: 75%;
+    margin: 0 auto;
+    border: 4px solid #444B5D;
     border-radius: 25px;
     padding-bottom: 25px;
 }
@@ -149,10 +158,18 @@ ul{
     resize: none;
 }
 
-.profile_img{
-    border: 2px solid aqua;
+.profile_img_twitter{
     border-radius: 50%;
-    border-style: outset;
+    border: 2px solid #00aced;
+    width: 50px;
+    height: 50px;
+}
+
+.profile_img_mastodon{
+    border-radius: 50%;
+    border: 2px solid #444B5D;
+    width: 50px;
+    height: 50px;
 }
 
 .cont{
@@ -166,4 +183,89 @@ ul{
 .uploaded_img{
     width: 100px;
     height: 100px;
+}
+
+.mdl-layout { 
+    background-image: url('backg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.feed-card.mdl-card {
+    width: 50%;
+    border: 2px solid grey;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow-y: scroll;
+    height: 65%;
+    background: rgba(255, 255, 255, 0.5);
+}
+  
+.feed-card.mdl-card::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.provider_click{
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+
+.provider_click:hover{
+    cursor: pointer;
+}
+
+.fb_clicked{
+    color: #3b5998;
+}
+
+.tw_clicked{
+    color: #00aced;
+}
+
+.ma_clicked{
+    color: #444B5D;
+}
+
+.favorited{
+    color: #e03845;
+}
+
+.reposted{
+    color: #53ed42;
+}
+
+.not_favorited{
+    color: darkgrey;
+}
+
+.not_reposted{
+    color: darkgrey;
+}
+
+.favorite_obj:hover{
+    cursor: pointer;
+}
+
+.repost_obj:hover{
+    cursor: pointer;
+}
+
+.not_favorited:hover{
+    color: #e03845;
+}
+
+.not_reposted:hover{
+    color: #53ed42;
+}
+
+.favorite_logo{
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+
+.repost_logo{
+    padding-right: 0.5em;
+    padding-left: 0.5em;
 }

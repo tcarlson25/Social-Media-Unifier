@@ -7,6 +7,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         callback('facebook')
     end
     
+    def mastodon
+      callback('mastodon') 
+    end
+    
     def callback(provider)
         @identity = Identity.find_from_auth(request.env["omniauth.auth"])
         @user = @identity.user || current_user

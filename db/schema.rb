@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180322185617) do
+ActiveRecord::Schema.define(version: 2018_03_22_185617) do
 
   create_table "feeds", force: :cascade do |t|
     t.integer "user_id"
@@ -23,11 +23,15 @@ ActiveRecord::Schema.define(version: 20180322185617) do
   create_table "identities", force: :cascade do |t|
     t.integer "user_id"
     t.string "provider"
+    t.string "profile_img"
     t.string "uid"
     t.string "token"
     t.string "secret"
     t.string "name"
     t.string "email"
+    t.integer "posts"
+    t.integer "image_posts"
+    t.integer "archived"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_identities_on_user_id"

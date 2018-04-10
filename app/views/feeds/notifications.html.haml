@@ -1,42 +1,7 @@
 
-.logged_in_user
-  - if @user.twitter != nil
-    Logged in with Twitter as @#{@user.twitter.name}
-  %br
-  - if @user.facebook != nil
-    Logged in with Facebook as #{@user.facebook.name}
-  %br
-  %br
+%br
+%br
+%br
+%br
 
-.dropdown
-  %span Settings
-  %ul.dropdown-content
-    %li
-      = link_to('Settings', settings_index_path, :id => 'settings')
-    %li
-      = link_to('Metrics', settings_metrics_path, :id => 'metrics')
-    %li
-      = link_to('Accounts', settings_accounts_path, :id => 'accounts')
-    %li
-      = link_to('Custom Friends', settings_custom_friends_path, :id => 'custom_friends')
-    %li
-      = link_to('Sign Out', destroy_user_session_path, method: :delete, :id => 'sign_out')
-      
-
-.title_style
-  %h1 Interactions
-
-.menu_wrapper
-  %ul
-    %li 
-      = link_to('Feed', feeds_index_path, :id => 'feed')
-    %li
-      = link_to('Messages', feeds_messages_path, :id => 'messages')
-    %li
-      = link_to('Post', feeds_post_path, :id => 'post')
-    %li
-      = link_to('Archives', feeds_archives_path, :id => 'archives')
-    %li
-      = link_to('Notifications', feeds_notifications_path, :id => 'notifications', :class => 'active')
-
-.page_content
+.feed-card.mdl-card

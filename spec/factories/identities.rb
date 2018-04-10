@@ -5,7 +5,7 @@ FactoryBot.define do
     uid "UID"
     token "Test Token"
     secret "Test Secret"
-    name "Test Twitter Name"
+    name "Test Name"
     email "Test Email"
   end
 end

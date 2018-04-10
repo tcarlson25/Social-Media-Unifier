@@ -8,7 +8,7 @@ end
 ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.4'
+gem 'rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -28,14 +28,20 @@ gem 'twitter'
 gem 'devise'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+gem 'omniauth-mastodon'
+gem 'omniauth'
+gem 'koala'
 gem 'haml'
 gem 'attr_encrypted', '~> 3.1.0'
+
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
 gem 'rails_emoji_picker'
+gem 'mastodon-api', :require => 'mastodon', :git => 'https://github.com/tootsuite/mastodon-api'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
