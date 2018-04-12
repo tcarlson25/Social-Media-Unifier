@@ -11,7 +11,7 @@ class CreateMastodonPosts < ActiveRecord::Migration[5.2]
       t.integer :favourites_count
       t.boolean :reblogged
       t.integer :reblogs_count
-      t.string :created_at
+      t.string :post_made_at
 
       t.timestamps
     end

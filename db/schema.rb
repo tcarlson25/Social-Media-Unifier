@@ -47,27 +47,26 @@ ActiveRecord::Schema.define(version: 2018_04_11_233649) do
     t.integer "favourites_count"
     t.boolean "reblogged"
     t.integer "reblogs_count"
+    t.string "post_made_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feed_id"], name: "index_mastodon_posts_on_feed_id"
   end
 
-  create_table "twitter_posts", id: :string, force: :cascade do |t|
+  create_table "twitter_posts", force: :cascade do |t|
     t.integer "feed_id"
     t.string "name"
     t.string "user_name"
     t.text "content"
     t.string "imgurl"
+    t.string "favorited"
+    t.boolean "retweeted"
     t.integer "favorite_count"
     t.integer "retweet_count"
     t.string "post_made_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "id_str"
-    t.boolean "favorited"
-    t.boolean "retweeted"
     t.index ["feed_id"], name: "index_twitter_posts_on_feed_id"
-    t.index ["id"], name: "sqlite_autoindex_twitter_posts_1", unique: true
   end
 
   create_table "users", force: :cascade do |t|

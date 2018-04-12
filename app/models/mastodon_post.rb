@@ -9,7 +9,7 @@ class MastodonPost < ApplicationRecord
           ma_post.profile_img = post.account.avatar
           ma_post.favourites_count = post.favourites_count
           ma_post.reblogs_count = post.reblogs_count
-          ma_post.created_at = post.created_at
+          ma_post.post_made_at = post.created_at
           ma_post.favourited = post.favourited?
           ma_post.reblogged = post.reblogged?
        end
