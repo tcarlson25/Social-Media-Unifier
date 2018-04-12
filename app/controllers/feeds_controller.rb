@@ -1,15 +1,19 @@
 class FeedsController < ApplicationController
   
   attr_accessor :twitter_client, :facebook_client, :mastodon_client, :feed, :twitter_posts, :user, :providers, :posts
-  layout 'feeds'
+  layout 'feeds', :only => :index
+  layout 'generalLayout', :except => [:index]
   
   def index
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
+    @providers = []
     @feed = Feed.find_or_create_from_user(@user)
     @posts = Hash.new("-1")
     
     unless @user.twitter.nil?
       counter = 1
+      @providers << 'Twitter'
       @twitter_client = @user.twitter_client
       @twitter_posts_db = get_tweets_from_db
       @twitter_posts = get_posts('Twitter')
@@ -25,6 +29,7 @@ class FeedsController < ApplicationController
     
     unless @user.mastodon.nil?
       counter = 1
+      @providers << 'Mastodon'
       @mastodon_client = @user.mastodon_client
       @mastodon_posts = get_posts('Mastodon')
       @mastodon_posts.each do |post|
@@ -32,20 +37,22 @@ class FeedsController < ApplicationController
         counter += 1
       end
     end
-    @posts = @posts.sort_by {|key, value| DateTime.parse(value.created_at.to_s)}.to_h
+    @posts = @posts.sort_by {|key, value| DateTime.parse(value.created_at.to_s)}
+    @posts = @posts.reverse
   end
   
   def messages
     @user = current_user
-    if @user.twitter != nil
+    unless @user.twitter.nil?
       @twitter_client = @user.twitter_client
     end
   end
   
   def archives
     @user = current_user
-    if @user.twitter != nil
+    unless @user.twitter.nil?
       @twitter_client = @user.twitter_client
+      archived_twitter_posts = @user.feed.twitter_posts.all.order(post_made_at: :desc)
     end
   end
   
@@ -65,9 +72,9 @@ class FeedsController < ApplicationController
     @providers << 'Mastodon' unless @user.mastodon.nil?
     if params[:providers]
       checked_providers = params[:providers].keys
-      @twitter_client = @user.twitter_client if @providers.include?('Twitter')
-      @facebook_client = @user.facebook_client if @providers.include?('Facebook')
-      @mastodon_client = @user.mastodon_client if @providers.include?('Mastodon')
+      @twitter_client = @user.twitter_client if checked_providers.include?('Twitter')
+      @facebook_client = @user.facebook_client if checked_providers.include?('Facebook')
+      @mastodon_client = @user.mastodon_client if checked_providers.include?('Mastodon')
       single = false
       multi = false
       unless params[:images].nil?

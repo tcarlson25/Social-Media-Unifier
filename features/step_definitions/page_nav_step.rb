@@ -33,11 +33,11 @@ When("They click on {string}") do | clicked |
 end
 
 Then("They should be redirected to the {string} page") do | view |
-  expect(page).to have_content('Account Settings') if view.eql?('Account Settings')
-  expect(page).to have_content('Account Metrics') if view.eql?('Account Metrics')
-  expect(page).to have_content('Log in') if view.eql?('Log In')
-  expect(page).to have_content('Custom Friends Page') if view.eql?('Custom Friends')
-  expect(page).to have_content('Social Media Accounts') if view.eql?('Accounts')
+  expect(page).to have_current_path(settings_index_path) if view.eql?('Account Settings')
+  expect(page).to have_current_path(settings_metrics_path) if view.eql?('Account Metrics')
+  expect(page).to have_current_path('users/sign_in', only_path: true) if view.eql?('Log In')
+  expect(page).to have_current_path(settings_custom_friends_path, only_path: true) if view.eql?('Custom Friends')
+  expect(page).to have_current_path(settings_accounts_path, only_path: true) if view.eql?('Accounts')
   
   expect(page).to have_current_path(feeds_index_path, only_path: true) if view.eql?('Feed')
   expect(page).to have_current_path(feeds_messages_path, only_path: true) if view.eql?('Direct Messages')

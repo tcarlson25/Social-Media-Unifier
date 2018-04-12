@@ -9,11 +9,11 @@ end
 
 When("The user signs in to {string}") do |provider|
     click_button 'edit_providers'
-    click_link 'Twitter_add' if provider.eql?('Twitter')  
+    click_link "#{provider.downcase}_add"
 end
 
 When("The user logs out of {string}") do |provider|
-   click_link '#{provider}_remove'  
+   click_link "#{provider.downcase}_remove" 
 end
 
 When("The user clicks Sign in to {string}") do |provider|

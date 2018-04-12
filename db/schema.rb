@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_22_185617) do
+ActiveRecord::Schema.define(version: 2018_04_11_233649) do
 
   create_table "feeds", force: :cascade do |t|
     t.integer "user_id"
@@ -29,12 +29,27 @@ ActiveRecord::Schema.define(version: 2018_03_22_185617) do
     t.string "secret"
     t.string "name"
     t.string "email"
-    t.integer "posts"
-    t.integer "image_posts"
-    t.integer "archived"
+    t.integer "post_count"
+    t.integer "image_post_count"
+    t.integer "archive_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "mastodon_posts", force: :cascade do |t|
+    t.integer "feed_id"
+    t.string "content"
+    t.string "username"
+    t.string "profile_img"
+    t.string "imgurl"
+    t.boolean "favourited"
+    t.integer "favourites_count"
+    t.boolean "reblogged"
+    t.integer "reblogs_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_mastodon_posts_on_feed_id"
   end
 
   create_table "twitter_posts", id: :string, force: :cascade do |t|
@@ -43,17 +58,21 @@ ActiveRecord::Schema.define(version: 2018_03_22_185617) do
     t.string "user_name"
     t.text "content"
     t.string "imgurl"
-    t.string "favorite_count"
-    t.string "retweet_count"
+    t.integer "favorite_count"
+    t.integer "retweet_count"
     t.string "post_made_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "id_str"
+    t.boolean "favorited"
+    t.boolean "retweeted"
     t.index ["feed_id"], name: "index_twitter_posts_on_feed_id"
     t.index ["id"], name: "sqlite_autoindex_twitter_posts_1", unique: true
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
+    t.string "name", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"

@@ -1,3 +1,10 @@
+:css 
+  .text_box_mod{
+    background: red;
+    width: 50%
+    height: 30%;
+  }
+
 
 %br
 %br
@@ -8,20 +15,28 @@
     - @providers.each do |provider|
       = label_tag "providers[#{provider}]", class: 'provider_click' do
         = check_box_tag "providers[#{provider}]", 1, false, class: 'hidden'
-        = content_tag :i, nil, class: "zmdi zmdi-#{provider.downcase} zmdi-hc-2x", onclick: "toggle#{provider}()"
+        - if provider.eql?('Facebook') || provider.eql?('Twitter')
+          = content_tag :i, nil, class: "zmdi zmdi-#{provider.downcase} zmdi-hc-2x tooltip", onclick: "toggle#{provider}()" do
+            = content_tag :span, "#{provider}", class: "tooltiptext_#{provider.downcase}"
+        - if provider.eql?('Mastodon')
+          = content_tag :i, nil, class: "zmdi zmdi-face zmdi-hc-2x tooltip", onclick: "toggle#{provider}()" do
+            = content_tag :span, 'Mastodon', class: 'tooltiptext_mastodon'
 
     %br
-    = label_tag :text, 'Text'
+    = label_tag :text, 'Text', class: 'hidden'
     .emoji-picker-container
-      = text_area_tag :post_content, nil, data: { emojiable: true }
+      = text_area_tag :post_content, nil, data: { emojiable: true }, class: 'text_box_mod'
+    %br
     %br
     = label_tag :images, 'Upload Images'
     = file_field_tag :images, :name => 'images[]', :multiple => true, accept: 'image/png,image/jpeg'
+    %br
     %br
     = submit_tag 'Post Status'
     
   - if flash[:notify]
     #notice.message= flash[:notify]
+  - flash.discard(:notify)
     
 #img_container
 

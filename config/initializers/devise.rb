@@ -262,6 +262,7 @@ Devise.setup do |config|
   config.omniauth :mastodon, ENV['MASTODON_KEY'], ENV['MASTODON_SECRET'], credentials: lambda { |domain, callback_url|
     [ENV['MASTODON_KEY'], ENV['MASTODON_SECRET']]
   }
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {}
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

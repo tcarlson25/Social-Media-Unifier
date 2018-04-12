@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :identity do
     association :user, factory: :user, create_identity: false
+    
     provider "twitter"
     uid "UID"
     token "Test Token"

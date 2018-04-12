@@ -89,6 +89,15 @@ function toggleTwitter() {
     }
 }
 
+function toggleMastodon() {
+    var mastodon = document.getElementsByClassName('zmdi-face')[0];
+    if (mastodon.classList.contains('ma_clicked')) {
+        mastodon.classList.remove('ma_clicked');
+    } else {
+        mastodon.classList.add('ma_clicked');
+    }
+}
+
 function toggleFavorite(prov_id) {
     var provider = prov_id.split('_')[0]
     var id = prov_id.split('_')[1]
@@ -143,5 +152,88 @@ function toggleRepost(prov_id) {
             data: {provider: provider, id: id},
             type: 'post'
         });
+    }
+}
+
+function toggleArchived(prov_id) {
+    var provider = prov_id.split('_')[0]
+    var id = prov_id.split('_')[1]
+    var archive = document.getElementById(provider + '_arch_' + id);
+    if (archive.classList.contains('archived')) {
+        archive.classList.remove('archived');
+        archive.classList.remove('zmdi-star');
+        archive.classList.add('not_archived');
+        archive.classList.add('zmdi-star-outline');
+        $.ajax({
+            url: '/application/unarchive_post',
+            data: {provider: provider, id: id},
+            type: 'post'
+        });
+    } else {
+        archive.classList.add('archived');
+        archive.classList.add('zmdi-star');
+        archive.classList.remove('zmdi-star-outline');
+        archive.classList.remove('not_archived');
+        $.ajax({
+            url: '/application/archive_post',
+            data: {provider: provider, id: id},
+            type: 'post'
+        });
+    }
+}
+
+function toggleProviderFilter(provider) {
+    if (provider == 'Twitter') {
+        var twitter = document.getElementsByClassName('zmdi-twitter')[0];
+        var twitter_posts = document.getElementsByClassName('twitter_post')
+        if (twitter.classList.contains('tw_clicked')) {
+            twitter.classList.remove('tw_clicked');
+            for (var i = 0; i < twitter_posts.length; ++i) {
+                twitter_posts[i].classList.add('hidden');
+            }
+        } else {
+            twitter.classList.add('tw_clicked');
+            for (var i = 0; i < twitter_posts.length; ++i) {
+                twitter_posts[i].classList.remove('hidden');
+            }
+        }
+    } else if (provider == 'Mastodon') {
+        var mastodon = document.getElementsByClassName('zmdi-face')[0];
+        var mastodon_posts = document.getElementsByClassName('mastodon_post')
+        if (mastodon.classList.contains('ma_clicked')) {
+            mastodon.classList.remove('ma_clicked');
+            for (var i = 0; i < mastodon_posts.length; ++i) {
+                mastodon_posts[i].classList.add('hidden');
+            }
+        } else {
+            mastodon.classList.add('ma_clicked');
+            for (var i = 0; i < mastodon_posts.length; ++i) {
+                mastodon_posts[i].classList.remove('hidden');
+            }
+        } 
+    } 
+}
+
+function filterFeedSearch(query) {
+    var twitterPosts = document.getElementsByClassName('twitter_post');
+    var twitterPostsSize = twitterPosts.length;
+    for (var i = 0; i < twitterPostsSize; ++i) {
+        var postContent = twitterPosts[i].innerHTML;
+        if (postContent.indexOf(query) > -1) {
+            twitterPosts[i].classList.remove('filtered_out');
+        } else {
+            twitterPosts[i].classList.add('filtered_out');
+        }
+    }
+
+    var mastodonPosts = document.getElementsByClassName('mastodon_post');
+    var mastodonPostsSize = mastodonPosts.length;
+    for (var i = 0; i < mastodonPostsSize; ++i) {
+        var postContent = mastodonPosts[i].innerHTML;
+        if (postContent.indexOf(query) > -1) {
+            mastodonPosts[i].classList.remove('filtered_out');
+        } else {
+            mastodonPosts[i].classList.add('filtered_out');
+        }
     }
 }

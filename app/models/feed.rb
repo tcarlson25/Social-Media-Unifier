@@ -1,6 +1,7 @@
 class Feed < ApplicationRecord
     validates_presence_of :user_id
     has_many :twitter_posts
+    has_many :mastodon_posts
     belongs_to :user
     
     def self.find_or_create_from_user(user)

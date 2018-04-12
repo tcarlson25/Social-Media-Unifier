@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   post 'application/unfavorite'
   post 'application/repost'
   post 'application/unrepost'
+  post 'application/archive_post'
+  post 'application/unarchive_post'
+  post 'application/filter_feed_search'
   
   get 'login/index'
   

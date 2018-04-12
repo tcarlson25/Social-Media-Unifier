@@ -9,9 +9,9 @@ class CreateIdentities < ActiveRecord::Migration[5.1]
       t.string :secret
       t.string :name
       t.string :email
-      t.integer :posts
-      t.integer :image_posts
-      t.integer :archived
+      t.integer :post_count
+      t.integer :image_post_count
+      t.integer :archive_count
 
       t.timestamps
     end

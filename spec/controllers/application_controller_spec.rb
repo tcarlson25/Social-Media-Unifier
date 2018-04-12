@@ -97,7 +97,7 @@ describe ApplicationController, type: :controller do
   end
   
   describe "#unrepost" do
-    it "favorites a twitter post" do 
+    it "unfavorites a twitter post" do 
       allow(@app_controller.twitter_client).to receive(:unretweet).and_return(true)
       expect(@app_controller.twitter_client).to receive(:unretweet)
       post :unrepost, :params => { 
@@ -106,7 +106,7 @@ describe ApplicationController, type: :controller do
       }
     end
     
-    it "favorites a mastodon post" do
+    it "unfavorites a mastodon post" do
       allow(@app_controller.mastodon_client).to receive(:unreblog).and_return(true)
       expect(@app_controller.mastodon_client).to receive(:unreblog)
       post :unrepost, :params => { 
@@ -115,23 +115,36 @@ describe ApplicationController, type: :controller do
       }
     end
   end
+  
+  describe "#archive_post" do
+    it "saves a twitter post" do
+      test = build(:twitter_post, feed: @test_feed)
+      TwitterPost.archive(test)
+      test_post = TwitterPost.first
+      expect(test_post.id).to eq("123456789")
+    end
+  
+    it "saves a mastodon post" do
+      
+    end
+  end
 
    
   describe "validate_responses" do
-    it "correctly identifies invalid twitter response and valid facebook response" do
-      expect(@app_controller.validate_responses(nil, 'valid')).to eq({:errors => ['Could not post to Twitter.']})
+    it "correctly identifies invalid twitter response, valid facebook response, and valid mastodon response" do
+      expect(@app_controller.validate_responses(nil, 'valid', 'valid')).to eq({:errors => ['Could not post to Twitter.']})
     end
     
-    it "correctly identifies valid twitter response and valid facebook response" do
-      expect(@app_controller.validate_responses('valid', 'valid')).to eq({:errors => ['Posted Successfully!']})
+    it "correctly identifies valid twitter response and valid facebook response and valid mastodon response" do
+      expect(@app_controller.validate_responses('valid', 'valid', 'valid')).to eq({:errors => ['Posted Successfully!']})
     end
     
-    it "correctly identifies a valid twitter response and invalid facebook response" do
-      expect(@app_controller.validate_responses('valid', nil)).to eq({:errors => ['Could not post to Facebook.']})
+    it "correctly identifies a valid twitter response and invalid facebook response and valid mastodon response" do
+      expect(@app_controller.validate_responses('valid', nil, 'valid')).to eq({:errors => ['Could not post to Facebook.']})
     end
     
-    it "correctly identifies a invalid twitter response and invalid facebook response" do
-      expect(@app_controller.validate_responses(nil, nil)).to eq({:errors => ['Could not post to Twitter.', 'Could not post to Facebook.']})
+    it "correctly identifies a invalid twitter response and invalid facebook response and invalid mastodon response" do
+      expect(@app_controller.validate_responses(nil, nil, nil)).to eq({:errors => ['Could not post to Twitter.', 'Could not post to Facebook.', 'Could not post to Mastodon.']})
     end
   end
   
@@ -163,6 +176,7 @@ describe ApplicationController, type: :controller do
       returnStatus = 'Successful'
       allow(@app_controller.twitter_client).to receive(:update).and_return(returnStatus)
       allow(@app_controller.facebook_client).to receive(:put_wall_post).and_return(returnStatus)
+      allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
       expect(@app_controller.twitter_client).to receive(:update)
       expect(@app_controller.process_text('test post')).to eq({:errors => ['Posted Successfully!']})
     end
@@ -178,6 +192,10 @@ describe ApplicationController, type: :controller do
       allow(FileUtils).to receive(:rm).and_return(true)
       allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
       allow(@app_controller.facebook_client).to receive(:put_picture).and_return(returnStatus)
+      
+      
+      #allow(@app_controller.mastodon_client).to receive(:upload_media).and_return(image)
+      #allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
       expect(@app_controller.process_image('', image)).to eq({:errors => ['Posted Successfully!']})
     end
   end
@@ -187,6 +205,7 @@ describe ApplicationController, type: :controller do
       @image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
       @images = []
       @fb_photo = {'id' => 1}
+      @mastodon_photo = {'id' => 1}
       allow(@image).to receive(:original_filename).and_return('test_image')
       allow(FileUtils).to receive(:rm).and_return(true)
     end
@@ -201,6 +220,8 @@ describe ApplicationController, type: :controller do
       allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
       allow(@app_controller.facebook_client).to receive(:put_picture).and_return(@fb_photo)
       allow(@app_controller.facebook_client).to receive(:put_connections).and_return(returnStatus)
+      allow(@app_controller.mastodon_client).to receive(:upload_media).and_return(@mastodon_photo)
+      allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
       expect(@app_controller.process_images('', @images)).to eq({:errors => ['Posted Successfully!']})
     end
     
@@ -211,6 +232,9 @@ describe ApplicationController, type: :controller do
       expect(@app_controller.process_images('', @images)).to eq({:errors => ['Do not upload more than 4 images at once']})
     end
   end
+  
+  
+  
    
 end
    
