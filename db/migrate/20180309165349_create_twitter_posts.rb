@@ -2,7 +2,7 @@ class CreateTwitterPosts < ActiveRecord::Migration[5.1]
   def change
     create_table :twitter_posts, id: false do |t|
       t.belongs_to :feed, index: true
-      t.integer :id, primary_key: true
+      t.string :id, primary_key: true
       t.string :name
       t.string :user_name
       t.text :content
