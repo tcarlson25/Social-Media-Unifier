@@ -10,7 +10,6 @@
 //
 //= require jquery
 //= require rails-ujs
-//= require rails_emoji_picker
 //= require_tree .
 
 var selDiv = "";
@@ -34,26 +33,30 @@ function handleFileSelect(e) {
             return;
         }
 
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var html = "<img class='uploaded_img' src=\"" + e.target.result + "\">";
-            selDiv.innerHTML += html;
-        }
-        reader.readAsDataURL(f);
+        loadImage.parseMetaData(f, function(data) {
+            var orientation = 0;
+            if (data.exif) {
+                orientation = data.exif.get('Orientation');
+            }
+            var loadingImage = loadImage(
+                f,
+                function(canvas) {
+                    //here's the base64 data result
+                    var base64data = canvas.toDataURL('image/jpeg');
+                    var img_src = base64data.replace(/^data\:image\/\w+\;base64\,/, '');
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var html = "<div class='img_holder'><img class='uploaded_img' src=\"" + base64data + "\"/></div>";
+                        selDiv.innerHTML += html;
+                    }
+                    reader.readAsDataURL(f);
+                }, {
+                    canvas: true,
+                    orientation: orientation
+                }
+            );
+        });
     });
-    
-}
-
-function showEdit() {
-    var edit_buttons = document.getElementsByClassName('provider_edit');
-    for (var i = 0; i < edit_buttons.length; ++i) {
-        var currentEdit = edit_buttons[i];
-        if (currentEdit.classList.contains('hidden')) {
-            currentEdit.classList.remove('hidden');
-        } else {
-            currentEdit.classList.add('hidden');
-        }
-    }
 }
 
 window.onload = function() {
@@ -72,30 +75,15 @@ window.onload = function() {
 }
 
 function toggleFacebook() {
-    var facebook = document.getElementsByClassName('zmdi-facebook')[0];
-    if (facebook.classList.contains('fb_clicked')) {
-        facebook.classList.remove('fb_clicked');
-    } else {
-        facebook.classList.add('fb_clicked');
-    }
+    document.getElementsByClassName('zmdi-facebook')[0].classList.toggle('fb_clicked');
 }
 
 function toggleTwitter() {
-    var twitter = document.getElementsByClassName('zmdi-twitter')[0];
-    if (twitter.classList.contains('tw_clicked')) {
-        twitter.classList.remove('tw_clicked');
-    } else {
-        twitter.classList.add('tw_clicked');
-    }
+    document.getElementsByClassName('zmdi-twitter')[0].classList.toggle('tw_clicked');
 }
 
 function toggleMastodon() {
-    var mastodon = document.getElementsByClassName('zmdi-face')[0];
-    if (mastodon.classList.contains('ma_clicked')) {
-        mastodon.classList.remove('ma_clicked');
-    } else {
-        mastodon.classList.add('ma_clicked');
-    }
+    document.getElementsByClassName('zmdi-face')[0].classList.toggle('ma_clicked');
 }
 
 function toggleFavorite(prov_id) {

@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/me?access_token=EAACBXgq1zpQBADx4kowWfZCWJfqd8gislm1ZAOqwvC4BTtXNgIpGrJ5jyrXOQ0beZBANetZB8D7H06MoMMenQnNJvemqq0ZA15tndtDCQ9C0gIkjZBIFml5qaZBxIKIZAnH2vD9cZC2QanH81tb6wcisFoZCiO8q75ZC5BpAvwHamVHQgZDZD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.12.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"0addc4b1185d1354e54fba539fc0770bf32c4d32"'
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      X-Fb-Trace-Id:
+      - Bcbt5HsOzRo
+      X-Fb-Rev:
+      - '3816316'
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Facebook-Api-Version:
+      - v2.12
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fb-Debug:
+      - "/N/Fz6r43NamyLef06AAnMgJSyOcxrtiHOPIu1j4zBUKCejJs493xyV8sMWqRELaF6Pz6boP0xjmicbndK/dpg=="
+      Date:
+      - Mon, 16 Apr 2018 21:32:37 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '51'
+    body:
+      encoding: UTF-8
+      string: '{"name":"Jordan Blissett","id":"10210888925449651"}'
+    http_version: 
+  recorded_at: Mon, 16 Apr 2018 21:32:37 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/10210888925449651/picture?access_token=EAACBXgq1zpQBADx4kowWfZCWJfqd8gislm1ZAOqwvC4BTtXNgIpGrJ5jyrXOQ0beZBANetZB8D7H06MoMMenQnNJvemqq0ZA15tndtDCQ9C0gIkjZBIFml5qaZBxIKIZAnH2vD9cZC2QanH81tb6wcisFoZCiO8q75ZC5BpAvwHamVHQgZDZD&redirect=false&type=large
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.12.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"3f42af04489946d5c9ace2f8598d5f35baaa8b9a"'
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      X-Fb-Trace-Id:
+      - HrH/fcgdS0H
+      X-Fb-Rev:
+      - '3816316'
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Facebook-Api-Version:
+      - v2.12
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Fb-Debug:
+      - zMjCVf03GdAb2l5ou89wimCU8swtwbAW6rw3WBERpO/YpjZ870vGZmBGmcUyhwSPRZ33aKsm6HAxSB/KrLFcPg==
+      Date:
+      - Mon, 16 Apr 2018 21:32:37 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '188'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"height":200,"is_silhouette":false,"url":"https:\/\/lookaside.facebook.com\/platform\/profilepic\/?asid=10210888925449651&height=200&width=200&ext=1524173557&hash=AeREdklK_SmorkMh","width":200}}'
+    http_version: 
+  recorded_at: Mon, 16 Apr 2018 21:32:37 GMT
+recorded_with: VCR 4.0.0

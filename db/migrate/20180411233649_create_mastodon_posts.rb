@@ -6,7 +6,7 @@ class CreateMastodonPosts < ActiveRecord::Migration[5.2]
       t.string :content
       t.string :username
       t.string :profile_img
-      t.string :imgurl
+      t.string :imgurls
       t.boolean :favourited
       t.integer :favourites_count
       t.boolean :reblogged

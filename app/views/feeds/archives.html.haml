@@ -2,6 +2,90 @@
 %br
 %br
 %br
-%br
+
+.filter
+  = form_tag application_filter_feed_search_path, id: 'text_filter_form', remote: true do
+    - @providers.each do |provider|
+      = label_tag nil, class: 'provider_click' do
+        - if provider.eql?('Twitter')
+          = content_tag :div, 'Twitter', for: 'twitter_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-twitter zmdi-hc-2x tooltip tw_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'twitter_icon'
+        - if provider.eql?('Facebook')
+          = content_tag :div, 'Twitter', for: 'facebook_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-facebook zmdi-hc-2x tooltip fb_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'facebook_icon'
+        - if provider.eql?('Mastodon')
+          = content_tag :div, 'Mastodon', for: 'mastodon_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-face zmdi-hc-2x tooltip ma_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'mastodon_icon'
+    %br
+    %br
+    
+    .mdl-textfield.mdl-js-textfield
+      = text_field_tag :text_content, nil, id: 'query_text_area', class: 'mdl-textfield__input'
+      = label_tag 'query_text_area', class: 'mdl-textfield__label' do
+        Search...
+    %br
+    = submit_tag 'Search', class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
 
 .feed-card.mdl-card
+  - @posts.each do |post_array|
+    - providers = post_array[0]
+    - post = post_array[1]
+    - if providers.include?('twitter')
+      = content_tag :div, nil, class: 'twitter_post', id: "tw_post_#{post.id}" do
+        %img.profile_img_twitter{src: post.profile_img}
+        = " @#{post.username}"
+        %br
+        .cont.text_content= post.content
+        %br
+        .cont
+          = label_tag nil, class: 'favorite_logo' do
+            - if post.favorited?
+              = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "tw_fav_#{post.id}", onclick: 'toggleFavorite(\'tw_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "tw_fav_#{post.id}", onclick: 'toggleFavorite(\'tw_' + post.id.to_s + '\')'
+            = content_tag :i, post.favorite_count, id: "tw_favcount_#{post.id}"
+            
+          = label_tag nil, class: 'repost_logo' do
+            - if post.retweeted?
+              = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat reposted', id: "tw_rep_#{post.id}", onclick: 'toggleRepost(\'tw_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat not_reposted', id: "tw_rep_#{post.id}", onclick: 'toggleRepost(\'tw_' + post.id.to_s + '\')'
+            = content_tag :i, post.retweet_count, id: "tw_repcount_#{post.id}"
+            
+          = label_tag nil, class: 'archive_logo' do
+            - if archived?('twitter', post.id)
+              = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star archived', id: "tw_arch_#{post.id}", onclick: 'toggleArchived(\'tw_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star-outline not_archived', id: "tw_arch_#{post.id}", onclick: 'toggleArchived(\'tw_' + post.id.to_s + '\')'
+            
+    - elsif providers.include?('mastodon')
+      = content_tag :div, nil, class: 'mastodon_post', id: "ma_post_#{post.id}" do
+        %img.profile_img_mastodon{src: post.profile_img}
+        = " @#{post.username}"
+        %br
+        .cont.text_content= ActionController::Base.helpers.strip_tags(post.content)
+        .cont
+          - unless post.imgurls.nil?
+            - post.imgurls.split(/\s*,\s*/).each do |attachment|
+              = image_tag attachment, width: '150'
+        %br
+        .cont
+          = label_tag nil, class: 'favorite_logo' do
+            - if post.favourited?
+              = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
+            = content_tag :i, post.favourites_count, id: "ma_favcount_#{post.id}"
+            
+          = label_tag nil, class: 'repost_logo' do
+            - if post.reblogged?
+              = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat not_reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
+            = content_tag :i, post.reblogs_count, id: "ma_repcount_#{post.id}"
+            
+          = label_tag nil, class: 'archive_logo' do
+            - if archived?('mastodon', post.id)
+              = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star archived', id: "ma_arch_#{post.id}", onclick: 'toggleArchived(\'ma_' + post.id.to_s + '\')'
+            - else
+              = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star-outline not_archived', id: "ma_arch_#{post.id}", onclick: 'toggleArchived(\'ma_' + post.id.to_s + '\')'

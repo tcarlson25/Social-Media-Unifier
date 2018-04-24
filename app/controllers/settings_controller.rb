@@ -2,23 +2,52 @@ class SettingsController < ApplicationController
   
   attr_accessor :twitter_client, :user
   layout 'settings'
+  require 'json'
   
   def index
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
     @twitter_client = @user.twitter_client unless @user.twitter.nil?
     @facebook_client = @user.facebook_client unless @user.facebook.nil?
   end
   
   def metrics
     @user = current_user
-    @twitter_client = @user.twitter_client unless @user.twitter.nil?
-    @facebook_client = @user.facebook_client unless @user.facebook.nil?
-    #print stuff here
-    #also in haml
+    redirect_to settings_accounts_path if @user.identities.empty?
+    
+    @twitter_metrics = Hash.new("-1")
+    @facebook_metrics = Hash.new("-1")
+    @mastodon_metrics = Hash.new("-1")
+    
+    unless @user.twitter.nil?
+      @twitter_metrics['post_count'] = @user.twitter.post_count
+      @twitter_metrics['img_post_count'] = @user.twitter.image_post_count
+      @twitter_metrics['like_count'] = @user.twitter.like_count
+      @twitter_metrics['repost_count'] = @user.twitter.repost_count
+      @twitter_metrics['archive_count'] = @user.feed.twitter_posts.size
+    end
+    
+    unless @user.facebook.nil?
+      @facebook_metrics['post_count'] = @user.facebook.post_count
+      @facebook_metrics['img_post_count'] = @user.facebook.image_post_count
+      @facebook_metrics['like_count'] = @user.facebook.like_count
+      @facebook_metrics['repost_count'] = @user.facebook.repost_count
+      # facebook does not have feed capability yet due to facebook privacy
+      @facebook_metrics['archive_count'] = 0
+    end
+    
+    unless @user.mastodon.nil?
+      @mastodon_metrics['post_count'] = @user.mastodon.post_count
+      @mastodon_metrics['img_post_count'] = @user.mastodon.image_post_count
+      @mastodon_metrics['like_count'] = @user.mastodon.like_count
+      @mastodon_metrics['repost_count'] = @user.mastodon.repost_count
+      @mastodon_metrics['archive_count'] = @user.feed.mastodon_posts.size
+    end
   end
   
   def custom_friends
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
     @twitter_client = @user.twitter_client unless @user.twitter.nil?
     @facebook_client = @user.facebook_client unless @user.facebook.nil?
   end

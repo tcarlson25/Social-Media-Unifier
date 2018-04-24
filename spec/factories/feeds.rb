@@ -9,7 +9,7 @@ FactoryBot.define do
     
     after(:create) do |feed, evaluator|
       if evaluator.create_twitter_post
-        build_stubbed(:twitter_post, feed: feed)
+        build(:twitter_post, feed: feed)
       end
     end
   end

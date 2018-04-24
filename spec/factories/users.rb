@@ -9,8 +9,8 @@ FactoryBot.define do
       create(:feed, user: user)
       if evaluator.create_identity
         create(:identity, user: user)
-        create(:identity, provider: "facebook", user: user)
-        create(:identity, provider: "mastodon", user: user)
+        create(:facebook_identity, user: user)
+        create(:mastodon_identity, user: user)
         
       end
     end

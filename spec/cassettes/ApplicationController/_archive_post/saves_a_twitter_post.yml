@@ -1,0 +1,92 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.twitter.com/1.1/statuses/show/984428648441794561.json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - TwitterRubyGem/6.2.0
+      Authorization:
+      - OAuth oauth_consumer_key="ifM2ErGbRdBvC47V0w1fK2amA", oauth_nonce="8528b684672d749ce5b44ce58804e136",
+        oauth_signature="FMocgIMPbyuoFHzx6wkFtjVripY%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1523552068", oauth_token="125787992-pHZADYAQKenEC9SbVcoiJRiNJYhaM41AnGCEZUC9",
+        oauth_version="1.0"
+      Connection:
+      - close
+      Host:
+      - api.twitter.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      Connection:
+      - close
+      Content-Disposition:
+      - attachment; filename=json.json
+      Content-Length:
+      - '3423'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Thu, 12 Apr 2018 16:54:28 GMT
+      Expires:
+      - Tue, 31 Mar 1981 05:00:00 GMT
+      Last-Modified:
+      - Thu, 12 Apr 2018 16:54:28 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - tsa_b
+      Set-Cookie:
+      - guest_id=v1%3A152355206843073057; Expires=Sat, 11 Apr 2020 16:54:28 UTC; Path=/;
+        Domain=.twitter.com
+      - lang=en; Path=/
+      - personalization_id="v1_j2eza4ZqElEoyyJIY1KCyg=="; Expires=Sat, 11 Apr 2020
+        16:54:28 UTC; Path=/; Domain=.twitter.com
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=631138519
+      X-Access-Level:
+      - read-write
+      X-Connection-Hash:
+      - 60a3c85adb9bc96a850272096ea7671c
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Rate-Limit-Limit:
+      - '900'
+      X-Rate-Limit-Remaining:
+      - '893'
+      X-Rate-Limit-Reset:
+      - '1523552452'
+      X-Response-Time:
+      - '55'
+      X-Transaction:
+      - '0080e3b00077d5b3'
+      X-Twitter-Response-Tags:
+      - BouncerCompliant
+      X-Xss-Protection:
+      - 1; mode=block; report=https://twitter.com/i/xss_report
+    body:
+      encoding: UTF-8
+      string: '{"created_at":"Thu Apr 12 13:50:54 +0000 2018","id":984428648441794561,"id_str":"984428648441794561","text":"good
+        morning \u2600\ufe0f @ East Palo Alto, California https:\/\/t.co\/wJUWSoynmN","truncated":false,"entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[{"url":"https:\/\/t.co\/wJUWSoynmN","expanded_url":"https:\/\/www.instagram.com\/p\/BheP5cNFVQx\/","display_url":"instagram.com\/p\/BheP5cNFVQx\/","indices":[45,68]}]},"source":"\u003ca
+        href=\"http:\/\/instagram.com\" rel=\"nofollow\"\u003eInstagram\u003c\/a\u003e","in_reply_to_status_id":null,"in_reply_to_status_id_str":null,"in_reply_to_user_id":null,"in_reply_to_user_id_str":null,"in_reply_to_screen_name":null,"user":{"id":86315276,"id_str":"86315276","name":"Will
+        Strafach","screen_name":"chronic","location":"worldwide","description":"building
+        great things. breaking others. | founder @ verify.ly (mobile app security
+        analyzer) | e: will@wstraf.me | work: https:\/\/t.co\/NWy7ezyTSD","url":"https:\/\/t.co\/h4Y9j450yH","entities":{"url":{"urls":[{"url":"https:\/\/t.co\/h4Y9j450yH","expanded_url":"https:\/\/verify.ly","display_url":"verify.ly","indices":[0,23]}]},"description":{"urls":[{"url":"https:\/\/t.co\/NWy7ezyTSD","expanded_url":"https:\/\/sudosecuritygroup.com","display_url":"sudosecuritygroup.com","indices":[121,144]}]}},"protected":false,"followers_count":59035,"friends_count":4934,"listed_count":1787,"created_at":"Fri
+        Oct 30 13:45:12 +0000 2009","favourites_count":30889,"utc_offset":-14400,"time_zone":"Eastern
+        Time (US & Canada)","geo_enabled":true,"verified":true,"statuses_count":62975,"lang":"en","contributors_enabled":false,"is_translator":false,"is_translation_enabled":false,"profile_background_color":"022330","profile_background_image_url":"http:\/\/pbs.twimg.com\/profile_background_images\/237160802\/MainDepict-DarkGray.png","profile_background_image_url_https":"https:\/\/pbs.twimg.com\/profile_background_images\/237160802\/MainDepict-DarkGray.png","profile_background_tile":false,"profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/378800000791789535\/2245bcbc880d6f21265bd912b0d15500_normal.jpeg","profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/378800000791789535\/2245bcbc880d6f21265bd912b0d15500_normal.jpeg","profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/86315276\/1375391503","profile_link_color":"0084B4","profile_sidebar_border_color":"A8C7F7","profile_sidebar_fill_color":"C0DFEC","profile_text_color":"333333","profile_use_background_image":false,"has_extended_profile":true,"default_profile":false,"default_profile_image":false,"following":true,"follow_request_sent":false,"notifications":false,"translator_type":"none"},"geo":{"type":"Point","coordinates":[37.467,-122.14]},"coordinates":{"type":"Point","coordinates":[-122.14,37.467]},"place":{"id":"b9da7881046990df","url":"https:\/\/api.twitter.com\/1.1\/geo\/id\/b9da7881046990df.json","place_type":"city","name":"East
+        Palo Alto","full_name":"East Palo Alto, CA","country_code":"US","country":"United
+        States","contained_within":[],"bounding_box":{"type":"Polygon","coordinates":[[[-122.156222,37.451829],[-122.115942,37.451829],[-122.115942,37.4841685],[-122.156222,37.4841685]]]},"attributes":{}},"contributors":null,"is_quote_status":false,"retweet_count":0,"favorite_count":4,"favorited":false,"retweeted":false,"possibly_sensitive":false,"possibly_sensitive_appealable":false,"lang":"en"}'
+    http_version: 
+  recorded_at: Thu, 12 Apr 2018 16:54:28 GMT
+recorded_with: VCR 4.0.0

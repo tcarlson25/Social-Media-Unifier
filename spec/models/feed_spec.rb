@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Feed, type: :model do
   
-  subject{described_class.new(username: "None", user_id: "-1")}
+  subject{described_class.new(user_id: "-1")}
   #subject{create(:user)}
   
   describe "find_or_create_from_user" do

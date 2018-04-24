@@ -1,2 +1,20 @@
-= link_to 'Back to Feed', feeds_index_path
-%h1 Account Metrics
+
+%br
+%br
+%br
+
+.metric_charts
+  = content_tag :div, nil, id: 'post_count_chart', style: 'width: 750px; height: 500px;', class: 'pie_chart'
+  = content_tag :div, nil, id: 'img_count_chart', style: 'width: 750px; height: 500px;', class: 'pie_chart'
+  = content_tag :div, nil, id: 'like_count_chart', style: 'width: 750px; height: 500px;', class: 'pie_chart'
+  = content_tag :div, nil, id: 'repost_count_chart', style: 'width: 750px; height: 500px;', class: 'pie_chart'
+  = content_tag :div, nil, id: 'archive_count_chart', style: 'width: 750px; height: 500px;', class: 'pie_chart'
+
+:javascript
+  window.onload = function() {
+    drawMetricChart('post_count_chart', 'Posts Made', "#{@twitter_metrics['post_count']}", "#{@facebook_metrics['post_count']}", "#{@mastodon_metrics['post_count']}")
+    drawMetricChart('img_count_chart', 'Images Posted', "#{@twitter_metrics['img_post_count']}", "#{@facebook_metrics['img_post_count']}", "#{@mastodon_metrics['img_post_count']}")
+    drawMetricChart('like_count_chart', 'Likes Made', "#{@twitter_metrics['like_count']}", "#{@facebook_metrics['like_count']}", "#{@mastodon_metrics['like_count']}")
+    drawMetricChart('repost_count_chart', 'Reposts Posted', "#{@twitter_metrics['repost_count']}", "#{@facebook_metrics['repost_count']}", "#{@mastodon_metrics['repost_count']}")
+    drawMetricChart('archive_count_chart', 'Archived Posts', "#{@twitter_metrics['archive_count']}", "#{@facebook_metrics['archive_count']}", "#{@mastodon_metrics['archive_count']}")
+  }

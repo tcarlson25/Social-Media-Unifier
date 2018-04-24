@@ -15,7 +15,7 @@ class FeedsController < ApplicationController
       counter = 1
       @providers << 'Twitter'
       @twitter_client = @user.twitter_client
-      @twitter_posts_db = get_tweets_from_db
+      # @twitter_posts_db = get_tweets_from_db
       @twitter_posts = get_posts('Twitter')
       @twitter_posts.each do |post|
         @posts['twitter_' + counter.to_s] =  post
@@ -43,6 +43,7 @@ class FeedsController < ApplicationController
   
   def messages
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
     unless @user.twitter.nil?
       @twitter_client = @user.twitter_client
     end
@@ -50,22 +51,55 @@ class FeedsController < ApplicationController
   
   def archives
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
+    @posts = Hash.new("-1")
+    @providers = []
+    
     unless @user.twitter.nil?
+      counter = 1
+      @providers << 'Twitter'
       @twitter_client = @user.twitter_client
-      archived_twitter_posts = @user.feed.twitter_posts.all.order(post_made_at: :desc)
+      archived_twitter_posts = @user.feed.twitter_posts
+      puts archived_twitter_posts
+      archived_twitter_posts.each do |post|
+        @posts['twitter_' + counter.to_s] =  post
+        counter += 1
+      end
     end
+    
+    unless @user.facebook.nil?
+      @facebook_client = @user.facebook_client
+    end
+    
+    unless @user.mastodon.nil?
+      counter = 1
+      @providers << 'Mastodon'
+      @mastodon_client = @user.mastodon_client
+      archived_mastodon_posts = @user.feed.mastodon_posts
+      puts 'POSTS:'
+      archived_mastodon_posts.each do |post|
+        puts 'POSTS:'
+        puts post
+        @posts['mastodon_' + counter.to_s] =  post
+        counter += 1
+      end
+    end
+    
+    @posts = @posts.sort_by {|key, value| DateTime.parse(value.post_made_at.to_s)}
+    @posts = @posts.reverse
   end
   
   def notifications
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
     if @user.twitter != nil
       @twitter_client = @user.twitter_client
     end
   end
   
-  
   def post
     @user = current_user
+    redirect_to settings_accounts_path if @user.identities.empty?
     @providers = []
     @providers << 'Twitter' unless @user.twitter.nil?
     @providers << 'Facebook' unless @user.facebook.nil?
@@ -75,8 +109,6 @@ class FeedsController < ApplicationController
       @twitter_client = @user.twitter_client if checked_providers.include?('Twitter')
       @facebook_client = @user.facebook_client if checked_providers.include?('Facebook')
       @mastodon_client = @user.mastodon_client if checked_providers.include?('Mastodon')
-      single = false
-      multi = false
       unless params[:images].nil?
         if params[:images].size() == 1
           single = true
@@ -91,14 +123,6 @@ class FeedsController < ApplicationController
         responses = process_text(params[:post_content])
         flash[:notify] = responses[:errors].join(',')
       end
-      if single == true
-        #user identity image count += 1
-        # @user.twitter.posts += 1
-      end
-      if multi == true
-        #user identity image count += params.size
-      end
-      #user identity post count =+ 1
     end
   end
   

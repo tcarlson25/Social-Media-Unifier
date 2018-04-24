@@ -41,6 +41,7 @@ gem 'attr_encrypted', '~> 3.1.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
+gem 'fancybox-rails'
 gem 'rails_emoji_picker'
 gem 'mastodon-api', :require => 'mastodon', :git => 'https://github.com/tootsuite/mastodon-api'
 

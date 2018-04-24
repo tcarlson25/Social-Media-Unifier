@@ -43,7 +43,7 @@ Rails.application.configure do
       :uid => '12345',
       :info => {
         :email => 'Test Email',
-        :nickname => 'Test Name',
+        :name => 'Test Name',
         :image => 'Test Image',
       },
       :credentials => {

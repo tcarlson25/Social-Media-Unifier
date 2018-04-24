@@ -45,9 +45,11 @@ class ApplicationController < ActionController::Base
     if provider.eql?('tw')
       @twitter_client = @user.twitter_client
       @twitter_client.favorite(id)
+      @user.twitter.update_attribute(:like_count, @user.twitter.like_count + 1)
     elsif provider.eql?('ma')
       @mastodon_client = @user.mastodon_client
       @mastodon_client.favourite(id)
+      @user.mastodon.update_attribute(:like_count, @user.mastodon.like_count + 1)
     end
   end
   
@@ -58,9 +60,11 @@ class ApplicationController < ActionController::Base
     if provider.eql?('tw')
       @twitter_client = @user.twitter_client
       @twitter_client.unfavorite(id)
+      @user.twitter.update_attribute(:like_count, @user.twitter.like_count - 1)
     elsif provider.eql?('ma')
       @mastodon_client = @user.mastodon_client
       @mastodon_client.unfavourite(id)
+      @user.mastodon.update_attribute(:like_count, @user.mastodon.like_count - 1)
     end
   end
   
@@ -71,9 +75,11 @@ class ApplicationController < ActionController::Base
     if provider.eql?('tw')
       @twitter_client = @user.twitter_client
       @twitter_client.retweet(id)
+      @user.twitter.update_attribute(:repost_count, @user.twitter.repost_count + 1)
     elsif provider.eql?('ma')
       @mastodon_client = @user.mastodon_client
       @mastodon_client.reblog(id)
+      @user.mastodon.update_attribute(:repost_count, @user.mastodon.repost_count + 1)
     end
   end
   
@@ -84,19 +90,22 @@ class ApplicationController < ActionController::Base
     if provider.eql?('tw')
       @twitter_client = @user.twitter_client
       @twitter_client.unretweet(id)
+      @user.twitter.update_attribute(:repost_count, @user.twitter.repost_count - 1)
     elsif provider.eql?('ma')
       @mastodon_client = @user.mastodon_client
       @mastodon_client.unreblog(id)
+      @user.mastodon.update_attribute(:repost_count, @user.mastodon.repost_count - 1)
     end
   end
   
   def archive_post
-    id = params[:id] # id of the actual post given by the client
-    provider = params[:provider] # 'tw' -> twitter, 'ma' -> mastodon
+    #puts "inside Test"
+    id = params[:id]
+    provider = params[:provider]
     @user = current_user
-    # logic to archive a post goes here
     if provider.eql?('tw')
       post_to_archive = @user.twitter_client.status(id)
+      #puts post_to_archive.to_json
       @user.feed.twitter_posts.archive(post_to_archive)
     end
     
@@ -104,13 +113,13 @@ class ApplicationController < ActionController::Base
       post_to_archive = @user.mastodon_client.status(id)
       @user.feed.mastodon_posts.archive(post_to_archive)
     end
+    #redirect_to root_path
   end
   
   def unarchive_post
-    id = params[:id] # id of the actual post given by the client
-    provider = params[:provider] # 'tw' -> twitter, 'ma' -> mastodon
+    id = params[:id]
+    provider = params[:provider]
     @user = current_user
-    # logic to unarchive a post goes here
     if provider.eql?('tw')
       post_to_unarchive = @user.twitter_client.status(id)
       archived_post = @user.feed.twitter_posts.archive(post_to_unarchive)
@@ -147,15 +156,17 @@ class ApplicationController < ActionController::Base
       f.write(image.read)
     end
     image_path = File.join(Rails.root, 'app', 'assets', 'images', image.original_filename)
-    @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update_with_media(text, File.new(image_path)))
-    @facebook_client.nil? ? (facebook_response = '') : (facebook_response = @facebook_client.put_picture(image_path, {:caption => text}))
+    @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update_with_media(text, File.new(image_path)).to_s)
+    @facebook_client.nil? ? (facebook_response = '') : (facebook_response = @facebook_client.put_picture(image_path, {:caption => text}).to_s)
     mastodon_response = ''
     unless @mastodon_client.nil?
       img_id = @mastodon_client.upload_media(File.new(image_path)).id
-      mastodon_response = @mastodon_client.create_status(text, nil, [img_id])
+      mastodon_response = @mastodon_client.create_status(text, nil, [img_id]).to_s
     end
     FileUtils.rm(image_path)
     error_hash = validate_responses(twitter_response, facebook_response, mastodon_response)
+    update_image_postcount(twitter_response, facebook_response, mastodon_response, 1)
+    update_postcount(twitter_response, facebook_response, mastodon_response)
     error_hash
   end
     
@@ -173,7 +184,7 @@ class ApplicationController < ActionController::Base
         error_hash[:errors] << 'Do not upload more than 4 images at once'
     else
       media = image_paths.map { |filename| File.new(filename) }
-      @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update_with_media(text, media))
+      @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update_with_media(text, media).to_s)
       facebook_response = ''
       unless @facebook_client.nil? 
         images_hash = {}
@@ -183,7 +194,7 @@ class ApplicationController < ActionController::Base
           image_ids << fb_photo['id']
         end
         image_ids.each_with_index{|id, index| images_hash["attached_media[#{index}]"] = "{media_fbid: #{id}}"}
-        facebook_response = @facebook_client.put_connections('me', 'feed', images_hash.merge({:message => text}))
+        facebook_response = @facebook_client.put_connections('me', 'feed', images_hash.merge({:message => text})).to_s
       end
       mastodon_response = ''
       unless @mastodon_client.nil? 
@@ -192,9 +203,11 @@ class ApplicationController < ActionController::Base
           ma_photo = @mastodon_client.upload_media(File.new(path))
           image_ids << ma_photo.id
         end
-        mastodon_response = @mastodon_client.create_status(text, nil, image_ids)
+        mastodon_response = @mastodon_client.create_status(text, nil, image_ids).to_s
       end
       error_hash = validate_responses(twitter_response, facebook_response, mastodon_response)
+      update_image_postcount(twitter_response, facebook_response, mastodon_response, image_paths.size())
+      update_postcount(twitter_response, facebook_response, mastodon_response)
     end
     image_paths.each { |path| FileUtils.rm(path) }
     error_hash
@@ -205,12 +218,41 @@ class ApplicationController < ActionController::Base
     if text.strip.empty?
       error_hash[:errors] << 'You cannot make an empty post'
     else
-      @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update(text))
-      @facebook_client.nil? ? (facebook_response = '') : (facebook_response = @facebook_client.put_wall_post(text))
-      @mastodon_client.nil? ? (mastodon_response = '') : (mastodon_response = @mastodon_client.create_status(text))
+      @twitter_client.nil? ? (twitter_response = '') : (twitter_response = @twitter_client.update(text).to_s)
+      @facebook_client.nil? ? (facebook_response = '') : (facebook_response = @facebook_client.put_wall_post(text).to_s)
+      @mastodon_client.nil? ? (mastodon_response = '') : (mastodon_response = @mastodon_client.create_status(text).to_s)
       error_hash = validate_responses(twitter_response, facebook_response, mastodon_response)
+      update_postcount(twitter_response, facebook_response, mastodon_response)
     end
     error_hash
+  end
+  
+  def update_postcount(t_response, f_response, m_response)
+    unless t_response.nil? || t_response.empty?
+      @user.twitter.update_attribute(:post_count, @user.twitter.post_count + 1)
+    end
+      
+    unless f_response.nil? || f_response.empty?
+      @user.facebook.update_attribute(:post_count, @user.facebook.post_count + 1)
+    end
+    
+    unless m_response.nil? || m_response.empty?
+      @user.mastodon.update_attribute(:post_count, @user.mastodon.post_count + 1)
+    end
+  end
+  
+  def update_image_postcount(t_response, f_response, m_response, num_images)
+    unless t_response.nil? || t_response.empty?
+      @user.twitter.update_attribute(:image_post_count, @user.twitter.image_post_count + num_images)
+    end
+    
+    unless f_response.nil? || f_response.empty?
+      @user.facebook.update_attribute(:image_post_count, @user.facebook.image_post_count + num_images)
+    end
+    
+    unless m_response.nil? || m_response.empty?
+      @user.mastodon.update_attribute(:image_post_count, @user.mastodon.image_post_count + num_images)
+    end
   end
   
 end

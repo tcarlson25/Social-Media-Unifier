@@ -48,6 +48,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
                     @user.twitter.update(:profile_img => twitter_client.user.profile_image_url(size = :original))
                 elsif provider.eql?('facebook')
                     facebook_client = @user.facebook_client
+                    user = facebook_client.get_object("me")
                     @user.facebook.update(:profile_img => facebook_client.get_picture(user['id'], {:type => 'large'}))
                 elsif provider.eql?('mastodon')
                     mastodon_client = @user.mastodon_client

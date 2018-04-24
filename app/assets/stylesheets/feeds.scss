@@ -117,7 +117,7 @@ ul{
 }
 
 //Invisible scrollbar
-.page_content::-webkit-scrollbar {
+.page_content::-webkit-scrollbar, .mdl-layout__content::-webkit-scrollbar{
     width: 0px;
     background: transparent; /* make scrollbar transparent */
 }
@@ -181,12 +181,50 @@ ul{
 }
 
 .uploaded_img{
-    width: 100px;
-    height: 100px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 8px 3px #797676;
+    -moz-box-shadow:    3px 3px 8px 3px #797676;
+    box-shadow:         3px 3px 8px 3px #797676;
+}
+
+.post_img{
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 5px 1px #797676;
+    -moz-box-shadow:    3px 3px 5px 1px #797676;
+    box-shadow:         3px 3px 5px 1px #797676;
+}
+
+.img_holder{
+    width: 45%;
+    position: relative;
+    display: inline-block;
+    padding: 1em;
+}
+
+.img_feed_holder{
+    width: 40%;
+    position: relative;
+    display: inline-block;
+    padding: 1em;
+    text-align: center;
+}
+
+.image_feed_container{
+    display: inline-block;
+    text-align: center;
+}
+
+#img_container{
+    display: inline-block;
 }
 
 .mdl-layout { 
-    background-image: url('backg.png');
+    background-image: url('backg7.jpg');
+    //background: rgb(240,248,255);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -210,9 +248,14 @@ ul{
 .provider_click{
     padding-right: 0.75em;
     padding-left: 0.75em;
+    color: black;
 }
 
 .provider_click:hover{
+    cursor: pointer;
+}
+
+.upload_click:hover{
     cursor: pointer;
 }
 
@@ -291,67 +334,76 @@ ul{
     padding-left: 0.5em;
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip .tooltiptext_twitter, .tooltip .tooltiptext_facebook, .tooltip .tooltiptext_mastodon {
-    bottom: 100%;
-    left: 60%; 
-    margin-left: -40px;
-    opacity: 0;
-    transition: opacity 1s;
-    visibility: hidden;
-    background-color: transparent;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-    font-size: 12pt;
-    margin-bottom: 5px;
-}
-
-.tooltip:hover .tooltiptext_twitter, .tooltip:hover .tooltiptext_facebook, .tooltip:hover .tooltiptext_mastodon {
-    visibility: visible;
-    opacity: 1;
-}
-
-.tooltip .tooltiptext_facebook::after {
-    content: " ";
-    position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
-    left: 45%;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #3b5998 transparent transparent transparent;
-}
-
-.tooltip .tooltiptext_twitter::after {
-    content: " ";
-    position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
-    left: 55%;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #00aced transparent transparent transparent;
-}
-
-.tooltip .tooltiptext_mastodon::after {
-    content: " ";
-    position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
-    left: 40%;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #444B5D transparent transparent transparent;
-}
-
 .filter{
     text-align: center;
 }
 
 .filtered_out{
     display: none;
+}
+
+.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect{
+    background-color: white;
+}
+
+.post_box{
+    width: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid grey;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    height: auto;
+}
+  
+.post_box::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.text-area-mod{
+    width: 400px;
+    background-color: white;
+    resize: none;
+}
+
+#notice.message{
+    color: red;
+}
+
+.mdl-layout__header-row{
+    background: #500000;
+}
+
+.mdl-layout__tab-bar.mdl-js-ripple-effect{
+    background: #500000;
+}
+
+%header.mdl-layout__header{
+    background: #500000;
+}
+
+.mdl-layout__tab-bar-button.mdl-layout__tab-bar-left-button{
+    background: #500000;
+}
+
+.mdl-layout__tab-bar-button.mdl-layout__tab-bar-right-button{
+    background: #500000;
+}
+
+.mdl-layout__tab-bar-container{
+    background: #500000;
+}
+
+.grow {
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.grow:hover {
+    transform: scale(1.03);
+    cursor: pointer;
 }

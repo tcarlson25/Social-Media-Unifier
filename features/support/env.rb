@@ -4,9 +4,24 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'simplecov'
+SimpleCov.start 'rails'
 require 'cucumber/rails'
 World(FactoryBot::Syntax::Methods)
 require 'cucumber/rspec/doubles'
+require 'vcr'
+
+VCR.configure do |c|
+    c.ignore_localhost = true
+    c.cassette_library_dir = 'spec/cassettes'
+    c.hook_into :webmock
+end
+
+VCR.cucumber_tags do |t|
+   t.tags '@twitter_login_vcr', '@facebook_login_vcr', :allow_playback_repeats => true
+end
+
+Capybara.javascript_driver = :selenium_chrome_headless
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -49,8 +64,8 @@ Before("@omniauth_test") do
             :image => 'Test Image',
         },
         :credentials => {
-            :token => 'Token',
-            :secret => 'Secret'
+            :token => '125787992-pHZADYAQKenEC9SbVcoiJRiNJYhaM41AnGCEZUC9',
+            :secret => 'awRnIa0450TgSF5Ol9cFCCrDflYSOihe8499iJmWKeIkq'
         }
     })
     
@@ -60,6 +75,20 @@ Before("@omniauth_test") do
         :info => {
             :email => 'Test Email',
             :nickname => 'Test Name',
+            :image => 'Test Image',
+        },
+        :credentials => {
+            :token => 'EAACBXgq1zpQBADx4kowWfZCWJfqd8gislm1ZAOqwvC4BTtXNgIpGrJ5jyrXOQ0beZBANetZB8D7H06MoMMenQnNJvemqq0ZA15tndtDCQ9C0gIkjZBIFml5qaZBxIKIZAnH2vD9cZC2QanH81tb6wcisFoZCiO8q75ZC5BpAvwHamVHQgZDZD',
+            :secret => 'Secret'
+        }
+    })
+    
+    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
+        :provider => 'google_oauth2',
+        :uid => '12345',
+        :info => {
+            :email => 'Test Email',
+            :name => 'Test Name',
             :image => 'Test Image',
         },
         :credentials => {
@@ -77,6 +106,10 @@ end
 
 Before("@omniauth_facebook_test") do
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
+end
+
+Before("@omniauth_google_test") do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
 end
 
 After("@omniauth_test") do 

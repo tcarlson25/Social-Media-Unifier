@@ -3,13 +3,13 @@ require './spec/support/helpers.rb'
 
 #Cases not covered here are covered in Cucumber
 
-describe FeedsController, type: :controller do
+describe FeedsController, :type => :controller do
 
    def sign_in(user)
       if user.nil?
          allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {:scope => :user})
          allow_any_instance_of(FeedsController).to receive(:current_user).and_return(nil)
-      else
+     else
          allow(request.env['warden']).to receive(:authenticate!).and_return(user)
          allow_any_instance_of(FeedsController).to receive(:current_user).and_return(user)
       end
@@ -37,7 +37,26 @@ describe FeedsController, type: :controller do
    
    
    describe "GET #index" do
+      #context "user is nil" do
+      #   before do
+      #      @test_user = create(:user, create_identity: false)
+      #      sign_in(@test_user)
+      #   end
+      #   it "Should redirect to the accounts page" do
+      #      get root_path
+      #      expect(response).to redirect_to(settings_accounts_path)
+      #   end
+      #end
       context "user is not nil" do
+         #before do 
+         #   @user = create(:user)
+         #   sign_in(@user)
+         #end
+         #it "Should display index" do
+         #   get root_path
+         #   expect(response).to have_http_status(200)
+         #end
+         
          it "Should initialize Feed variables" do
             
             post = TwitterPost.new(:created_at => DateTime.now)

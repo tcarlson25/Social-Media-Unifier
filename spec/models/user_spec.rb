@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User, :type => :model do
 
   before do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
     @test_user = create(:user)
     @test_feed = @test_user.feed
     @test_twitter_client = Twitter::REST::Client.new do |config|
@@ -13,6 +14,15 @@ RSpec.describe User, type: :model do
     end
     @test_facebook_client = Koala::Facebook::API.new(@test_user.facebook.token)
     @test_mastodon_client = Mastodon::REST::Client.new(base_url: 'https://mastodon.social', bearer_token: @test_user.mastodon.token)
+  end
+  
+  describe "#from_omniauth" do
+    it "creates a user from access_token" do
+      user = User.from_omniauth(Rails.application.env_config["omniauth.auth"])
+      expect(user.name).to eq("Test Name")
+      expect(user.email).to eq("test email")
+    end
+    
   end
 
   describe "#twitter_client" do
@@ -37,6 +47,13 @@ RSpec.describe User, type: :model do
       allow(Mastodon::REST::Client).to receive(:new).and_return(@test_mastodon_client)
       allow(@test_mastodon_client).to receive_message_chain(:verify_credentials, :avatar).and_return(true)
       expect(@test_user.mastodon_client).to eq(@test_mastodon_client)
+    end
+  end
+  
+  describe "#delete_identity" do
+    it "destroys an identity given a provider" do
+      @test_user.delete_identity('twitter')
+      expect(@test_user.twitter).to be(nil)
     end
   end
 

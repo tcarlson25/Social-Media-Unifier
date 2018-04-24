@@ -4,9 +4,10 @@ class CreateTwitterPosts < ActiveRecord::Migration[5.1]
       t.belongs_to :feed, index: true
       t.string :id, primary_key: true
       t.string :name
-      t.string :user_name
+      t.string :username
+      t.string :profile_img
       t.text :content
-      t.string :imgurl, :null => true
+      t.string :imgurls, :null => true
       t.string :favorited
       t.boolean :retweeted
       t.integer :favorite_count

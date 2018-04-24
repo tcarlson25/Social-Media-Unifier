@@ -3,23 +3,33 @@
 %br
 %br
 
+:javascript
+  jQuery(function() {
+    $(".fancybox").fancybox();
+  });
+
 .filter
   = form_tag application_filter_feed_search_path, id: 'text_filter_form', remote: true do
     - @providers.each do |provider|
       = label_tag nil, class: 'provider_click' do
         - if provider.eql?('Twitter')
-          = content_tag :i, nil, class: 'zmdi zmdi-twitter zmdi-hc-2x tooltip tw_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')' do
-            = content_tag :span, 'Twitter', class: "tooltiptext_twitter"
+          = content_tag :div, 'Twitter', for: 'twitter_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-twitter zmdi-hc-2x tooltip tw_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'twitter_icon'
         - if provider.eql?('Facebook')
-          = content_tag :i, nil, class: 'zmdi zmdi-facebook zmdi-hc-2x tooltip fb_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')' do
-            = content_tag :span, 'Facebook', class: "tooltiptext_facebook"
+          = content_tag :div, 'Twitter', for: 'facebook_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-facebook zmdi-hc-2x tooltip fb_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'facebook_icon'
         - if provider.eql?('Mastodon')
-          = content_tag :i, nil, class: 'zmdi zmdi-face zmdi-hc-2x tooltip ma_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')' do
-            = content_tag :span, 'Mastodon', class: 'tooltiptext_mastodon'
+          = content_tag :div, 'Mastodon', for: 'mastodon_icon', class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: 'zmdi zmdi-face zmdi-hc-2x tooltip ma_clicked', onclick: 'toggleProviderFilter(\'' + provider + '\')', id: 'mastodon_icon'
     %br
     %br
-    = text_area_tag :text_content, nil, placeholder: 'Query posts...'
-    = submit_tag 'Search'
+    
+    .mdl-textfield.mdl-js-textfield
+      = text_field_tag :text_content, nil, id: 'query_text_area', class: 'mdl-textfield__input'
+      = label_tag 'query_text_area', class: 'mdl-textfield__label' do
+        Search...
+    %br
+    = submit_tag 'Search', class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
 
 .feed-card.mdl-card
   - @posts.each do |post_array|
@@ -31,6 +41,22 @@
         = " @#{post.user.screen_name}"
         %br
         .cont.text_content= post.full_text
+        -#this should work but probably needs so tweaking
+        .image_feed_container
+          - if post.media?
+            - post.media.each do |media|
+              - if media.type == "photo"
+                .img_feed_holder
+                  %img.post_img.grow.fancybox{src: media.media_url, href: media.media_url}
+              - if media.type == "video"
+                %video.post_img.grow{src: media.video_info.variants.first.url}
+              - if media.attrs[:type] == "animated_gif"
+                %img.post_img.grow.fancybox{src: media.video_info.variants.first.url, href: media.video_info.variants.first.url}
+                
+            -#Not exactly sure how yet but extendecd_entities has to be used otherwise it treats all media types as a photo
+            -#if post.extended_entities.media
+            -#if media_type(post) == "photo"
+            
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
@@ -59,13 +85,14 @@
         = " @#{post.account.username}"
         %br
         .cont.text_content= ActionController::Base.helpers.strip_tags(post.content)
-        .cont
+        .image_feed_container
           - post.media_attachments.each do |attachment|
-            = image_tag attachment.url, width: '150'
+            .img_feed_holder
+              = image_tag attachment.url, class: 'post_img grow fancybox', href: attachment.url
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
-            - if post.favourited?
+            - if post.favourited? 
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
@@ -83,3 +110,4 @@
               = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star archived', id: "ma_arch_#{post.id}", onclick: 'toggleArchived(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'archive_obj zmdi zmdi-star-outline not_archived', id: "ma_arch_#{post.id}", onclick: 'toggleArchived(\'ma_' + post.id.to_s + '\')'
+              

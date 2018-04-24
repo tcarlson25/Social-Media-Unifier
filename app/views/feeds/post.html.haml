@@ -1,42 +1,43 @@
-:css 
-  .text_box_mod{
-    background: red;
-    width: 50%
-    height: 30%;
-  }
-
 
 %br
 %br
 %br
 %br
-.posting_wrapper
+.posting_wrapper.post_box
+  %br
+  %br
   = form_tag(feeds_post_path, :multipart => true, :id => 'post_form') do
     - @providers.each do |provider|
       = label_tag "providers[#{provider}]", class: 'provider_click' do
         = check_box_tag "providers[#{provider}]", 1, false, class: 'hidden'
         - if provider.eql?('Facebook') || provider.eql?('Twitter')
-          = content_tag :i, nil, class: "zmdi zmdi-#{provider.downcase} zmdi-hc-2x tooltip", onclick: "toggle#{provider}()" do
-            = content_tag :span, "#{provider}", class: "tooltiptext_#{provider.downcase}"
+          = content_tag :div, "#{provider}", for: "#{provider.downcase}_icon", class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: "zmdi zmdi-#{provider.downcase} zmdi-hc-2x", onclick: "toggle#{provider}()", id: "#{provider.downcase}_icon"
         - if provider.eql?('Mastodon')
-          = content_tag :i, nil, class: "zmdi zmdi-face zmdi-hc-2x tooltip", onclick: "toggle#{provider}()" do
-            = content_tag :span, 'Mastodon', class: 'tooltiptext_mastodon'
+          = content_tag :div, 'Mastodon', data: {'mdl-for': "mastodon_icon"}, class: 'mdl-tooltip mdl-tooltip--top'
+          = content_tag :i, nil, class: "zmdi zmdi-face zmdi-hc-2x", onclick: "toggle#{provider}()", id: 'mastodon_icon'
 
     %br
-    = label_tag :text, 'Text', class: 'hidden'
-    .emoji-picker-container
-      = text_area_tag :post_content, nil, data: { emojiable: true }, class: 'text_box_mod'
+    %br
+    
+    .emoji-picker-container.input-field
+      = text_area_tag :post_content, nil, data: { emojiable: true }, class: 'text-area-mod', placeholder: "What's on your mind?"
     %br
     %br
-    = label_tag :images, 'Upload Images'
-    = file_field_tag :images, :name => 'images[]', :multiple => true, accept: 'image/png,image/jpeg'
+    = label_tag :images, nil, class: 'upload_click' do
+      = file_field_tag :images, :name => 'images[]', :multiple => true, accept: 'image/png,image/jpeg', class: 'hidden'
+      = content_tag :i, nil, class: 'zmdi zmdi-camera-add zmdi-hc-2x'
     %br
     %br
-    = submit_tag 'Post Status'
+    = submit_tag 'Post Status', class: 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
     
   - if flash[:notify]
+    %br
     #notice.message= flash[:notify]
   - flash.discard(:notify)
-    
-#img_container
+  
+  %br
+  %br
+  #img_container
+  %br
 

@@ -2,32 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.card_provider{
-    position: relative;
-    padding: 1em;
-    display: inline-block;
-}
-
-.demo-card-square.mdl-card {
-    width: 280px;
-    height: 300px;
-}
-
-.mdl-button.mdl-js-button.mdl-button--fab{
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    color: white;
-}
-    
-.mdl-card__title.mdl-card--expand {
-    background-repeat: no-repeat !important; 
-    background-size: 100% 100% !important;
-}
-
-.mdl-card__supporting-text{
-    text-align: left;
-}
 
 .twitter_profile{
     color: #00aced;
@@ -79,7 +53,6 @@
 }
 
 .login_block.mdl-card{
-    /*background: grey;*/
     border-radius: 12px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.5);
@@ -92,11 +65,130 @@
 }
 
 .mdl-layout { 
-    background-image: url('backg.png');
+    background-image: url('backg7.jpg');
+    //background: rgb(240,248,255);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 .mdl-mini-footer__link-list.a{
     
+}
+
+.demo-card-square.mdl-card {
+    width: 280px;
+    height: 300px;
+}
+
+.mdl-button.mdl-js-button.mdl-button--fab{
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: white;
+}
+    
+.mdl-card__title.mdl-card--expand {
+    background-repeat: no-repeat !important; 
+    background-size: 100% 100% !important;
+}
+
+.mdl-card__supporting-text{
+    text-align: left;
+}
+
+.card_provider{
+    width: 280px;
+    height: 300px;
+    position: relative;
+    padding: 1em;
+    display: inline-block;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+}
+
+.card-twitter, .card-facebook, .card-mastodon {
+    width: 100%;
+    height: 100%;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+}
+
+.card-twitter .front, .card-facebook .front, .card-mastodon .front {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.card-twitter div, .card-facebook div, .card-mastodon div {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    opacity: .99;
+}
+
+.card-twitter .back{
+    width: 100%;
+    height: 100%;
+    background: #00aced;
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.card-facebook .back{
+    width: 100%;
+    height: 100%;
+    background: #3b5998;
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.card-mastodon .back{
+    width: 100%;
+    height: 100%;
+    background: #444B5D;
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.card-twitter.flipped, .card-facebook.flipped, .card-mastodon.flipped {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect{
+    background-color: white;
+}
+
+.account-button{
+    margin-top: 48%;
+}
+
+.metric_charts{
+    width: 100%;
+    text-align: center;
+}
+
+.pie_chart{
+    width: 500px;
+    height: 500px;
+    display: inline-block;
 }
