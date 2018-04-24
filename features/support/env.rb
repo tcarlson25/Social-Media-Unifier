@@ -21,6 +21,9 @@ VCR.cucumber_tags do |t|
    t.tags '@twitter_login_vcr', '@facebook_login_vcr', :allow_playback_repeats => true
 end
 
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
 Capybara.javascript_driver = :selenium_chrome_headless
 
 # Capybara defaults to CSS3 selectors rather than XPath.

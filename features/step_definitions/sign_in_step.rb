@@ -11,7 +11,10 @@ Given("The user is signed in and using {string}") do |provider|
     visit 'users/sign_in'
     click_link "Sign in with Google"
     visit(settings_accounts_path)
-    click_button 'signin_twitter' if provider.eql?('Twitter')
+    if provider.eql?('Twitter')
+        page.find('.card-twitter').click
+        click_button 'signin_twitter' 
+    end
     click_button 'signin_facebook' if provider.eql?('Facebook')
 end
 

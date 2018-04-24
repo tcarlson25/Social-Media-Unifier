@@ -2,7 +2,7 @@ Given("The user has archived posts for {string}") do |provider|
    if provider == "Twitter"
         #VCR.use_cassette('javascript_VCR', match_requests_on => [:host]) do
         visit(root_path)
-        find(:xpath, '//*[@id="tw_arch_988512257322766336"]').click
+        find(:xpath, '//*[@id="tw_arch_988774594764001280"]').click
         #end
       archived_twitter_posts = TwitterPost.new( id: "ID",
                                                 name: "Name",

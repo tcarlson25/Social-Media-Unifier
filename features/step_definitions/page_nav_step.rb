@@ -11,7 +11,7 @@ Given("The user is on the {string} page") do | view |
 end
 
 When("The user visits the {string} page") do |view|
-  visit(root_path) if view.eql?('home')
+  visit(feeds_index_path) if view.eql?('home')
   visit(feeds_messages_path) if view.eql?('Messages')
   visit(settings_index_path) if view.eql?('Account Settings')
   visit(settings_metrics_path) if view.eql?('Metrics')
@@ -28,7 +28,7 @@ When("They click on {string}") do | clicked |
   click_link 'custom_friends' if clicked.eql?('Custom Friends')
   click_link 'accounts' if clicked.eql?('Accounts')
   click_link 'messages' if clicked.eql?('Messages')
-  click_link 'archives' if clicked.eql?('Archives')
+  visit feeds_archives_path if clicked.eql?('Archives')
   click_link 'notifications' if clicked.eql?('Notifications')
 end
 
