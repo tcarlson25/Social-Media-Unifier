@@ -33,10 +33,11 @@ You will need to create a developer application for Twitter, Facebook, Masotdon 
 
 ##### Facebook Setup
 
+\*\* NOTE \*\* - Facebook removed the ability for a user to make posts within another application by using the *publish_actions* permission as well as getting a user's timeline. A new way of posting is not yet supported by this application. Please continue to create the facebook app to allow for the social media application to run smoothly (disregarding Facebook)
 * Create a new Facebook application [here](https://developers.facebook.com/apps)
 * Once the App is created, add the following product
 	* **Facebook Login**
-		* Fill in *Site URL* with your Heroku app's url under the *Tell Us about Your 			Website*
+		* Fill in *Site URL* with your Heroku app's url under the *Tell Us about Your 			Website* as well as the *Privacy Policy URL*
 		* On the left column, click on *Settings* under the new Facebook Login product
 		* Under *Valid OAuth Redirect URIs*, type in your Heroku app's url with the 			following appended to the end of your url: '/users/auth/facebook/callback'. For 		example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url 			you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/facebook/callback' 
 		*  Go to *Settings* --> *Basic*, and get your App ID and App Secret
@@ -100,9 +101,6 @@ Finally, at the top of the Heroku page, click on ***Open app*** to open up your 
 * Heroku gives an error that something went wrong
 	* Occasionally, Twitter's API fails to get a user's feed and causes a Parsing error that will cause the application to fail when trying to load the feed page. To fix this, navigate to *Resources* on Heroku and click on *Heroku Postgres :: Database*. Navigate to Settings and reset the database. Once reset, follow the steps above to migrate the database again.
 
-* Facebook Login does not work
-	* This may happen becasue of Facebook's privacy policy that has changed. In order to get full permissions, you must get your application reviewed by Facebook. To do this, go to *App Review* on your Facebook application and follow the instructions to make a submission.
-
 ## Built With
 
 * Ruby on Rails
@@ -117,4 +115,5 @@ Finally, at the top of the Heroku page, click on ***Open app*** to open up your 
 * **Jordan Blissett**
 * **Christian Tovar**
 * **Cesar Ortega**
+
 
