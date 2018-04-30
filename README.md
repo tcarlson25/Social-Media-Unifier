@@ -33,7 +33,7 @@ You will need to create a developer application for Twitter, Facebook, Masotdon 
 
 ##### Facebook Setup
 
-\*\* NOTE \*\* - Facebook removed the ability for a user to make posts within another application by using the *publish_actions* permission as well as getting a user's timeline. A new way of posting is not yet supported by this application. Please continue to create the facebook app to allow for the social media application to run smoothly (disregarding Facebook)
+\*\* NOTE \*\* - Facebook removed the ability for a user to make posts within another application by using the *publish_actions* permission as well as getting a user's timeline. If you try and post to facebook, it will fail. If it fails, simply press the back button to navigate back to the homescreen. A new way of posting is not yet supported by this application. Please continue to create the facebook app to allow for the social media application to run smoothly (disregarding Facebook)
 * Create a new Facebook application [here](https://developers.facebook.com/apps)
 * Once the App is created, add the following product
 	* **Facebook Login**
