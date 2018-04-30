@@ -1,25 +1,94 @@
-# README
+# Social Media Unifier
 
-Things needed to deploy to heroku
-  1. heroku
-  2. github
-  3. create developer application for Twitter, Facebook, Google, and Mastodon.social you will need the app tokens and secrets for these        sites.
-  4. NOTE: for twitter the callback url is the url of the heroku app you will make later also add that url to the privacy policy and terms of service URL fields then navigate to permissions and check the get email field.
-  
+Many people do not like managing many different social media accounts. The goal of this project is to target these individuals and build an interactive web-application that manages social media platforms in a single location.
 
-Steps to deploy to heroku
-  1. fork from Social-medi-unifier repo https://github.com/tcarlson25/Social-Media-Unifier
-  2. create new heroku app
-  3. on heroku navigate to deploy and click on deploy with github and sign in with github when prompted.
-  4. search for forked repo and click automatic deploy on push to Master branch.
-  5. on the bottom of the page click manual deploy Master
-  6. on heroku navigate to settings and click on reveal config vars
-  7. add the following keys and their values from the developer apps you created.
-        FACEBOOK_APP_ID
-        FACEBOOK_SECRET
-        GOOGLE_CLIENT_ID
-        GOOGLE_SECRET
-        MASTODON_KEY
-        MASTODON_SECRET
-        TWITTER_KEY
-        TWITTER_SECRET
+## Deployment to Heroku
+
+### Setup
+
+#### Services
+
+You will need an account with the following applications. More instructions on signing up can be found on their respective sites if you do not have one already.
+
+* [Heroku](https://signup.heroku.com/) - Hosting platform
+	* Select *Ruby* as Primary Development Language
+	* Select *Create New App*
+	* Enter your desired app name and create the app.
+	* Click on Settings and scroll down to *Domains and Certificates*. Next to domain, 		your heroku app's url will be shown. Keep track of this, as it will be needed later.
+
+* [GitHub](https://github.com/join) - Code management
+
+#### Provider Applications
+
+You will need to create a developer application for Twitter, Facebook, Masotdon (Mastodon.social), and Google in order to get their appropriate tokens and secrets.
+
+##### Twitter Setup
+
+* Create a new Twitter application [here](https://apps.twitter.com)
+* For both **Website** and **Callback URL**, put your heroku app's url from above
+* Go to *Settings*, and fill in your Heroku app's url under both *Privacy Policy URL* and *Terms of Service URL*
+* Make sure *Read and Write* is checked under Permissions as well as *Request email addresses from users*
+* Click on the tab *Keys and Access Tokens*. Here you will find your Twitter API Key and Secret. Keep track of these.
+
+##### Facebook Setup
+
+* Create a new Facebook application [here](https://developers.facebook.com/apps)
+* Once the App is created, add the following product
+	* **Facebook Login**
+		* Fill in *Site URL* with your Heroku app's url under the *Tell Us about Your 			Website*
+		* On the left column, click on *Settings* under the new Facebook Login product
+		* Under *Valid OAuth Redirect URIs*, type in your Heroku app's url and save 			changes
+		*  Go to *Settings* --> *Basic*, and get your App ID and App Secret
+
+##### Mastodon Setup
+
+* Create a new Mastodon application [here](https://mastodon.social/settings/applications)
+* Use your Heroku app's url as the *Application Website*
+* Under *Redirect URI*, remove the given one and add your Heroku app's url with the following appended to the end of your url: '/users/auth/mastodon/callback'. For example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/mastodon/callback'
+* Make sure all scopes are checked (read, write, follow)
+* Once submitted, click on your newly created application to get your Client Key and Secret
+
+##### Google Setup
+
+* Create a new Google application [here](https://console.developers.google.com/apis/dashboard)
+* Select *Create Project* and follow through the steps
+* Click on *Enable APIs and Services*
+* Add/Enable the **Contacts API** and **Google+ API**
+* Go to *Credentials* --> *OAuth Consent Screen* and type in and type in a product name
+* Go to the *Credentials* --> *Create Credentials* --> *OAuth Client ID*
+* Click WebApplication and fill out your application name
+* Under Authorized Redirect URIs, type in your Heroku app's url with the following appended to the end of your url: '/users/auth/google_oauth2/callback'. For example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/google_oauth2/callback'
+* Keep track of your Client ID and Secret
+
+### Deploy
+
+You will first need to fork this project onto your own github repository. Once done, save the git url that links to your forked repo. The URL should be something like this: *https://github.com/[username]/Social-Media-Unifier*
+
+Navigate to Heroku and go to the *Deploy* tab. Next to 'Deployment Method', click on *GitHub*. Once logged in with your GitHub account, type in the name of the forked repo in the box that says *repo-name*.
+
+Navigate to the *Manual Deploy* section of your Heroku application a switch to the master branch. Click *Deploy Branch*.
+
+Once your app has been successfully deployed, navigate to the *Settings* tab of your Heroku application and click on ***Reveal Config Vars***. Add the following KEY-VALUE pairs exactly as follows (caps included). Format is \<Key\> - \<Value\>.
+
+* TWITTER_KEY - *Your Twitter Key from setup*
+* TWITTER_SECRET - *Your Twitter Secret from setup*
+* FACEBOOK_APP_ID - *Your Facebook App ID from setup*
+* FACEBOOK_SECRET - *Your Facebook App Secret from setup*
+* MASTODON_KEY - *Your Mastodon Key from setup*
+* MASTODON_SECRET - *Your Mastodon Secret from setup*
+* GOOGLE_CLIENT_ID - *Your Google Client ID from setup*
+* GOOGLE_CLIENT_SECRET - *Your Google Client Secret from setup*
+
+### Migrate Database
+
+On Heroku, go to *Deploy* --> *Deployment Method* --> *Heroku Git*
+
+Follow the steps up until the last section (*Deploy your changes*) to install the Heroku CLI and Clone the Repository. Do NOT deploy your changes. Stop after you have cloned your GitHub repository. Once finished, open up your command prompt/terminal and navigate to the cloned repo.
+
+While in the directory of your cloned repo, type the following command:
+
+```
+heroku run rails db:migrate
+```
+
+Finally, at the top of the Heroku page, click on ***Open app*** to open up your newly deployed Social Media Unifier!
