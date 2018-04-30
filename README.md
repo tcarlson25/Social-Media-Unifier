@@ -94,6 +94,15 @@ heroku run rails db:migrate
 
 Finally, at the top of the Heroku page, click on ***Open app*** to open up your newly deployed Social Media Unifier!
 
+### Troubleshooting
+
+
+* Heroku gives an error that something went wrong
+	* Occasionally, Twitter's API fails to get a user's feed and causes a Parsing error that will cause the application to fail when trying to load the feed page. To fix this, navigate to *Resources* on Heroku and click on *Heroku Postgres :: Database*. Navigate to Settings and reset the database. Once reset, follow the steps above to migrate the database again.
+
+* Facebook Login does not work
+	* This may happen becasue of Facebook's privacy policy that has changed. In order to get full permissions, you must get your application reviewed by Facebook. To do this, go to *App Review* on your Facebook application and follow the instructions to make a submission.
+
 ## Built With
 
 * Ruby on Rails
