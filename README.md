@@ -94,7 +94,7 @@ heroku run rails db:migrate
 
 Finally, at the top of the Heroku page, click on ***Open app*** to open up your newly deployed Social Media Unifier!
 
-### Troubleshooting
+## Troubleshooting
 
 
 * Heroku gives an error that something went wrong
