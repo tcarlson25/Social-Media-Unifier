@@ -25,7 +25,8 @@ You will need to create a developer application for Twitter, Facebook, Masotdon 
 ##### Twitter Setup
 
 * Create a new Twitter application [here](https://apps.twitter.com)
-* For both **Website** and **Callback URL**, put your heroku app's url from above
+* For **Website**, put your heroku app's url from above
+* For **Callback URL**, type in your Heroku app's url with the following appended to the end of your url: '/users/auth/twitter/callback'. For example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/twitter/callback' 
 * Go to *Settings*, and fill in your Heroku app's url under both *Privacy Policy URL* and *Terms of Service URL*
 * Make sure *Read and Write* is checked under Permissions as well as *Request email addresses from users*
 * Click on the tab *Keys and Access Tokens*. Here you will find your Twitter API Key and Secret. Keep track of these.
@@ -37,14 +38,14 @@ You will need to create a developer application for Twitter, Facebook, Masotdon 
 	* **Facebook Login**
 		* Fill in *Site URL* with your Heroku app's url under the *Tell Us about Your 			Website*
 		* On the left column, click on *Settings* under the new Facebook Login product
-		* Under *Valid OAuth Redirect URIs*, type in your Heroku app's url and save 			changes
+		* Under *Valid OAuth Redirect URIs*, type in your Heroku app's url with the 			following appended to the end of your url: '/users/auth/facebook/callback'. For 		example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url 			you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/facebook/callback' 
 		*  Go to *Settings* --> *Basic*, and get your App ID and App Secret
 
 ##### Mastodon Setup
 
 * Create a new Mastodon application [here](https://mastodon.social/settings/applications)
 * Use your Heroku app's url as the *Application Website*
-* Under *Redirect URI*, remove the given one and add your Heroku app's url with the following appended to the end of your url: '/users/auth/mastodon/callback'. For example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/mastodon/callback'
+* Under *Redirect URI*, remove the given one (if there exists a url already) and add your Heroku app's url with the following appended to the end of your url: '/users/auth/mastodon/callback'. For example, if your Heroku app's url is 'https://test-app.herokuapp.com', the url you would enter as a Redirect URI would be 'https://test-app.herokuapp.com/users/auth/mastodon/callback'
 * Make sure all scopes are checked (read, write, follow)
 * Once submitted, click on your newly created application to get your Client Key and Secret
 
@@ -92,3 +93,18 @@ heroku run rails db:migrate
 ```
 
 Finally, at the top of the Heroku page, click on ***Open app*** to open up your newly deployed Social Media Unifier!
+
+## Built With
+
+* Ruby on Rails
+* JavaScript
+* AJAX/JQuery
+* HTML/CSS
+* RSpec, Cucumber
+
+## Authors
+
+* **Tyler Carlson**
+* **Jordan Blissett**
+* **Christian Tovar**
+* **Cesar Ortega**
