@@ -1,14 +1,12 @@
 class SettingsController < ApplicationController
   
-  attr_accessor :twitter_client, :user
+  attr_accessor :twitter_client, :facebook_client, :mastodon_client, :user, :twitter_metrics, :facebook_metrics, :mastodon_metrics
   layout 'settings'
   require 'json'
   
   def index
     @user = current_user
     redirect_to settings_accounts_path if @user.identities.empty?
-    @twitter_client = @user.twitter_client unless @user.twitter.nil?
-    @facebook_client = @user.facebook_client unless @user.facebook.nil?
   end
   
   def metrics
@@ -48,8 +46,6 @@ class SettingsController < ApplicationController
   def custom_friends
     @user = current_user
     redirect_to settings_accounts_path if @user.identities.empty?
-    @twitter_client = @user.twitter_client unless @user.twitter.nil?
-    @facebook_client = @user.facebook_client unless @user.facebook.nil?
   end
   
   def accounts

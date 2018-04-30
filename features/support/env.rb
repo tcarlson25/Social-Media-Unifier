@@ -13,17 +13,19 @@ require 'vcr'
 
 VCR.configure do |c|
     c.ignore_localhost = true
+    #c.allow_http_connections_when_no_cassette = true
     c.cassette_library_dir = 'spec/cassettes'
     c.hook_into :webmock
+    #c.debug_logger = STDOUT
 end
 
 VCR.cucumber_tags do |t|
-   t.tags '@twitter_login_vcr', '@facebook_login_vcr', :allow_playback_repeats => true
+   t.tags '@twitter_login_vcr', '@facebook_login_vcr', '@mastodon_login_vcr',:record => :new_episodes, :allow_playback_repeats => true
 end
 
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
+#Capybara.register_driver :selenium do |app|
+#  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+#end
 Capybara.javascript_driver = :selenium_chrome_headless
 
 # Capybara defaults to CSS3 selectors rather than XPath.
@@ -100,6 +102,20 @@ Before("@omniauth_test") do
         }
     })
     
+    OmniAuth.config.mock_auth[:mastodon] = OmniAuth::AuthHash.new({
+        :provider => 'mastodon',
+        :uid => '1234567',
+        :info => {
+            :email => 'Test Email',
+            :name => 'Test Name',
+            :image => 'Test Image',
+        },
+        :credentials => {
+            :token => '34e967d13caaf2599ad2c7626889e1d4fb23fdd54f910700d8a74e5432a2910d',
+            :secret => 'Secret'
+        }
+    })
+    
     Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
 end
 
@@ -115,6 +131,10 @@ Before("@omniauth_google_test") do
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
 end
 
+Before("@omniauth_mastodon_test") do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:mastodon]
+end
+
 After("@omniauth_test") do 
     OmniAuth.config.test_mode = false
 end
@@ -123,16 +143,16 @@ end
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
-#   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
+   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
 #     # { :except => [:widgets] } may not do what you expect here
 #     # as Cucumber::Rails::Database.javascript_strategy overrides
 #     # this setting.
-#     DatabaseCleaner.strategy = :truncation
-#   end
+     DatabaseCleaner.strategy = :truncation
+   end
 #
-#   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
-#     DatabaseCleaner.strategy = :transaction
-#   end
+   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
+        DatabaseCleaner.strategy = :transaction
+   end
 #
 
 # Possible values are :truncation and :transaction

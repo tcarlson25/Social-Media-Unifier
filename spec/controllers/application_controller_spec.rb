@@ -16,8 +16,6 @@ describe ApplicationController, :type => :controller do
   before do
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
     @test_user = create(:user)
-    #sign_in(@test_user)
-    #byebug
     @test_feed = @test_user.feed
     @test_twitter_client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_KEY']
@@ -28,9 +26,9 @@ describe ApplicationController, :type => :controller do
     @test_facebook_client = Koala::Facebook::API.new(@test_user.facebook.token)
     @test_mastodon_client = Mastodon::REST::Client.new(base_url: 'https://mastodon.social', bearer_token: @test_user.mastodon.token)
     @app_controller = ApplicationController.new()
-    @app_controller.twitter_client = @test_twitter_client
-    @app_controller.facebook_client = @test_facebook_client
-    @app_controller.mastodon_client = @test_mastodon_client
+    # @app_controller.twitter_client = @test_twitter_client
+    # @app_controller.facebook_client = @test_facebook_client
+    # @app_controller.mastodon_client = @test_mastodon_client
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@test_user)
     allow(@test_user).to receive(:twitter_client).and_return(@test_twitter_client)
     allow(@test_user).to receive(:facebook_client).and_return(@test_facebook_client)
@@ -38,212 +36,88 @@ describe ApplicationController, :type => :controller do
     sign_in(@test_user)
   end
   
-  describe "#favorite" do
-    it "favorites a twitter post" do 
-      allow(@app_controller.twitter_client).to receive(:favorite).and_return(true)
-      expect(@app_controller.twitter_client).to receive(:favorite)
-      post :favorite, :params => { 
-        :id => '1',
-        :provider => 'tw'
+  describe '#req_favorite' do
+    it 'calls favorite method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:favorite).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:favorite).with('1', 'provider')
+      post :req_favorite, :params => { 
+        :id => 1,
+        :provider => 'provider'
       }
+      expect(response).to be_successful
     end
-    
-    it "favorites a mastodon post" do
-      allow(@app_controller.mastodon_client).to receive(:favourite).and_return(true)
-      expect(@app_controller.mastodon_client).to receive(:favourite)
-      post :favorite, :params => { 
-        :id => '1',
-        :provider => 'ma'
+  end
+  
+  describe '#req_unfavorite' do
+    it 'calls unfavorite method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:unfavorite).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:unfavorite).with('1', 'provider')
+      post :req_unfavorite, :params => { 
+        :id => 1,
+        :provider => 'provider'
+      }
+      expect(response).to be_successful
+    end
+  end
+  
+  describe '#req_repost' do
+    it 'calls repost method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:repost).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:repost).with('1', 'provider')
+      post :req_repost, :params => { 
+        :id => 1,
+        :provider => 'provider'
+      }
+      expect(response).to be_successful
+    end
+  end
+  
+  describe '#req_unrepost' do
+    it 'calls unrepost method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:unrepost).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:unrepost).with('1', 'provider')
+      post :req_unrepost, :params => { 
+        :id => 1,
+        :provider => 'provider'
+      }
+      expect(response).to be_successful
+    end
+  end
+  
+  describe '#req_archive_post' do
+    it 'calls archive_post method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:archive_post).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:archive_post).with('1', 'provider')
+      post :req_archive_post, :params => { 
+        :id => 1,
+        :provider => 'provider'
+      }
+      expect(response).to be_successful
+    end
+  end
+  
+  describe '#req_unarchive_post' do
+    it 'calls unarchive_post method and returns success' do
+      allow_any_instance_of(ApplicationController).to receive(:unarchive_post).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:unarchive_post).with('1', 'provider')
+      post :req_unarchive_post, :params => { 
+        :id => 1,
+        :provider => 'provider'
+      }
+      expect(response).to be_successful
+    end
+  end
+  
+  describe '#req_filter_feed_search' do
+    it 'calls filter_feed_search' do
+      allow_any_instance_of(ApplicationController).to receive(:filter_feed_search).and_return(true)
+      expect_any_instance_of(ApplicationController).to receive(:filter_feed_search).with('text')
+      post :req_filter_feed_search, :params => { 
+        :text_content => 'text'
       }
     end
   end
   
-  describe "#unfavorite" do
-    it "favorites a twitter post" do 
-      allow(@app_controller.twitter_client).to receive(:unfavorite).and_return(true)
-      expect(@app_controller.twitter_client).to receive(:unfavorite)
-      post :unfavorite, :params => { 
-        :id => '1',
-        :provider => 'tw'
-      }
-    end
-    
-    it "favorites a mastodon post" do
-      allow(@app_controller.mastodon_client).to receive(:unfavourite).and_return(true)
-      expect(@app_controller.mastodon_client).to receive(:unfavourite)
-      post :unfavorite, :params => { 
-        :id => '1',
-        :provider => 'ma'
-      }
-    end
-  end
-  
-  describe "#repost" do
-    it "favorites a twitter post" do 
-      allow(@app_controller.twitter_client).to receive(:retweet).and_return(true)
-      expect(@app_controller.twitter_client).to receive(:retweet)
-      post :repost, :params => { 
-        :id => '1',
-        :provider => 'tw'
-      }
-    end
-    
-    it "favorites a mastodon post" do
-      allow(@app_controller.mastodon_client).to receive(:reblog).and_return(true)
-      expect(@app_controller.mastodon_client).to receive(:reblog)
-      post :repost, :params => { 
-        :id => '1',
-        :provider => 'ma'
-      }
-    end
-  end
-  
-  describe "#unrepost" do
-    it "unfavorites a twitter post" do 
-      allow(@app_controller.twitter_client).to receive(:unretweet).and_return(true)
-      expect(@app_controller.twitter_client).to receive(:unretweet)
-      post :unrepost, :params => { 
-        :id => '1',
-        :provider => 'tw'
-      }
-    end
-    
-    it "unfavorites a mastodon post" do
-      allow(@app_controller.mastodon_client).to receive(:unreblog).and_return(true)
-      expect(@app_controller.mastodon_client).to receive(:unreblog)
-      post :unrepost, :params => { 
-        :id => '1',
-        :provider => 'ma'
-      }
-    end
-  end
-  
-  describe "#archive_post", :vcr do
-    it "saves a twitter post" do
-      #get :archive_post, :params => {
-      #  :id => '984428648441794561',
-      #  :provider => 'tw'
-      #}
-      #expect(@test_user.feed.twitter_posts).to eq("This")
-      #expect(post_to_archive.id).to eq("984453661433696258")
-      #test = build(:twitter_post, feed: @test_feed)
-      #TwitterPost.archive(test)
-      #test_post = TwitterPost.first
-      #expect(test_post.id).to eq("123456789")
-    end
-  
-    it "saves a mastodon post" do
-      
-    end
-  end
-
-   
-  describe "validate_responses" do
-    it "correctly identifies invalid twitter response, valid facebook response, and valid mastodon response" do
-      expect(@app_controller.validate_responses(nil, 'valid', 'valid')).to eq({:errors => ['Could not post to Twitter.']})
-    end
-    
-    it "correctly identifies valid twitter response and valid facebook response and valid mastodon response" do
-      expect(@app_controller.validate_responses('valid', 'valid', 'valid')).to eq({:errors => ['Posted Successfully!']})
-    end
-    
-    it "correctly identifies a valid twitter response and invalid facebook response and valid mastodon response" do
-      expect(@app_controller.validate_responses('valid', nil, 'valid')).to eq({:errors => ['Could not post to Facebook.']})
-    end
-    
-    it "correctly identifies a invalid twitter response and invalid facebook response and invalid mastodon response" do
-      expect(@app_controller.validate_responses(nil, nil, nil)).to eq({:errors => ['Could not post to Twitter.', 'Could not post to Facebook.', 'Could not post to Mastodon.']})
-    end
-  end
-  
-  describe "get_posts" do
-      it "gets twitter posts successfully" do
-        returnBody = "[:body => 'test']"
-        allow(@app_controller.twitter_client).to receive(:home_timeline).and_return(returnBody)
-        expect(@app_controller.twitter_client).to receive(:home_timeline)
-        response = @app_controller.get_posts('Twitter')
-        expect(response).to eq(returnBody)
-      end
-      
-      it "gets mastodon posts successfully" do
-        returnBody = "[:body => 'test']"
-        allow(@app_controller.mastodon_client).to receive(:home_timeline).and_return(returnBody)
-        expect(@app_controller.mastodon_client).to receive(:home_timeline)
-        response = @app_controller.get_posts('Mastodon')
-        expect(response).to eq(returnBody)
-      end
-  end
-  
-  # describe "process_text" do
-  #   it "correctly identifies an empty post" do
-  #     expect(@app_controller.process_text('')).to eq({:errors => ['You cannot make an empty post']})
-  #     expect(@app_controller.process_text(' ')).to eq({:errors => ['You cannot make an empty post']})
-  #   end
-    
-  #   it "posts successfully when text is not empty" do 
-  #     returnStatus = 'Successful'
-  #     allow(@app_controller.twitter_client).to receive(:update).and_return(returnStatus)
-  #     allow(@app_controller.facebook_client).to receive(:put_wall_post).and_return(returnStatus)
-  #     allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
-  #     expect(@app_controller.twitter_client).to receive(:update)
-  #     expect(@app_controller.process_text('test post')).to eq({:errors => ['Posted Successfully!']})
-  #   end
-  # end
-  
-  # describe "process_image" do
-  #   it "successfully posts with one image" do
-  #     expect(FileUtils).to receive(:rm)
-      
-  #     returnStatus = 'Successful'
-  #     image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
-  #     allow(image).to receive(:original_filename).and_return('test_image.png')
-  #     allow(FileUtils).to receive(:rm).and_return(true)
-  #     allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
-  #     allow(@app_controller.facebook_client).to receive(:put_picture).and_return(returnStatus)
-      
-      
-  #     #allow(@app_controller.mastodon_client).to receive(:upload_media).and_return(image)
-  #     #allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
-  #     expect(@app_controller.process_image('', image)).to eq({:errors => ['Posted Successfully!']})
-  #   end
-  # end
-  
-  #describe "process_images" do 
-  #  before do
-  #    @image = mock_archive_upload("app/assets/images/test_image.png", "image/png")
-  #    @images = []
-  #    @fb_photo = {'id' => 1}
-  #    @mastodon_photo = {'id' => 1}
-  #    allow(@image).to receive(:original_filename).and_return('test_image')
-  #    allow(FileUtils).to receive(:rm).and_return(true)
-  #  end
-  #  
-  #  it "successfully posts with no more than 4 images" do
-  #    2.times do
-  #      @images << @image
-  #    end
-  #    expect(FileUtils).to receive(:rm)
-  #    
-  #    returnStatus = 'Successful'
-  #    allow(@app_controller.twitter_client).to receive(:update_with_media).and_return(returnStatus)
-  #    allow(@app_controller.facebook_client).to receive(:put_picture).and_return(@fb_photo)
-  #    allow(@app_controller.facebook_client).to receive(:put_connections).and_return(returnStatus)
-  #    allow(@app_controller.mastodon_client).to receive(:upload_media).and_return(@mastodon_photo)
-  #    allow(@app_controller.mastodon_client).to receive(:create_status).and_return(returnStatus)
-  #    expect(@app_controller.process_images('', @images)).to eq({:errors => ['Posted Successfully!']})
-  #  end
-    
-  #  it "fails to post more than 4 images" do
-  #    5.times do 
-  #      @images << @image
-  #    end
-  #    expect(@app_controller.process_images('', @images)).to eq({:errors => ['Do not upload more than 4 images at once']})
-  #  end
-  #end
-  
-  
-  
-   
 end
    
    

@@ -24,13 +24,13 @@ Rails.application.routes.draw do
   get 'feeds/post'
   post 'feeds/post'
   
-  post 'application/favorite'
-  post 'application/unfavorite'
-  post 'application/repost'
-  post 'application/unrepost'
-  post 'application/archive_post'
-  post 'application/unarchive_post'
-  post 'application/filter_feed_search'
+  post 'application/req_favorite'
+  post 'application/req_unfavorite'
+  post 'application/req_repost'
+  post 'application/req_unrepost'
+  post 'application/req_archive_post'
+  post 'application/req_unarchive_post'
+  post 'application/req_filter_feed_search'
   
   get 'login/index'
   

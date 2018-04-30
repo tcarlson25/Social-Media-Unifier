@@ -3,8 +3,13 @@
 %br
 %br
 
+:javascript
+  jQuery(function() {
+    $(".fancybox").fancybox();
+  });
+
 .filter
-  = form_tag application_filter_feed_search_path, id: 'text_filter_form', remote: true do
+  = form_tag application_req_filter_feed_search_path, id: 'text_filter_form', remote: true do
     - @providers.each do |provider|
       = label_tag nil, class: 'provider_click' do
         - if provider.eql?('Twitter')
@@ -36,6 +41,11 @@
         = " @#{post.username}"
         %br
         .cont.text_content= post.content
+        .image_feed_container
+        - unless post.imgurls.nil?
+          - post.imgurls.split(/\s*,\s*/).each do |attachment|
+            .img_feed_holder
+              = image_tag attachment, class: 'post_img grow fancybox', href: attachment
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
@@ -64,10 +74,11 @@
         = " @#{post.username}"
         %br
         .cont.text_content= ActionController::Base.helpers.strip_tags(post.content)
-        .cont
+        .image_feed_container
           - unless post.imgurls.nil?
             - post.imgurls.split(/\s*,\s*/).each do |attachment|
-              = image_tag attachment, width: '150'
+              .img_feed_holder
+                = image_tag attachment, class: 'post_img grow fancybox', href: attachment
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
@@ -75,14 +86,18 @@
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
-            = content_tag :i, post.favourites_count, id: "ma_favcount_#{post.id}"
+            - favourites_count = post.favourites_count
+            - favourites_count = post.favourites_count + 1 if post.favourited?
+            = content_tag :i, favourites_count, id: "ma_favcount_#{post.id}"
             
           = label_tag nil, class: 'repost_logo' do
             - if post.reblogged?
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat not_reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
-            = content_tag :i, post.reblogs_count, id: "ma_repcount_#{post.id}"
+            - reblogs_count = post.reblogs_count
+            - reblogs_count = post.reblogs_count + 1 if post.reblogged?
+            = content_tag :i, reblogs_count, id: "ma_repcount_#{post.id}"
             
           = label_tag nil, class: 'archive_logo' do
             - if archived?('mastodon', post.id)

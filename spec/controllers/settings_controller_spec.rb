@@ -36,8 +36,6 @@ RSpec.describe SettingsController, type: :controller do
          it "Should initialize Settings client" do
             @settings_controller.index
             expect(@settings_controller.user).to eq(@test_user)
-            expect(@settings_controller.twitter_client).to eq(@test_twitter_client)
-            expect(@settings_controller.facebook_client).to eq(@test_facebook_client)
          end
       end
    end
@@ -48,6 +46,13 @@ RSpec.describe SettingsController, type: :controller do
             @settings_controller.metrics
             expect(@settings_controller.user).to eq(@test_user)
          end
+         
+         it 'populates metrics hashes' do
+            @settings_controller.metrics
+            expect(@settings_controller.twitter_metrics.size).to eql(5)
+            expect(@settings_controller.facebook_metrics.size).to eql(5)
+            expect(@settings_controller.mastodon_metrics.size).to eql(5)
+         end
       end
    end
    
@@ -56,8 +61,6 @@ RSpec.describe SettingsController, type: :controller do
          it "Should initialize Settings client" do
             @settings_controller.custom_friends
             expect(@settings_controller.user).to eq(@test_user)
-            expect(@settings_controller.twitter_client).to eq(@test_twitter_client)
-            expect(@settings_controller.facebook_client).to eq(@test_facebook_client)
          end
       end
    end
