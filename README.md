@@ -63,7 +63,7 @@ You will need to create a developer application for Twitter, Facebook, Masotdon 
 
 ### Deploy
 
-You will first need to fork this project onto your own github repository. Once done, save the git url that links to your forked repo. The URL should be something like this: *https://github.com/[username]/Social-Media-Unifier*
+You will first need to fork this project onto your own github repository. Make sure you are forking the master branch. Once done, save the git url that links to your forked repo. The URL should be something like this: *https://github.com/[username]/Social-Media-Unifier*
 
 Navigate to Heroku and go to the *Deploy* tab. Next to 'Deployment Method', click on *GitHub*. Once logged in with your GitHub account, type in the name of the forked repo in the box that says *repo-name*.
 
