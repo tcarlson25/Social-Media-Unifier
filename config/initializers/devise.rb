@@ -258,8 +258,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET'], scope: 'user_posts, publish_actions'
-  config.omniauth :mastodon, ENV['MASTODON_KEY'], ENV['MASTODON_SECRET'], credentials: lambda { |domain, callback_url|
+  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET'], scope: 'user_posts, publish_pages, manage_pages'
+  config.omniauth :mastodon, ENV['MASTODON_KEY'], ENV['MASTODON_SECRET'], scope: 'read write follow', credentials: lambda { |domain, callback_url|
     [ENV['MASTODON_KEY'], ENV['MASTODON_SECRET']]
   }
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {}

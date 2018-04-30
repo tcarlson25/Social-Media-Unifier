@@ -5,7 +5,7 @@ Feature: Display login page after logging out
   
 @omniauth_test
 Scenario: User chooses to sign out
-  Given The user is signed in and using "Google"
+  Given The user is authenticated
   Given The user is on the "home" page
   When They click on "Sign Out"
   Then They should be redirected to the "Sign In" page

@@ -98,7 +98,7 @@ function toggleFavorite(prov_id) {
         favorite.classList.add('zmdi-favorite-outline');
         favoriteCount.innerHTML = parseInt(favoriteCount.innerHTML) - 1;
         $.ajax({
-            url: '/application/unfavorite',
+            url: '/application/req_unfavorite',
             data: {provider: provider, id: id},
             type: 'post'
         });
@@ -109,7 +109,7 @@ function toggleFavorite(prov_id) {
         favorite.classList.remove('not_favorited');
         favoriteCount.innerHTML = parseInt(favoriteCount.innerHTML) + 1;
         $.ajax({
-            url: '/application/favorite',
+            url: '/application/req_favorite',
             data: {provider: provider, id: id},
             type: 'post'
         });
@@ -127,7 +127,7 @@ function toggleRepost(prov_id) {
         favorite.classList.add('not_reposted');
         repostCount.innerHTML = parseInt(repostCount.innerHTML) - 1;
         $.ajax({
-            url: '/application/unrepost',
+            url: '/application/req_unrepost',
             data: {provider: provider, id: id},
             type: 'post'
         });
@@ -136,7 +136,7 @@ function toggleRepost(prov_id) {
         favorite.classList.remove('not_reposted');
         repostCount.innerHTML = parseInt(repostCount.innerHTML) + 1;
         $.ajax({
-            url: '/application/repost',
+            url: '/application/req_repost',
             data: {provider: provider, id: id},
             type: 'post'
         });
@@ -153,7 +153,7 @@ function toggleArchived(prov_id) {
         archive.classList.add('not_archived');
         archive.classList.add('zmdi-star-outline');
         $.ajax({
-            url: '/application/unarchive_post',
+            url: '/application/req_unarchive_post',
             data: {provider: provider, id: id},
             type: 'post'
         });
@@ -163,7 +163,7 @@ function toggleArchived(prov_id) {
         archive.classList.remove('zmdi-star-outline');
         archive.classList.remove('not_archived');
         $.ajax({
-            url: '/application/archive_post',
+            url: '/application/req_archive_post',
             data: {provider: provider, id: id},
             type: 'post'
         });

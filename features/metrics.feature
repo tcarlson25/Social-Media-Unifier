@@ -5,8 +5,22 @@ Feature: Display metrics page when clicked
 
 @omniauth_test @twitter_login_vcr
 Scenario: User accesses the metrics page
-  Given The user is signed in and using "Twitter"
-  #Given The user is on the "home" page
+  Given The user is authenticated
+  And The user is signed in with "Twitter"
+  When They click on "Metrics"
+  Then They should be redirected to the "Account Metrics" page
+  
+  @omniauth_test @facebook_login_vcr
+Scenario: User accesses the metrics page
+  Given The user is authenticated
+  And The user is signed in with "Facebook"
+  When They click on "Metrics"
+  Then They should be redirected to the "Account Metrics" page
+  
+  @omniauth_test @mastodon_login_vcr
+Scenario: User accesses the metrics page
+  Given The user is authenticated
+  And The user is signed in with "Mastodon"
   When They click on "Metrics"
   Then They should be redirected to the "Account Metrics" page
   

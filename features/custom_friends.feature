@@ -5,8 +5,8 @@ Feature: Display custom friends page when clicked
   
 @omniauth_test @twitter_login_vcr
 Scenario: User accesses custom friends page
-  Given The user is signed in and using "Twitter"
-  #Given The user is on the "home" page
+  Given The user is authenticated
+  And The user is signed in with "Twitter"
   When They click on "Custom Friends"
   Then They should be redirected to the "Custom Friends" page
   

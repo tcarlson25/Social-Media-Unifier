@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_183717) do
 
   create_table "mastodon_posts", id: :string, force: :cascade do |t|
     t.integer "feed_id"
-    t.string "content"
+    t.text "content"
     t.string "username"
     t.string "profile_img"
     t.string "imgurls"

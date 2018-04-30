@@ -7,7 +7,7 @@ Feature: Sign in to google
 Scenario: Click Sign in to Google
   Given The user is not signed in
   Given The user is on the "Sign In" page
-  When The user clicks Sign in to "Google" 
+  When The user signs in with "Google" 
   Then They should be redirected to the "home" page
   
 Scenario: 

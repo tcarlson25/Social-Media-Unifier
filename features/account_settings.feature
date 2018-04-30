@@ -5,7 +5,8 @@ Feature: Display account settings when clicked
 
 @omniauth_test @twitter_login_vcr
 Scenario: User accesses account settings from home page
-  Given The user is signed in and using "Twitter"
+  Given The user is authenticated
+  And The user is signed in with "Twitter"
   #Given The user is on the "home" page
   When They click on "Settings"
   Then They should be redirected to the "Account Settings" page

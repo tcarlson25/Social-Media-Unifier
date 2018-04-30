@@ -23,7 +23,7 @@ end
 
 When("They click on {string}") do | clicked |
   click_link 'settings' if clicked.eql?('Settings')
-  click_link 'metrics' if clicked.eql?('Metrics')
+  visit settings_metrics_path if clicked.eql?('Metrics')
   click_link 'sign_out' if clicked.eql?('Sign Out')
   click_link 'custom_friends' if clicked.eql?('Custom Friends')
   click_link 'accounts' if clicked.eql?('Accounts')

@@ -1,5 +1,6 @@
 class FeedsController < ApplicationController
   
+  include FeedsHelper
   attr_accessor :twitter_client, :facebook_client, :mastodon_client, :feed, :twitter_posts, :user, :providers, :posts
   layout 'feeds', :only => :index
   layout 'generalLayout', :except => [:index]
@@ -12,11 +13,12 @@ class FeedsController < ApplicationController
     @posts = Hash.new("-1")
     
     unless @user.twitter.nil?
+      puts "Inside twitter"
       counter = 1
       @providers << 'Twitter'
       @twitter_client = @user.twitter_client
-      # @twitter_posts_db = get_tweets_from_db
       @twitter_posts = get_posts('Twitter')
+      
       @twitter_posts.each do |post|
         @posts['twitter_' + counter.to_s] =  post
         counter += 1
@@ -60,10 +62,19 @@ class FeedsController < ApplicationController
       @providers << 'Twitter'
       @twitter_client = @user.twitter_client
       archived_twitter_posts = @user.feed.twitter_posts
-      puts archived_twitter_posts
+      ids = []
       archived_twitter_posts.each do |post|
+        ids << post.id
         @posts['twitter_' + counter.to_s] =  post
         counter += 1
+      end
+      
+      posts = @twitter_client.statuses(ids)
+      posts.each do |post|
+        archived_twitter_posts.find_by(id: post.id).update_attribute(:favorite_count, post.favorite_count)
+        archived_twitter_posts.find_by(id: post.id).update_attribute(:retweet_count, post.retweet_count)
+        archived_twitter_posts.find_by(id: post.id).update_attribute(:favorited, post.favorited?)
+        archived_twitter_posts.find_by(id: post.id).update_attribute(:retweeted, post.retweeted?)
       end
     end
     
@@ -76,12 +87,23 @@ class FeedsController < ApplicationController
       @providers << 'Mastodon'
       @mastodon_client = @user.mastodon_client
       archived_mastodon_posts = @user.feed.mastodon_posts
-      puts 'POSTS:'
+      ids = []
       archived_mastodon_posts.each do |post|
-        puts 'POSTS:'
-        puts post
+        ids << post.id
         @posts['mastodon_' + counter.to_s] =  post
         counter += 1
+      end
+      
+      posts = []
+      ids.each do |id|
+        posts << @mastodon_client.status(id)
+      end
+      
+      posts.each do |post|
+        archived_mastodon_posts.find_by(id: post.id).update_attribute(:favourites_count, post.favourites_count)
+        archived_mastodon_posts.find_by(id: post.id).update_attribute(:reblogs_count, post.reblogs_count)
+        archived_mastodon_posts.find_by(id: post.id).update_attribute(:favourited, post.favourited?)
+        archived_mastodon_posts.find_by(id: post.id).update_attribute(:reblogged, post.reblogged?)
       end
     end
     
@@ -125,6 +147,9 @@ class FeedsController < ApplicationController
       end
     end
   end
+  
+
+  
   
   
 end

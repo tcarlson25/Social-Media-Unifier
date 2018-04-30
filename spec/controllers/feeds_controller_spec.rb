@@ -37,33 +37,14 @@ describe FeedsController, :type => :controller do
    
    
    describe "GET #index" do
-      #context "user is nil" do
-      #   before do
-      #      @test_user = create(:user, create_identity: false)
-      #      sign_in(@test_user)
-      #   end
-      #   it "Should redirect to the accounts page" do
-      #      get root_path
-      #      expect(response).to redirect_to(settings_accounts_path)
-      #   end
-      #end
       context "user is not nil" do
-         #before do 
-         #   @user = create(:user)
-         #   sign_in(@user)
-         #end
-         #it "Should display index" do
-         #   get root_path
-         #   expect(response).to have_http_status(200)
-         #end
-         
          it "Should initialize Feed variables" do
             
             post = TwitterPost.new(:created_at => DateTime.now)
             twitter_posts = [post]
             
             allow(Feed).to receive(:find_or_create_from_user).and_return(@test_feed)
-            allow_any_instance_of(FeedsController).to receive(:get_tweets_from_db).and_return(twitter_posts)
+            #allow_any_instance_of(FeedsController).to receive(:get_tweets_from_db).and_return(twitter_posts)
             allow_any_instance_of(FeedsController).to receive(:get_posts).and_return(twitter_posts)
             allow_any_instance_of(FeedsController).to receive(:get_posts).and_return(twitter_posts)
             @feed_controller.index
