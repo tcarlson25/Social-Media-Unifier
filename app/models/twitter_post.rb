@@ -6,7 +6,7 @@ class TwitterPost < ApplicationRecord
             tw_post.id = post.id
             tw_post.name = post.user.name
             tw_post.username = post.user.screen_name
-            tw_post.content = post.full_text
+            tw_post.content = post.attrs[:full_text]
             tw_post.profile_img = post.user.profile_image_url
             urls = []
             post.media.each do |media|

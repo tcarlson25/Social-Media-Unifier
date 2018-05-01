@@ -40,12 +40,12 @@
         %img.profile_img_twitter{src: post.profile_img}
         = " @#{post.username}"
         %br
-        .cont.text_content= post.content
+        .cont.text_content= process_uris(post.content)
         .image_feed_container
-        - unless post.imgurls.nil?
-          - post.imgurls.split(/\s*,\s*/).each do |attachment|
-            .img_feed_holder
-              = image_tag attachment, class: 'post_img grow fancybox', href: attachment
+          - unless post.imgurls.nil?
+            - post.imgurls.split(/\s*,\s*/).each do |attachment|
+              .img_feed_holder
+                = image_tag attachment, class: 'post_img grow fancybox', href: attachment
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
