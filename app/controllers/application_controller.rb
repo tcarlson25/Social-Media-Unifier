@@ -5,48 +5,48 @@ class ApplicationController < ActionController::Base
   
   def req_favorite
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     favorite(params[:id], params[:provider])
     head :ok
   end
   
   def req_unfavorite
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     unfavorite(params[:id], params[:provider])
     head :ok
   end
   
   def req_repost
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     repost(params[:id], params[:provider])
     head :ok
   end
   
   def req_unrepost
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     unrepost(params[:id], params[:provider])
     head :ok
   end
   
   def req_archive_post
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     archive_post(params[:id], params[:provider])
     head :ok
   end
   
   def req_unarchive_post
     @user = current_user
-    @twitter_client = @user.twitter_client
-    @mastodon_client = @user.mastodon_client
+    @twitter_client = @user.twitter_client unless @user.twitter.nil?
+    @mastodon_client = @user.mastodon_client unless @user.mastodon.nil?
     unarchive_post(params[:id], params[:provider])
     head :ok
   end
