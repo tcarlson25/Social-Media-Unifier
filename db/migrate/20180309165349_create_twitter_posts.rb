@@ -8,7 +8,7 @@ class CreateTwitterPosts < ActiveRecord::Migration[5.1]
       t.string :profile_img
       t.text :content
       t.string :imgurls, :null => true
-      t.string :favorited
+      t.boolean :favorited
       t.boolean :retweeted
       t.integer :favorite_count
       t.integer :retweet_count

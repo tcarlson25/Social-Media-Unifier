@@ -49,18 +49,24 @@
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
-            - if post.favorited?
+            - if post.favorited
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "tw_fav_#{post.id}", onclick: 'toggleFavorite(\'tw_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "tw_fav_#{post.id}", onclick: 'toggleFavorite(\'tw_' + post.id.to_s + '\')'
-            = content_tag :i, post.favorite_count, id: "tw_favcount_#{post.id}"
+            - if post.favorited && post.favorite_count.eql?(0)
+              = content_tag :i, 1, id: "tw_favcount_#{post.id}"
+            - else
+              = content_tag :i, post.favorite_count, id: "tw_favcount_#{post.id}"
             
           = label_tag nil, class: 'repost_logo' do
-            - if post.retweeted?
+            - if post.retweeted
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat reposted', id: "tw_rep_#{post.id}", onclick: 'toggleRepost(\'tw_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat not_reposted', id: "tw_rep_#{post.id}", onclick: 'toggleRepost(\'tw_' + post.id.to_s + '\')'
-            = content_tag :i, post.retweet_count, id: "tw_repcount_#{post.id}"
+            - if post.retweeted && post.retweet_count.eql?(0)
+              = content_tag :i, 1, id: "tw_repcount_#{post.id}"
+            - else
+              = content_tag :i, post.retweet_count, id: "tw_repcount_#{post.id}"
             
           = label_tag nil, class: 'archive_logo' do
             - if archived?('twitter', post.id)
@@ -82,22 +88,24 @@
         %br
         .cont
           = label_tag nil, class: 'favorite_logo' do
-            - if post.favourited?
+            - if post.favourited
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'favorite_obj zmdi zmdi-favorite-outline not_favorited', id: "ma_fav_#{post.id}", onclick: 'toggleFavorite(\'ma_' + post.id.to_s + '\')'
-            - favourites_count = post.favourites_count
-            - favourites_count = post.favourites_count + 1 if post.favourited?
-            = content_tag :i, favourites_count, id: "ma_favcount_#{post.id}"
+            - if post.favourited && post.favourites_count.eql?(0)
+              = content_tag :i, 1, id: "ma_favcount_#{post.id}"
+            - else
+              = content_tag :i, post.favourites_count, id: "ma_favcount_#{post.id}"
             
           = label_tag nil, class: 'repost_logo' do
-            - if post.reblogged?
+            - if post.reblogged
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
             - else
               = content_tag :i, nil, class: 'repost_obj zmdi zmdi-repeat not_reposted', id: "ma_rep_#{post.id}", onclick: 'toggleRepost(\'ma_' + post.id.to_s + '\')'
-            - reblogs_count = post.reblogs_count
-            - reblogs_count = post.reblogs_count + 1 if post.reblogged?
-            = content_tag :i, reblogs_count, id: "ma_repcount_#{post.id}"
+            - if post.reblogged? && post.reblogs_count.eql?(0)
+              = content_tag :i, 1, id: "ma_repcount_#{post.id}"
+            - else
+              = content_tag :i, post.reblogs_count, id: "ma_repcount_#{post.id}"
             
           = label_tag nil, class: 'archive_logo' do
             - if archived?('mastodon', post.id)

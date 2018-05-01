@@ -82,20 +82,24 @@ class FeedsController < ApplicationController
     end
     
     unless @user.mastodon.nil?
-      counter = 1
-      @providers << 'Mastodon'
-      @mastodon_client = @user.mastodon_client
-      archived_mastodon_posts = @user.feed.mastodon_posts
-      ids = []
-      archived_mastodon_posts.each do |post|
-        ids << post.id
-        @posts['mastodon_' + counter.to_s] =  post
-        counter += 1
-      end
-      
-      posts = []
-      ids.each do |id|
-        posts << @mastodon_client.status(id)
+      begin
+        counter = 1
+        @providers << 'Mastodon'
+        @mastodon_client = @user.mastodon_client
+        archived_mastodon_posts = @user.feed.mastodon_posts
+        ids = []
+        archived_mastodon_posts.each do |post|
+          ids << post.id
+          @posts['mastodon_' + counter.to_s] =  post
+          counter += 1
+        end
+        
+        posts = []
+        ids.each do |id|
+          posts << @mastodon_client.status(id)
+        end
+      rescue HTTP::TimeoutError
+        continue
       end
       
       posts.each do |post|

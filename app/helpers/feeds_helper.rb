@@ -15,7 +15,7 @@ module FeedsHelper
     begin
       return @twitter_client.home_timeline(tweet_mode: "extended") if provider.eql?('Twitter')
       return @mastodon_client.home_timeline if provider.eql?('Mastodon')
-    rescue Oj::ParseError
+    rescue Oj::ParseError, HTTP::TimeoutError
       return []
     end
   end
