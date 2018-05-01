@@ -13,7 +13,6 @@ class FeedsController < ApplicationController
     @posts = Hash.new("-1")
     
     unless @user.twitter.nil?
-      puts "Inside twitter"
       counter = 1
       @providers << 'Twitter'
       @twitter_client = @user.twitter_client
@@ -147,9 +146,5 @@ class FeedsController < ApplicationController
       end
     end
   end
-  
-
-  
-  
   
 end

@@ -7,7 +7,6 @@ RSpec.describe TwitterPost, type: :model do
       time_stamp = DateTime.now.to_s
       twitter_post = Twitter::Tweet.new({
         :id => 1,
-        :text => 'post_content',
         :favorite_count => 3,
         :retweet_count => 2,
         :favorited => true,
@@ -18,6 +17,7 @@ RSpec.describe TwitterPost, type: :model do
       allow(twitter_post).to receive_message_chain(:user, :screen_name).and_return('user_screen_name')
       allow(twitter_post).to receive_message_chain(:user, :profile_image_url).and_return('user_profile_image_url')
       allow(twitter_post).to receive(:media).and_return([])
+      allow(twitter_post).to receive(:attrs).and_return({:full_text => 'post_content'})
       returned_post = TwitterPost.archive(twitter_post)
       expect(returned_post.id).to eql('1')
       expect(returned_post.name).to eql('user_name')
